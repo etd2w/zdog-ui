@@ -1,0 +1,66 @@
+.layer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.375rem;
+}
+
+.layer:hover {
+  background-color: #2d3741;
+}
+
+.leftHalf {
+  display: flex;
+  align-items: center;
+}
+
+.rightHelf {
+  display: none;
+  align-items: center;
+}
+
+.layer:hover .rightHelf {
+  display: flex;
+}
+
+.leftPad {
+  padding-left: 1.125rem;
+}
+
+/* Layer Menu */
+
+.layerMenu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.375rem;
+  background-color: #242f39;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transform: translate(75%, 25%);
+  z-index: 1;
+}
+
+.layerMenu button {
+  display: block;
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  padding: 0.375rem;
+}
+
+.layerMenu button:hover {
+  background-color: #2d3741;
+}
+
+/* Buttons */
+
+.layer button {
+  display: flex;
+  background-color: transparent;
+  border: none;
+}
+
+.child {
+  margin-left: 1.125rem;
+}

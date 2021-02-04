@@ -1,0 +1,37 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.contentBlock {
+  padding: 0.375rem;
+  margin-top: 0.375rem;
+  background-color: #242f39;
+  color: #a9cf54;
+  font-size: 0.75rem;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #ffffff;
+  background-color: transparent;
+  border: none;
+}
+
+.button:hover {
+  background-color: #2d3741;
+}
+
+.padLeft {
+  margin-left: 0.375rem;
+}
