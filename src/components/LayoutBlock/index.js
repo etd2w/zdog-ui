@@ -1,11 +1,19 @@
+import { useState } from "react";
+import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
 export default function LayoutBlock({ title, children }) {
+  const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
+
+  const handleClick = () => {
+    setIsContextMenuOpen(!isContextMenuOpen);
+  };
+
   return (
     <div>
       <div className={styles.header}>
         <span className={styles.title}>{title}</span>
-        <button className={styles.button}>
+        <button onClick={handleClick} className={styles.button}>
           <svg
             width="11"
             height="11"
@@ -18,6 +26,7 @@ export default function LayoutBlock({ title, children }) {
           </svg>
           <div className={styles.padLeft}>Add</div>
         </button>
+        {isContextMenuOpen && <ShapeBar />}
       </div>
 
       <div className={styles.contentBlock}>{children}</div>

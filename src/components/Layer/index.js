@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
+import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
 export default function Layer({ item }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAddingChild, setIsAddingChild] = useState(false);
 
   let children = null;
 
-  if (item.children.length) {
+  if (item.children.length > 0) {
     children = (
       <div className={styles.child}>
-        {item.children.map(child => (
-          <Layer item={child} key={child.id} />
-        ))}
+        {item.children.map(child => {
+          if (child.id) {
+            return <Layer item={child} key={child.id} />;
+          } else {
+            return null;
+          }
+        })}
       </div>
     );
   }
@@ -23,6 +29,10 @@ export default function Layer({ item }) {
 
   const handleOpenMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleAddMenu = () => {
+    setIsAddingChild(!isAddingChild);
   };
 
   useEffect(() => {
@@ -38,9 +48,13 @@ export default function Layer({ item }) {
     <>
       <div className={styles.layer}>
         <div
-          className={item.children.length ? styles.leftHalf : styles.leftPad}
+          className={
+            item.children.length && item.children[0].id
+              ? styles.leftHalf
+              : styles.leftPad
+          }
         >
-          {item.children.length > 0 && (
+          {item.children.length > 0 && item.children[0].id && (
             <button className={styles.btnExpand} onClick={handleExpand}>
               <svg
                 width="6"
@@ -71,7 +85,7 @@ export default function Layer({ item }) {
             </svg>
           </button>
 
-          <button className={styles.btnAdd}>
+          <button className={styles.btnAdd} onClick={handleAddMenu}>
             <svg
               width="11"
               height="11"
@@ -92,6 +106,8 @@ export default function Layer({ item }) {
             <button>Remove the element</button>
           </div>
         )}
+
+        {isAddingChild && <ShapeBar parent={item} />}
       </div>
 
       {isExpanded && children}

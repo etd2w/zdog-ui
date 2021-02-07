@@ -1,3 +1,4 @@
+import Canvas from "./components/Canvas";
 import Layers from "./components/Layers";
 
 function App() {
@@ -5,6 +6,7 @@ function App() {
     <div className="App">
       <div className="container">
         <Layers />
+        <Canvas />
       </div>
     </div>
   );

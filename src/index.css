@@ -14,7 +14,17 @@ button {
 }
 
 .container {
+  display: flex;
   width: 100%;
   max-width: 62.5rem;
   padding: 0 0.5rem;
+}
+
+.container > * + * {
+  margin-left: 2rem;
+}
+
+.canvas {
+  background-color: #353f49;
+  cursor: move;
 }
