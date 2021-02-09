@@ -3,6 +3,7 @@ import Zdog from "zdog";
 import styles from "./style.module.css";
 
 const shapeTypes = [
+  "Anchor",
   "Rect",
   "RoundedRect",
   "Ellipse",

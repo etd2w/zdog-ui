@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Illustration } from "zdog";
-import LayoutBlock from "../LayoutBlock";
+import styles from "./style.module.css";
 
 export default function Canvas() {
   const dispatch = useDispatch();
@@ -31,8 +31,14 @@ export default function Canvas() {
   });
 
   return (
-    <LayoutBlock title="canvas">
-      <canvas className="canvas" height={417} width={568} />
-    </LayoutBlock>
+    <div>
+      <div className={styles.header}>
+        <span className={styles.title}>Canvas</span>
+      </div>
+
+      <div className={styles.contentBlock}>
+        <canvas className="canvas" height={417} width={568} />
+      </div>
+    </div>
   );
 }

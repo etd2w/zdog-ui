@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
 export default function Layer({ item }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAddingChild, setIsAddingChild] = useState(false);
+  const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
+  const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
   const [isVisible, setIsVisible] = useState(true);
   const dispatch = useDispatch();
 
@@ -38,27 +39,6 @@ export default function Layer({ item }) {
     item.visible = !item.visible;
   };
 
-  const handleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const handleOpenMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleAddMenu = () => {
-    setIsAddingChild(!isAddingChild);
-  };
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.addEventListener("click", handleOpenMenu);
-    }
-    return () => {
-      document.removeEventListener("click", handleOpenMenu);
-    };
-  }, [isMenuOpen]);
-
   return (
     <>
       <div className={styles.layer}>
@@ -71,7 +51,10 @@ export default function Layer({ item }) {
         >
           {item.children.length > 0 &&
             item.children[item.children.length - 1].id && (
-              <button className={styles.btnExpand} onClick={handleExpand}>
+              <button
+                className={styles.btnExpand}
+                onClick={() => setIsExpanded(!isExpanded)}
+              >
                 <svg
                   width="6"
                   height="7"
@@ -87,7 +70,10 @@ export default function Layer({ item }) {
         </div>
 
         <div className={styles.rightHelf}>
-          <button className={styles.btnMenu} onClick={handleOpenMenu}>
+          <button
+            className={styles.btnMenu}
+            onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
+          >
             <svg
               width="2"
               height="9"
@@ -101,7 +87,10 @@ export default function Layer({ item }) {
             </svg>
           </button>
 
-          <button className={styles.btnAdd} onClick={handleAddMenu}>
+          <button
+            className={styles.btnAdd}
+            onClick={() => setIsShapeBarOpen(!isShapeBarOpen)}
+          >
             <svg
               width="11"
               height="11"
@@ -115,7 +104,7 @@ export default function Layer({ item }) {
           </button>
         </div>
 
-        {isMenuOpen && (
+        {isContextMenuOpen && (
           <div className={styles.layerMenu}>
             <button>Copy the element</button>
             <button onClick={handleVisible}>
@@ -125,7 +114,7 @@ export default function Layer({ item }) {
           </div>
         )}
 
-        {isAddingChild && <ShapeBar parent={item} />}
+        {isShapeBarOpen && <ShapeBar parent={item} />}
       </div>
 
       {isExpanded && children}
