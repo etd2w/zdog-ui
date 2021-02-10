@@ -10,6 +10,10 @@
   background-color: #2d3741;
 }
 
+.hidden {
+  color: rgba(169, 207, 84, 0.5);
+}
+
 .leftHalf {
   display: flex;
   align-items: center;

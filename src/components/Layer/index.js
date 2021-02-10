@@ -66,7 +66,7 @@ export default function Layer({ item }) {
                 </svg>
               </button>
             )}
-          <span>{item.type}</span>
+          <span className={isVisible ? null : styles.hidden}>{item.type}</span>
         </div>
 
         <div className={styles.rightHelf}>
