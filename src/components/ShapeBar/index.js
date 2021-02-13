@@ -34,6 +34,7 @@ export default function ShapeBar({ parent }) {
   const handleClick = (typeOfChild, parent) => {
     const child = new Zdog[typeOfChild](defaults);
     child.type = typeOfChild;
+    child.name = typeOfChild;
     child.id = Math.random();
 
     if (!parent) {

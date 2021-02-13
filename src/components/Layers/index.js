@@ -9,9 +9,9 @@ export default function Layers() {
   const layers = useSelector(state => state.layers);
 
   return (
-    <div>
+    <div className={styles.layersBlock}>
       <div className={styles.header}>
-        <span className={styles.title}>SHAPES</span>
+        <span className={styles.title}>Components</span>
         <button
           onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
           className={styles.button}

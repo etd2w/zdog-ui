@@ -1,7 +1,6 @@
 .layer {
   position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0.375rem;
 }
@@ -10,12 +9,9 @@
   background-color: #2d3741;
 }
 
-.hidden {
-  color: rgba(169, 207, 84, 0.5);
-}
-
 .leftHalf {
   display: flex;
+  flex-grow: 1;
   align-items: center;
 }
 
@@ -29,7 +25,9 @@
 }
 
 .leftPad {
+  display: flex;
   padding-left: 1.125rem;
+  flex-grow: 1;
 }
 
 /* Layer Menu */
@@ -63,6 +61,16 @@
   display: flex;
   background-color: transparent;
   border: none;
+}
+
+.btnSelect {
+  color: #a9cf54;
+  flex-grow: 1;
+  outline: none;
+}
+
+.hidden {
+  color: rgba(169, 207, 84, 0.5);
 }
 
 .child {

@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import illoReducer from "./redusers/illoReducer";
-import layersReducer from "./redusers/layersReducer";
+import layerReducer from "./redusers/layerReducer";
 
 const rootReduser = combineReducers({
   illo: illoReducer,
-  layers: layersReducer,
+  layers: layerReducer,
 });
 
 export const store = createStore(rootReduser);

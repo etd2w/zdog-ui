@@ -39,6 +39,16 @@ export default function Layer({ item }) {
     item.visible = !item.visible;
   };
 
+  const handleCopy = () => {
+    const copyOfLayer = item.copy();
+
+    copyOfLayer.type = item.type;
+    copyOfLayer.name = `${item.type} (copy)`;
+    copyOfLayer.id = Math.random();
+
+    dispatch({ type: "COPY_LAYER", payload: copyOfLayer });
+  };
+
   return (
     <>
       <div className={styles.layer}>
@@ -66,7 +76,10 @@ export default function Layer({ item }) {
                 </svg>
               </button>
             )}
-          <span className={isVisible ? null : styles.hidden}>{item.type}</span>
+
+          <button className={isVisible ? styles.btnSelect : styles.hidden}>
+            {item.name}
+          </button>
         </div>
 
         <div className={styles.rightHelf}>
@@ -106,7 +119,7 @@ export default function Layer({ item }) {
 
         {isContextMenuOpen && (
           <div className={styles.layerMenu}>
-            <button>Copy the element</button>
+            <button onClick={handleCopy}>Copy the element</button>
             <button onClick={handleVisible}>
               {isVisible ? "Hide the element" : "Show the element"}
             </button>
