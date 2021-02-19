@@ -3,7 +3,7 @@ import Layers from "./components/Layers";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <div className="container">
         <Layers />
         <Canvas />

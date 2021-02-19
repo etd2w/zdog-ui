@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Illustration } from "zdog";
+import InputText from "../InputText";
 import styles from "./style.module.css";
 
 export default function Canvas() {
@@ -8,10 +8,7 @@ export default function Canvas() {
   const illo = useSelector(state => state.illo);
 
   useEffect(() => {
-    dispatch({
-      type: "CREATE_ILLO",
-      payload: new Illustration({ element: ".canvas", dragRotate: true }),
-    });
+    dispatch({ type: "CREATE_ILLO" });
   }, [dispatch]);
 
   useEffect(() => {
@@ -38,6 +35,32 @@ export default function Canvas() {
 
       <div className={styles.contentBlock}>
         <canvas className="canvas" height={417} width={568} />
+
+        {illo.children && (
+          <div className={styles.canvasSettings}>
+            <div className={styles.table}>
+              <div className={styles.tableHead}>
+                <span>Rotation</span>
+                <button>reset</button>
+              </div>
+
+              <div className={styles.tableBody}>
+                <div className={styles.tableRow}>
+                  <span>Rotate X</span>
+                  <InputText initValue={illo.rotate.x} />
+                </div>
+                <div className={styles.tableRow}>
+                  <span>Rotate Y</span>
+                  <InputText initValue={illo.rotate.y} />
+                </div>
+                <div className={styles.tableRow}>
+                  <span>Rotate Z</span>
+                  <InputText initValue={illo.rotate.z} />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

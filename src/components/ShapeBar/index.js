@@ -4,15 +4,16 @@ import styles from "./style.module.css";
 
 const shapeTypes = [
   "Anchor",
-  "Rect",
-  "RoundedRect",
-  "Ellipse",
-  "Polygon",
-  "Shape",
-  "Hemisphere",
+  "Box",
   "Cone",
   "Cylinder",
-  "Box",
+  "Ellipse",
+  "Group",
+  "Hemisphere",
+  "Polygon",
+  "Rect",
+  "RoundedRect",
+  "Shape",
 ];
 
 const defaults = {

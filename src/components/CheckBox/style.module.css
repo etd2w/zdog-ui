@@ -1,0 +1,26 @@
+.checkbox {
+  position: relative;
+  display: flex;
+}
+
+.checkbox input[type="checkbox"] {
+  position: absolute;
+  margin: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkbox input[type="checkbox"]:checked + svg .checkbox__checkmark {
+  fill: #ffffff;
+}
+
+.checkbox input[type="checkbox"]:focus + svg {
+  outline: 3px solid rebeccapurple;
+  outline-offset: 2px;
+}
+
+.checkbox input[type="checkbox"]:focus:not(:focus-visible) + svg {
+  outline: none;
+}

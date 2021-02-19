@@ -13,6 +13,11 @@ button {
   cursor: pointer;
 }
 
+.app {
+  display: grid;
+  place-content: center;
+}
+
 .container {
   display: flex;
   width: 100%;

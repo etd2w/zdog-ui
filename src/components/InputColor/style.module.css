@@ -1,0 +1,23 @@
+.inputColor {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.6875rem 50%;
+  column-gap: 0.375rem;
+}
+
+.inputColor input[type="color"] {
+  position: absolute;
+  margin: 0;
+  opacity: 0;
+  width: 0.6875rem;
+  height: 0.6875rem;
+  border: none;
+  cursor: pointer;
+}
+
+.inputColor input[type="text"] {
+  border: none;
+  border-bottom: 1px solid #ffffff;
+  color: #ffffff;
+  background-color: transparent;
+}
