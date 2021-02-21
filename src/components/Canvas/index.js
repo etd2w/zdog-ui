@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Illustration } from "zdog";
+import { Anchor, Illustration } from "zdog";
+import CheckBox from "../CheckBox";
 import InputText from "../InputText";
 import styles from "./style.module.css";
 
@@ -46,6 +47,18 @@ export default function Canvas() {
     dispatch({ type: "ROTATE_ILLO" });
   };
 
+  const handleToggleCentered = () => {
+    illo.centered = !illo.centered;
+  };
+
+  const handleToggleDragRotate = () => {
+    if (illo.dragRotate === illo) {
+      illo.dragRotate = new Anchor({});
+    } else {
+      illo.dragRotate = illo;
+    }
+  };
+
   return (
     <div>
       <div className={styles.header}>
@@ -86,6 +99,29 @@ export default function Canvas() {
                     initValue={illo.rotate.z}
                     callback={handleInputRotate}
                     axis="z"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.table}>
+              <div className={styles.tableHead}>
+                <span>Settings</span>
+              </div>
+
+              <div className={styles.tableBody}>
+                <div className={styles.tableRow}>
+                  <span>Drag to rotate</span>
+                  <CheckBox
+                    initValue={illo.dragRotate}
+                    callback={handleToggleDragRotate}
+                  />
+                </div>
+                <div className={styles.tableRow}>
+                  <span>Centered</span>
+                  <CheckBox
+                    initValue={illo.centered}
+                    callback={handleToggleCentered}
                   />
                 </div>
               </div>
