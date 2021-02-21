@@ -1,15 +1,11 @@
-import { Illustration } from "zdog";
-
-export default function illoReducer(state = {}, action) {
+export default function illoReducer(state = { illustration: {} }, action) {
   const { type, payload } = action;
 
   switch (type) {
     case "CREATE_ILLO":
-      const illo = new Illustration({
-        element: ".canvas",
-        dragRotate: true,
-      });
-      return illo;
+      return { illustration: payload };
+    case "ROTATE_ILLO":
+      return { ...state };
     default:
       return state;
   }

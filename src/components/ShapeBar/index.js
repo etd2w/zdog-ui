@@ -29,7 +29,7 @@ const defaults = {
 };
 
 export default function ShapeBar({ parent }) {
-  const illo = useSelector(state => state.illo);
+  const illo = useSelector(state => state.illo.illustration);
   const dispatch = useDispatch();
 
   const handleClick = (typeOfChild, parent) => {
