@@ -4,7 +4,7 @@ export default function illoReducer(state = { illustration: {} }, action) {
   switch (type) {
     case "CREATE_ILLO":
       return { illustration: payload };
-    case "ROTATE_ILLO":
+    case "CHANGE_ILLO":
       return { ...state };
     default:
       return state;

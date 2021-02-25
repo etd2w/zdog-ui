@@ -1,28 +1,26 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
-export default function InputText({ initValue, callback, axis }) {
-  const [value, setValue] = useState(initValue);
-  const illo = useSelector(state => state.illo); // Temporary
+export default function InputText({ initValue, callback, options }) {
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (illo.illustration.rotate) {
-      setValue(Math.round(illo.illustration.rotate[axis] / (Math.PI / 180)));
-    }
-  }, [axis, illo]);
+    setValue(initValue);
+  }, [initValue]);
 
-  const hanldeChange = ({ target }) => {
+  const handleChange = ({ target }) => {
     setValue(target.value);
-    callback(axis, target.value);
+    callback(target.value, options);
   };
 
   return (
-    <input
-      className={styles.input}
-      type="text"
-      value={value}
-      onChange={hanldeChange}
-    />
+    <label>
+      <input
+        className={styles.input}
+        type="text"
+        value={value}
+        onChange={handleChange}
+      />
+    </label>
   );
 }
