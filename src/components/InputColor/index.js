@@ -26,7 +26,11 @@ export default function InputColor({ initValue, callback }) {
             strokeOpacity=".6"
             strokeWidth=".5"
           />
-          <path d="M10.5.5H.5v10h10V.5z" fill="#353F49" />
+          <path
+            className="colorPicker"
+            d="M10.5.5H.5v10h10V.5z"
+            fill="#353F49"
+          />
         </svg>
       </label>
 

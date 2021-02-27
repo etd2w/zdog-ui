@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
+import InputColor from "../InputColor";
 import InputText from "../InputText";
 import styles from "./style.module.css";
 
@@ -14,14 +15,14 @@ export default function CanvasSettings() {
   };
 
   const handleToggleCentered = () => {
-    illo.illustration.centered = !illo.centered;
+    illo.illustration.centered = !illo.illustration.centered;
   };
 
   const handleToggleDragRotate = () => {
-    if (illo.illustration.dragRotate === illo) {
+    if (illo.illustration.dragRotate === illo.illustration) {
       illo.illustration.dragRotate = new Anchor({});
     } else {
-      illo.illustration.dragRotate = illo;
+      illo.illustration.dragRotate = illo.illustration;
     }
   };
 
@@ -31,6 +32,11 @@ export default function CanvasSettings() {
 
   const handleZoom = value => {
     illo.illustration.zoom = value;
+  };
+
+  const handleBackground = value => {
+    document.querySelector(".canvas").style.backgroundColor = value;
+    document.querySelector(".colorPicker").style.fill = value;
   };
 
   return (
@@ -104,6 +110,10 @@ export default function CanvasSettings() {
         </div>
 
         <div className={styles.tableBody}>
+          <div className={styles.tableRow}>
+            <span>Background</span>
+            <InputColor initValue="#353f49" callback={handleBackground} />
+          </div>
           <div className={styles.tableRow}>
             <span>Zoom</span>
             <InputText
