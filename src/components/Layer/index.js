@@ -47,6 +47,11 @@ export default function Layer({ item }) {
     copyOfLayer.id = Math.random();
 
     dispatch({ type: "COPY_LAYER", payload: copyOfLayer });
+    dispatch({ type: "SELECT_SHAPE", payload: copyOfLayer });
+  };
+
+  const handleSelect = () => {
+    dispatch({ type: "SELECT_SHAPE", payload: item });
   };
 
   return (
@@ -77,7 +82,10 @@ export default function Layer({ item }) {
               </button>
             )}
 
-          <button className={isVisible ? styles.btnSelect : styles.hidden}>
+          <button
+            className={isVisible ? styles.btnSelect : styles.hidden}
+            onClick={handleSelect}
+          >
             {item.name}
           </button>
         </div>

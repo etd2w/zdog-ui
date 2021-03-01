@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
-import InputColor from "../InputColor";
 import InputText from "../InputText";
 import styles from "./style.module.css";
 
@@ -10,33 +9,28 @@ export default function CanvasSettings() {
   const dispatch = useDispatch();
 
   const handleReset = () => {
-    illo.illustration.rotate.set({});
+    illo.rotate.set({});
     dispatch({ type: "CHANGE_ILLO" });
   };
 
+  const handleRotate = (value, options) => {
+    illo.rotate[options.property] = (value * Math.PI) / 180;
+  };
+
   const handleToggleCentered = () => {
-    illo.illustration.centered = !illo.illustration.centered;
+    illo.centered = !illo.centered;
   };
 
   const handleToggleDragRotate = () => {
-    if (illo.illustration.dragRotate === illo.illustration) {
-      illo.illustration.dragRotate = new Anchor({});
+    if (illo.dragRotate === illo) {
+      illo.dragRotate = new Anchor({});
     } else {
-      illo.illustration.dragRotate = illo.illustration;
+      illo.dragRotate = illo;
     }
   };
 
-  const handleRotate = (value, options) => {
-    illo.illustration.rotate[options.axis] = (value * Math.PI) / 180;
-  };
-
   const handleZoom = value => {
-    illo.illustration.zoom = value;
-  };
-
-  const handleBackground = value => {
-    document.querySelector(".canvas").style.backgroundColor = value;
-    document.querySelector(".colorPicker").style.fill = value;
+    illo.zoom = value;
   };
 
   return (
@@ -51,31 +45,22 @@ export default function CanvasSettings() {
           <div className={styles.tableRow}>
             <span>Rotate X</span>
             <InputText
-              initValue={Math.round(
-                illo.illustration.rotate.x / (Math.PI / 180)
-              )}
               callback={handleRotate}
-              options={{ element: "illo", axis: "x" }}
+              options={{ object: ["illo", "rotate"], property: "x" }}
             />
           </div>
           <div className={styles.tableRow}>
             <span>Rotate Y</span>
             <InputText
-              initValue={Math.round(
-                illo.illustration.rotate.y / (Math.PI / 180)
-              )}
               callback={handleRotate}
-              options={{ element: "illo", axis: "y" }}
+              options={{ object: ["illo", "rotate"], property: "y" }}
             />
           </div>
           <div className={styles.tableRow}>
             <span>Rotate Z</span>
             <InputText
-              initValue={Math.round(
-                illo.illustration.rotate.z / (Math.PI / 180)
-              )}
               callback={handleRotate}
-              options={{ element: "illo", axis: "z" }}
+              options={{ object: ["illo", "rotate"], property: "z" }}
             />
           </div>
         </div>
@@ -90,15 +75,15 @@ export default function CanvasSettings() {
           <div className={styles.tableRow}>
             <span>Drag to rotate</span>
             <CheckBox
-              initValue={illo.illustration.dragRotate}
               callback={handleToggleDragRotate}
+              options={{ object: "illo", property: "dragRotate" }}
             />
           </div>
           <div className={styles.tableRow}>
             <span>Centered</span>
             <CheckBox
-              initValue={illo.illustration.centered}
               callback={handleToggleCentered}
+              options={{ object: "illo", property: "centered" }}
             />
           </div>
         </div>
@@ -111,15 +96,10 @@ export default function CanvasSettings() {
 
         <div className={styles.tableBody}>
           <div className={styles.tableRow}>
-            <span>Background</span>
-            <InputColor initValue="#353f49" callback={handleBackground} />
-          </div>
-          <div className={styles.tableRow}>
             <span>Zoom</span>
             <InputText
-              initValue={illo.illustration.zoom}
               callback={handleZoom}
-              options={{ element: "illo" }}
+              options={{ object: "illo", property: "zoom" }}
             />
           </div>
         </div>

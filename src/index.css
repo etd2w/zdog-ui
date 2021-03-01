@@ -21,7 +21,7 @@ button {
 .container {
   display: flex;
   width: 100%;
-  max-width: 62.5rem;
+  max-width: 70rem;
   padding: 0 0.5rem;
 }
 

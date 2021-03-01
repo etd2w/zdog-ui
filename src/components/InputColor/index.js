@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
-export default function InputColor({ initValue, callback }) {
-  const [value, setValue] = useState(initValue);
+export default function InputColor({ callback, options }) {
+  const state = useSelector(state => state[options.object][options.property]);
+  const [value, setValue] = useState(state);
   const id = Math.random();
+  const colorPicker = useRef(null);
+
+  useEffect(() => {
+    setValue(state);
+  }, [state]);
 
   const handleChange = ({ target }) => {
     setValue(target.value);
     callback(target.value);
+    colorPicker.current.style.fill = target.value;
   };
 
   return (
@@ -26,11 +34,7 @@ export default function InputColor({ initValue, callback }) {
             strokeOpacity=".6"
             strokeWidth=".5"
           />
-          <path
-            className="colorPicker"
-            d="M10.5.5H.5v10h10V.5z"
-            fill="#353F49"
-          />
+          <path ref={colorPicker} d="M10.5.5H.5v10h10V.5z" fill={value} />
         </svg>
       </label>
 

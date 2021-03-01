@@ -6,7 +6,7 @@ import styles from "./style.module.css";
 
 export default function Canvas() {
   const dispatch = useDispatch();
-  const illo = useSelector(state => state.illo.illustration);
+  const illo = useSelector(state => state.illo);
 
   useEffect(() => {
     dispatch({

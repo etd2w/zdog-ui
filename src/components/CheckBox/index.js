@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
-export default function CheckBox({ initValue, callback }) {
-  const [checked, setChecked] = useState(initValue);
+export default function CheckBox({ callback, options }) {
+  const state = useSelector(state => state[options.object][options.property]);
+  const [checked, setChecked] = useState(Boolean(state));
   const label = Math.random();
 
   const handleChange = () => {

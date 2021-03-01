@@ -29,7 +29,7 @@ const defaults = {
 };
 
 export default function ShapeBar({ parent }) {
-  const illo = useSelector(state => state.illo.illustration);
+  const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
   const handleClick = (typeOfChild, parent) => {
@@ -37,6 +37,8 @@ export default function ShapeBar({ parent }) {
     child.type = typeOfChild;
     child.name = typeOfChild;
     child.id = Math.random();
+
+    dispatch({ type: "SELECT_SHAPE", payload: child });
 
     if (!parent) {
       illo.addChild(child);

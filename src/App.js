@@ -1,5 +1,6 @@
 import Canvas from "./components/Canvas";
 import Layers from "./components/Layers";
+import ShapeProps from "./components/ShapeProps";
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
       <div className="container">
         <Layers />
         <Canvas />
+        <ShapeProps />
       </div>
     </div>
   );
