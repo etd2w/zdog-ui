@@ -1,5 +1,16 @@
 .input {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.input__label {
+  cursor: ew-resize;
+  user-select: none;
+}
+
+.input__field {
+  display: flex;
   justify-content: flex-end;
   width: 2rem;
   background-color: transparent;

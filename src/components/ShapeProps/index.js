@@ -21,10 +21,10 @@ export default function ShapeProps() {
   };
 
   return (
-    <div>
+    <div key={shape.id}>
       <div className={styles.header}>
         <span className={styles.title}>Shape</span>
-        {shape.id && <span className={styles.subTitle}>{shape.id}</span>}
+        {shape.id && <span className={styles.subTitle}>{shape.type}</span>}
       </div>
 
       <div className={styles.contentBlock}>
@@ -37,38 +37,53 @@ export default function ShapeProps() {
 
               <div className={styles.tableBody}>
                 <div className={styles.tableRow}>
-                  <span>Height</span>
                   <InputText
                     callback={handleChange}
-                    options={{ object: "shape", property: "height" }}
+                    options={{
+                      object: "shape",
+                      property: "height",
+                      label: "Height",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Width</span>
                   <InputText
                     callback={handleChange}
-                    options={{ object: "shape", property: "width" }}
+                    options={{
+                      object: "shape",
+                      property: "width",
+                      label: "Width",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Depth</span>
                   <InputText
                     callback={handleChange}
-                    options={{ object: "shape", property: "depth" }}
+                    options={{
+                      object: "shape",
+                      property: "depth",
+                      label: "Depth",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Stroke</span>
                   <InputText
                     callback={handleChange}
-                    options={{ object: "shape", property: "stroke" }}
+                    options={{
+                      object: "shape",
+                      property: "stroke",
+                      label: "Stroke",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Scale</span>
                   <InputText
                     callback={handleChange}
-                    options={{ object: "shape", property: "scale" }}
+                    options={{
+                      object: "shape",
+                      property: "scale",
+                      label: "Scale",
+                    }}
                   />
                 </div>
               </div>
@@ -81,26 +96,35 @@ export default function ShapeProps() {
 
               <div className={styles.tableBody}>
                 <div className={styles.tableRow}>
-                  <span>Position X</span>
                   <InputText
                     callback={handlePosRot}
-                    options={{ object: ["shape", "translate"], property: "x" }}
+                    options={{
+                      object: ["shape", "translate"],
+                      property: "x",
+                      label: "Position X",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Position Y</span>
                   <InputText
                     initValue={shape.translate.y}
                     callback={handlePosRot}
-                    options={{ object: ["shape", "translate"], property: "y" }}
+                    options={{
+                      object: ["shape", "translate"],
+                      property: "y",
+                      label: "Position Y",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Position Z</span>
                   <InputText
                     initValue={shape.translate.z}
                     callback={handlePosRot}
-                    options={{ object: ["shape", "translate"], property: "z" }}
+                    options={{
+                      object: ["shape", "translate"],
+                      property: "z",
+                      label: "Position Z",
+                    }}
                   />
                 </div>
               </div>
@@ -113,27 +137,36 @@ export default function ShapeProps() {
 
               <div className={styles.tableBody}>
                 <div className={styles.tableRow}>
-                  <span>Rotate X</span>
                   <InputText
                     initValue={shape.rotate.x}
                     callback={handlePosRot}
-                    options={{ object: ["shape", "rotate"], property: "x" }}
+                    options={{
+                      object: ["shape", "rotate"],
+                      property: "x",
+                      label: "Rotate X",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Rotate Y</span>
                   <InputText
                     initValue={shape.rotate.y}
                     callback={handlePosRot}
-                    options={{ object: ["shape", "rotate"], property: "y" }}
+                    options={{
+                      object: ["shape", "rotate"],
+                      property: "y",
+                      label: "Rotate X",
+                    }}
                   />
                 </div>
                 <div className={styles.tableRow}>
-                  <span>Rotate Z</span>
                   <InputText
                     initValue={shape.rotate.z}
                     callback={handlePosRot}
-                    options={{ object: ["shape", "rotate"], property: "z" }}
+                    options={{
+                      object: ["shape", "rotate"],
+                      property: "z",
+                      label: "Rotate X",
+                    }}
                   />
                 </div>
               </div>
