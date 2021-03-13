@@ -66,10 +66,7 @@ export default function Layer({ item }) {
         >
           {item.children.length > 0 &&
             item.children[item.children.length - 1].id && (
-              <button
-                className={styles.btnExpand}
-                onClick={() => setIsExpanded(!isExpanded)}
-              >
+              <button onClick={() => setIsExpanded(!isExpanded)}>
                 <svg
                   width="6"
                   height="7"

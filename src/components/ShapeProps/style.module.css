@@ -1,3 +1,7 @@
+.shapeProps {
+  min-width: 10rem;
+}
+
 .header {
   position: relative;
 }
@@ -41,13 +45,12 @@
 
 .tableRow {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0.375rem;
 }
 
 .tableRow > * + * {
-  margin-left: 2rem;
+  margin-left: 0.375rem;
 }
 
 .tableRow:nth-child(odd) {
@@ -56,4 +59,10 @@
 
 .tableRow:nth-child(even) {
   background-color: #353f49;
+}
+
+.btnExpand {
+  display: flex;
+  background-color: transparent;
+  border: none;
 }

@@ -3,7 +3,15 @@ import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
 export default function InputColor({ callback, options }) {
-  const state = useSelector(state => state[options.object][options.property]);
+  const state = useSelector(state => {
+    const { object, property } = options;
+
+    if (typeof object !== "string") {
+      return state[object[0]][object[1]][property];
+    }
+    return state[object][property];
+  });
+
   const [value, setValue] = useState(state);
   const id = Math.random();
   const colorPicker = useRef(null);
@@ -14,7 +22,7 @@ export default function InputColor({ callback, options }) {
 
   const handleChange = ({ target }) => {
     setValue(target.value);
-    callback(target.value);
+    callback(target.value, options);
     colorPicker.current.style.fill = target.value;
   };
 

@@ -9,7 +9,7 @@ export default function CheckBox({ callback, options }) {
 
   const handleChange = () => {
     setChecked(!checked);
-    callback();
+    callback(options);
   };
 
   return (
