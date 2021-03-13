@@ -42,27 +42,18 @@ export default function CanvasSettings() {
         </div>
 
         <div className={styles.tableBody}>
-          <div className={styles.tableRow}>
-            <span>Rotate X</span>
-            <InputText
-              callback={handleRotate}
-              options={{ object: ["illo", "rotate"], property: "x" }}
-            />
-          </div>
-          <div className={styles.tableRow}>
-            <span>Rotate Y</span>
-            <InputText
-              callback={handleRotate}
-              options={{ object: ["illo", "rotate"], property: "y" }}
-            />
-          </div>
-          <div className={styles.tableRow}>
-            <span>Rotate Z</span>
-            <InputText
-              callback={handleRotate}
-              options={{ object: ["illo", "rotate"], property: "z" }}
-            />
-          </div>
+          {["x", "y", "z"].map(axis => (
+            <div className={styles.tableRow} key={axis}>
+              <InputText
+                callback={handleRotate}
+                options={{
+                  object: ["illo", "rotate"],
+                  property: axis,
+                  label: `Rotate ${axis.toUpperCase()}`,
+                }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -96,10 +87,9 @@ export default function CanvasSettings() {
 
         <div className={styles.tableBody}>
           <div className={styles.tableRow}>
-            <span>Zoom</span>
             <InputText
               callback={handleZoom}
-              options={{ object: "illo", property: "zoom" }}
+              options={{ object: "illo", property: "zoom", label: "Zoom" }}
             />
           </div>
         </div>
