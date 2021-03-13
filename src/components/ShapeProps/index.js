@@ -194,22 +194,33 @@ export default function ShapeProps() {
 
               <div className={styles.tableBody}>
                 <div className={styles.tableRow}>
-                  <button
-                    className={styles.btnExpand}
-                    onClick={() => setIsColor(!isColor)}
-                  >
-                    <svg
-                      width="6"
-                      height="7"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      transform={isColor ? "rotate(90)" : ""}
+                  {shape.type === "Box" && (
+                    <button
+                      className={styles.btnExpand}
+                      onClick={() => setIsColor(!isColor)}
                     >
-                      <path d="M5.5 3.5l-5 3v-6l5 3z" fill="#fff" />
-                    </svg>
-                  </button>
+                      <svg
+                        width="6"
+                        height="7"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        transform={isColor ? "rotate(90)" : ""}
+                      >
+                        <path d="M5.5 3.5l-5 3v-6l5 3z" fill="#fff" />
+                      </svg>
+                    </button>
+                  )}
+
                   <span>Color</span>
+
+                  {shape.type !== "Box" && (
+                    <InputColor
+                      callback={changeColor}
+                      options={{ object: "shape", property: "color" }}
+                    />
+                  )}
                 </div>
+
                 {shape.type === "Box" &&
                   isColor &&
                   shapes[shape.type][shapes[shape.type].length - 1].map(
@@ -230,6 +241,7 @@ export default function ShapeProps() {
                       </div>
                     )
                   )}
+
                 <div className={styles.tableRow}>
                   <span>Fill</span>
                   <CheckBox
