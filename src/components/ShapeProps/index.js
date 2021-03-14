@@ -21,18 +21,25 @@ const shapes = {
   ],
 };
 
+const convertRotation = value => Math.round(value * (180 / Math.PI));
+
 export default function ShapeProps() {
   const shape = useSelector(state => state.shape);
   const [isScale, setIsScale] = useState(false);
   const [isColor, setIsColor] = useState(false);
 
-  const handleChange = (value, options) => {
-    shape[options.property] = value;
+  const changeProperty = (value, { property }) => {
+    shape[property] = value;
     shape.updatePath();
   };
 
-  const handleVectorChange = (value, options) => {
+  const changeVector = (value, options) => {
     shape[options.object[1]][options.property] = parseFloat(value);
+    shape.updatePath();
+  };
+
+  const rotateShape = (value, options) => {
+    shape.rotate[options.property] = (value * Math.PI) / 180;
     shape.updatePath();
   };
 
@@ -44,6 +51,10 @@ export default function ShapeProps() {
     }
   };
 
+  const toggleProperty = ({ property }) => {
+    shape[property] = !shape[property];
+  };
+
   const toggleStroke = () => {
     if (shape.stroke) {
       shape.prevStroke = shape.stroke;
@@ -51,14 +62,6 @@ export default function ShapeProps() {
     } else {
       shape.stroke = shape.prevStroke;
     }
-  };
-
-  const toggleFill = () => {
-    shape.fill = !shape.fill;
-  };
-
-  const toggleFace = options => {
-    shape[options.property] = !shape[options.property];
   };
 
   return (
@@ -82,7 +85,7 @@ export default function ShapeProps() {
                     return (
                       <div className={styles.tableRow} key={property}>
                         <InputText
-                          callback={handleChange}
+                          callback={changeProperty}
                           options={{
                             object: "shape",
                             property: property,
@@ -100,7 +103,7 @@ export default function ShapeProps() {
                     options={{ object: "shape", property: "stroke" }}
                   />
                   <InputText
-                    callback={handleChange}
+                    callback={changeProperty}
                     options={{
                       object: "shape",
                       property: "stroke",
@@ -131,7 +134,7 @@ export default function ShapeProps() {
                     {["x", "y", "z"].map(axis => (
                       <div className={styles.tableRow} key={axis}>
                         <InputText
-                          callback={handleVectorChange}
+                          callback={changeVector}
                           options={{
                             object: ["shape", "scale"],
                             property: axis,
@@ -154,7 +157,7 @@ export default function ShapeProps() {
                 {["x", "y", "z"].map(axis => (
                   <div className={styles.tableRow} key={axis}>
                     <InputText
-                      callback={handleVectorChange}
+                      callback={changeVector}
                       options={{
                         object: ["shape", "translate"],
                         property: axis,
@@ -175,11 +178,12 @@ export default function ShapeProps() {
                 {["x", "y", "z"].map(axis => (
                   <div className={styles.tableRow} key={axis}>
                     <InputText
-                      callback={handleVectorChange}
+                      callback={rotateShape}
                       options={{
                         object: ["shape", "rotate"],
                         property: axis,
                         label: `Rotate ${axis.toUpperCase()}`,
+                        validate: convertRotation,
                       }}
                     />
                   </div>
@@ -227,7 +231,7 @@ export default function ShapeProps() {
                     property => (
                       <div className={styles.tableRow} key={property}>
                         <CheckBox
-                          callback={toggleFace}
+                          callback={toggleProperty}
                           options={{ object: "shape", property: property }}
                         />
                         <span>{property}</span>
@@ -245,7 +249,7 @@ export default function ShapeProps() {
                 <div className={styles.tableRow}>
                   <span>Fill</span>
                   <CheckBox
-                    callback={toggleFill}
+                    callback={toggleProperty}
                     options={{ object: "shape", property: "fill" }}
                   />
                 </div>

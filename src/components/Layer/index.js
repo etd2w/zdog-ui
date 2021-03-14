@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useContextMenu } from "../../hooks";
+import { useDispatch } from "react-redux";
 import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
 export default function Layer({ item }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
-  const [isVisible, setIsVisible] = useState(true);
   const dispatch = useDispatch();
 
   let children = null;
@@ -29,13 +29,11 @@ export default function Layer({ item }) {
 
   const handleRemove = () => {
     item.remove();
-
     dispatch({ type: "REMOVE_LAYER", payload: item });
   };
 
   const handleVisible = () => {
     setIsVisible(!isVisible);
-
     item.visible = !item.visible;
   };
 

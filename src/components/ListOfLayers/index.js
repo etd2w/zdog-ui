@@ -4,7 +4,7 @@ import Layer from "../Layer";
 import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
-export default function Layers() {
+export default function ListOfLayers() {
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const layers = useSelector(state => state.layers);
 

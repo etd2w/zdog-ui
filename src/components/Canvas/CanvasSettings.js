@@ -4,11 +4,13 @@ import CheckBox from "../CheckBox";
 import InputText from "../InputText";
 import styles from "./style.module.css";
 
+const convertRotation = value => Math.round(value * (180 / Math.PI));
+
 export default function CanvasSettings() {
   const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
-  const handleReset = () => {
+  const resetRotation = () => {
     illo.rotate.set({});
     dispatch({ type: "CHANGE_ILLO" });
   };
@@ -17,11 +19,11 @@ export default function CanvasSettings() {
     illo.rotate[options.property] = (value * Math.PI) / 180;
   };
 
-  const handleToggleCentered = () => {
+  const toggleCentered = () => {
     illo.centered = !illo.centered;
   };
 
-  const handleToggleDragRotate = () => {
+  const toggleDragRotate = () => {
     if (illo.dragRotate === illo) {
       illo.dragRotate = new Anchor({});
     } else {
@@ -30,7 +32,11 @@ export default function CanvasSettings() {
   };
 
   const handleZoom = value => {
-    illo.zoom = value;
+    if (value < 0) {
+      illo.zoom = 0;
+    } else {
+      illo.zoom = value;
+    }
   };
 
   return (
@@ -38,7 +44,7 @@ export default function CanvasSettings() {
       <div className={styles.table}>
         <div className={styles.tableHead}>
           <span>Rotation</span>
-          <button onClick={handleReset}>reset</button>
+          <button onClick={resetRotation}>reset</button>
         </div>
 
         <div className={styles.tableBody}>
@@ -50,6 +56,7 @@ export default function CanvasSettings() {
                   object: ["illo", "rotate"],
                   property: axis,
                   label: `Rotate ${axis.toUpperCase()}`,
+                  validate: convertRotation,
                 }}
               />
             </div>
@@ -66,14 +73,14 @@ export default function CanvasSettings() {
           <div className={styles.tableRow}>
             <span>Drag to rotate</span>
             <CheckBox
-              callback={handleToggleDragRotate}
+              callback={toggleDragRotate}
               options={{ object: "illo", property: "dragRotate" }}
             />
           </div>
           <div className={styles.tableRow}>
             <span>Centered</span>
             <CheckBox
-              callback={handleToggleCentered}
+              callback={toggleCentered}
               options={{ object: "illo", property: "centered" }}
             />
           </div>
@@ -89,7 +96,11 @@ export default function CanvasSettings() {
           <div className={styles.tableRow}>
             <InputText
               callback={handleZoom}
-              options={{ object: "illo", property: "zoom", label: "Zoom" }}
+              options={{
+                object: "illo",
+                property: "zoom",
+                label: "Zoom",
+              }}
             />
           </div>
         </div>

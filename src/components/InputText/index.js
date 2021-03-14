@@ -12,12 +12,20 @@ export default function InputText({ callback, options }) {
     return state[object][property];
   });
 
-  const [value, setValue] = useState(state);
+  const [value, setValue] = useState(() => {
+    if (options.validate) {
+      return options.validate(state);
+    } else return state;
+  });
   const inputRef = useRef();
 
   useEffect(() => {
-    setValue(state);
-  }, [state]);
+    if (options.validate) {
+      setValue(options.validate(state));
+    } else {
+      setValue(state);
+    }
+  }, [options, options.validate, state]);
 
   const handleBlur = ({ target }) => {
     callback(target.value, options);

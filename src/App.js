@@ -1,12 +1,12 @@
 import Canvas from "./components/Canvas";
-import Layers from "./components/Layers";
+import ListOfLayers from "./components/ListOfLayers";
 import ShapeProps from "./components/ShapeProps";
 
 function App() {
   return (
     <div className="app">
       <div className="container">
-        <Layers />
+        <ListOfLayers />
         <Canvas />
         <ShapeProps />
       </div>
