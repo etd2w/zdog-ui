@@ -53,7 +53,7 @@ export default function CanvasSettings() {
               <InputText
                 callback={handleRotate}
                 options={{
-                  object: ["illo", "rotate"],
+                  object: ["illo", "rotate", axis],
                   property: axis,
                   label: `Rotate ${axis.toUpperCase()}`,
                   validate: convertRotation,
@@ -97,7 +97,7 @@ export default function CanvasSettings() {
             <InputText
               callback={handleZoom}
               options={{
-                object: "illo",
+                object: ["illo", "zoom"],
                 property: "zoom",
                 label: "Zoom",
               }}

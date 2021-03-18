@@ -3,29 +3,30 @@ import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
 export default function InputText({ callback, options }) {
-  const state = useSelector(state => {
-    const { object, property } = options;
+  const selectSlice = useSelector(state => {
+    let slice = state;
 
-    if (typeof object !== "string") {
-      return state[object[0]][object[1]][property];
-    }
-    return state[object][property];
+    options.object.forEach(property => {
+      slice = slice[property];
+    });
+
+    return slice;
   });
 
   const [value, setValue] = useState(() => {
     if (options.validate) {
-      return options.validate(state);
-    } else return state;
+      return options.validate(selectSlice);
+    } else return selectSlice;
   });
   const inputRef = useRef();
 
   useEffect(() => {
     if (options.validate) {
-      setValue(options.validate(state));
+      setValue(options.validate(selectSlice));
     } else {
-      setValue(state);
+      setValue(selectSlice);
     }
-  }, [options, options.validate, state]);
+  }, [options, options.validate, selectSlice]);
 
   const handleBlur = ({ target }) => {
     callback(target.value, options);
