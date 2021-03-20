@@ -38,7 +38,7 @@ export default function ShapeBar({ parent }) {
     child.name = typeOfChild;
     child.id = Math.random();
 
-    dispatch({ type: "SELECT_SHAPE", payload: child });
+    dispatch({ type: "SHAPE_SELECTED", payload: child });
 
     if (!parent) {
       illo.addChild(child);

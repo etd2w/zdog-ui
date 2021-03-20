@@ -9,7 +9,7 @@ export default function Layer({ item }) {
   const [isVisible, setIsVisible] = useState(true);
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
-  const shapeId = useSelector(state => state.shape.id);
+  const selectedShapes = useSelector(state => state.selectedShapes);
   const dispatch = useDispatch();
 
   let children = null;
@@ -46,18 +46,21 @@ export default function Layer({ item }) {
     copyOfLayer.id = Math.random();
 
     dispatch({ type: "COPY_LAYER", payload: copyOfLayer });
-    dispatch({ type: "SELECT_SHAPE", payload: copyOfLayer });
+    dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
   };
 
-  const handleSelect = event => {
-    dispatch({ type: "SELECT_SHAPE", payload: item });
+  const handleSelect = ({ shiftKey }) => {
+    dispatch({
+      type: "SHAPE_SELECTED",
+      payload: { shape: item, shiftKey },
+    });
   };
 
   return (
     <>
       <div
         className={`${styles.layer} ${
-          shapeId === item.id && styles.layerSelected
+          selectedShapes.includes(item.id) && styles.layerSelected
         }`}
       >
         <div
