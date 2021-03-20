@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Illustration } from "zdog";
+// import { Illustration, Group, Ellipse } from "zdog";
 import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
 
@@ -21,8 +22,35 @@ export default function Canvas() {
     });
   }, [dispatch]);
 
+  // useEffect(() => {
+  //   const newIllo = new Illustration({
+  //     element: ".canvas",
+  //     dragRotate: true,
+  //     onDragMove: () => {
+  //       dispatch({ type: "CHANGE_ILLO" });
+  //     },
+  //   });
+
+  //   const zgroup = new Group({
+  //     addTo: newIllo,
+  //   });
+
+  //   new Ellipse({
+  //     addTo: zgroup,
+  //     width: 80,
+  //     height: 80,
+  //     color: "white",
+  //     stroke: 20,
+  //   });
+
+  //   dispatch({
+  //     type: "CREATE_ILLO",
+  //     payload: newIllo,
+  //   });
+  // }, [dispatch]);
+
   useEffect(() => {
-    if (illo.updateRenderGraph) {
+    if (illo) {
       let requestId;
       const animate = () => {
         illo.updateRenderGraph();
@@ -46,7 +74,7 @@ export default function Canvas() {
       <div className={styles.contentBlock}>
         <canvas className="canvas" height={417} width={568} />
 
-        {illo.element && <CanvasSettings />}
+        {illo && <CanvasSettings />}
       </div>
     </div>
   );

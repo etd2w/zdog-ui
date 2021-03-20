@@ -20,12 +20,12 @@ const defaults = {
   width: 80,
   height: 80,
   stroke: 20,
-  diameter: 80,
   sides: 4,
   length: 80,
   radius: 40,
   depth: 80,
   color: "#a9cf54",
+  path: [{ line: { x: 0, y: 0, z: 0 } }],
 };
 
 export default function ShapeBar({ parent }) {
@@ -45,7 +45,14 @@ export default function ShapeBar({ parent }) {
       dispatch({ type: "ADD_LAYER", payload: child });
     } else {
       parent.addChild(child);
+      parent.updateFlatGraph();
     }
+  };
+
+  const testClick = () => {
+    const newEllipse = new Zdog.Ellipse(defaults);
+    illo.children[0].addChild(newEllipse);
+    illo.children[0].updateFlatGraph();
   };
 
   return (
@@ -55,6 +62,7 @@ export default function ShapeBar({ parent }) {
           {type}
         </button>
       ))}
+      <button onClick={testClick}>Add Child</button>
     </div>
   );
 }

@@ -26,7 +26,6 @@ export default function Layer({ item }) {
       </div>
     );
   }
-
   const handleRemove = () => {
     item.remove();
     dispatch({ type: "REMOVE_LAYER", payload: item });
@@ -39,6 +38,7 @@ export default function Layer({ item }) {
 
   const handleCopy = () => {
     const copyOfLayer = item.copy();
+    copyOfLayer.addTo.updateFlatGraph();
 
     copyOfLayer.type = item.type;
     copyOfLayer.name = `${item.type} (copy)`;
@@ -48,7 +48,7 @@ export default function Layer({ item }) {
     dispatch({ type: "SELECT_SHAPE", payload: copyOfLayer });
   };
 
-  const handleSelect = () => {
+  const handleSelect = event => {
     dispatch({ type: "SELECT_SHAPE", payload: item });
   };
 

@@ -10,7 +10,7 @@ export default function CanvasSettings() {
   const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
-  const resetRotation = () => {
+  const resetRotation = value => {
     illo.rotate.set({});
     dispatch({ type: "CHANGE_ILLO" });
   };
