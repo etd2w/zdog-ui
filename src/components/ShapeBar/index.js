@@ -49,12 +49,6 @@ export default function ShapeBar({ parent }) {
     }
   };
 
-  const testClick = () => {
-    const newEllipse = new Zdog.Ellipse(defaults);
-    illo.children[0].addChild(newEllipse);
-    illo.children[0].updateFlatGraph();
-  };
-
   return (
     <div className={styles.shapeBar}>
       {shapeTypes.map((type, index) => (
@@ -62,7 +56,6 @@ export default function ShapeBar({ parent }) {
           {type}
         </button>
       ))}
-      <button onClick={testClick}>Add Child</button>
     </div>
   );
 }
