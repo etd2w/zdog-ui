@@ -9,6 +9,10 @@
   background-color: #2d3741;
 }
 
+.layerSelected {
+  background-color: #2d3741;
+}
+
 .leftHalf {
   display: flex;
   flex-grow: 1;

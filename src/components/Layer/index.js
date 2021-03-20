@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useContextMenu } from "../../hooks";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 
@@ -9,6 +9,7 @@ export default function Layer({ item }) {
   const [isVisible, setIsVisible] = useState(true);
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
+  const shapeId = useSelector(state => state.shape.id);
   const dispatch = useDispatch();
 
   let children = null;
@@ -54,7 +55,11 @@ export default function Layer({ item }) {
 
   return (
     <>
-      <div className={styles.layer}>
+      <div
+        className={`${styles.layer} ${
+          shapeId === item.id && styles.layerSelected
+        }`}
+      >
         <div
           className={
             item.children.length && item.children[item.children.length - 1].id
