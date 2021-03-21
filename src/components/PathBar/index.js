@@ -1,16 +1,13 @@
 import { Vector } from "zdog";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
 const pathTypes = ["line", "move", "arc", "bezier"];
 
 export default function ShapeBar() {
   const shape = useSelector(state => state.shape);
-  const dispatch = useDispatch();
 
   const handleClick = type => {
-    dispatch({ type: "PATH_ADDED", payload: type });
-
     if (type === "line" || type === "move") {
       shape.path.push({ [type]: new Vector() });
     } else if (type === "arc") {
@@ -22,6 +19,9 @@ export default function ShapeBar() {
         [type]: [new Vector(), new Vector(), new Vector()],
       });
     }
+
+    shape.updatePath();
+    shape.updatePathCommands();
   };
 
   return (

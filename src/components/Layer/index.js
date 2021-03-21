@@ -38,7 +38,7 @@ export default function Layer({ item }) {
   };
 
   const handleCopy = () => {
-    const copyOfLayer = item.copy();
+    const copyOfLayer = item.copyGraph();
     copyOfLayer.addTo.updateFlatGraph();
 
     copyOfLayer.type = item.type;

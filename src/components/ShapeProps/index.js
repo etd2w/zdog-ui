@@ -263,6 +263,7 @@ export default function ShapeProps() {
                       options={{ object: "shape", property: "fill" }}
                     />
                   </div>
+
                   <div className={styles.tableRow}>
                     <span>Closed</span>
                     <CheckBox

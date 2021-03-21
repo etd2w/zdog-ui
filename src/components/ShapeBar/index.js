@@ -25,7 +25,6 @@ const defaults = {
   radius: 40,
   depth: 80,
   color: "#a9cf54",
-  path: [{ line: { x: 0, y: 0, z: 0 } }],
 };
 
 export default function ShapeBar({ parent }) {
@@ -33,7 +32,16 @@ export default function ShapeBar({ parent }) {
   const dispatch = useDispatch();
 
   const handleClick = (typeOfChild, parent) => {
-    const child = new Zdog[typeOfChild](defaults);
+    let child;
+
+    if (typeOfChild === "Shape") {
+      child = new Zdog.Shape({
+        path: [{ move: new Zdog.Vector() }],
+        ...defaults,
+      });
+    } else {
+      child = new Zdog[typeOfChild](defaults);
+    }
     child.type = typeOfChild;
     child.name = typeOfChild;
     child.id = Math.random();
