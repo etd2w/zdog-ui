@@ -4,19 +4,17 @@ import CheckBox from "../CheckBox";
 import InputText from "../InputText";
 import styles from "./style.module.css";
 
-const convertRotation = value => Math.round(value * (180 / Math.PI));
-
 export default function CanvasSettings() {
   const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
-  const resetRotation = value => {
+  const resetRotation = () => {
     illo.rotate.set({});
     dispatch({ type: "CHANGE_ILLO" });
   };
 
-  const handleRotate = (value, options) => {
-    illo.rotate[options.property] = (value * Math.PI) / 180;
+  const handleRotate = (value, property) => {
+    illo.rotate[property] = (value * Math.PI) / 180;
   };
 
   const toggleCentered = () => {
@@ -32,11 +30,7 @@ export default function CanvasSettings() {
   };
 
   const handleZoom = value => {
-    if (value < 0) {
-      illo.zoom = 0;
-    } else {
-      illo.zoom = value;
-    }
+    illo.zoom = value;
   };
 
   return (
@@ -52,12 +46,8 @@ export default function CanvasSettings() {
             <div className={styles.tableRow} key={axis}>
               <InputText
                 callback={handleRotate}
-                options={{
-                  object: ["illo", "rotate", axis],
-                  property: axis,
-                  label: `Rotate ${axis.toUpperCase()}`,
-                  validate: convertRotation,
-                }}
+                slicePath={["illo", "rotate", axis]}
+                label={`Rotate ${axis.toUpperCase()}`}
               />
             </div>
           ))}
@@ -71,17 +61,17 @@ export default function CanvasSettings() {
 
         <div className={styles.tableBody}>
           <div className={styles.tableRow}>
-            <span>Drag to rotate</span>
             <CheckBox
               callback={toggleDragRotate}
-              options={{ object: "illo", property: "dragRotate" }}
+              slicePath={["illo", "dragRotate"]}
+              label="Drag to rotate"
             />
           </div>
           <div className={styles.tableRow}>
-            <span>Centered</span>
             <CheckBox
               callback={toggleCentered}
-              options={{ object: "illo", property: "centered" }}
+              slicePath={["illo", "centered"]}
+              label="Centered"
             />
           </div>
         </div>
@@ -96,11 +86,8 @@ export default function CanvasSettings() {
           <div className={styles.tableRow}>
             <InputText
               callback={handleZoom}
-              options={{
-                object: ["illo", "zoom"],
-                property: "zoom",
-                label: "Zoom",
-              }}
+              slicePath={["illo", "zoom"]}
+              label="Zoom"
             />
           </div>
         </div>

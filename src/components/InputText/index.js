@@ -2,34 +2,46 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./style.module.css";
 
-export default function InputText({ callback, options }) {
+export default function InputText({ callback, slicePath, label }) {
+  // Select a piece of state that the input gonna subscribe to
   const selectSlice = useSelector(state => {
     let slice = state;
 
-    options.object.forEach(property => {
+    slicePath.forEach(property => {
       slice = slice[property];
     });
 
     return slice;
   });
-
+  // State of the input field
   const [value, setValue] = useState(() => {
-    if (options.validate) {
-      return options.validate(selectSlice);
+    if (typeof selectSlice !== "number") return;
+
+    if (slicePath[slicePath.length - 2] === "rotate") {
+      return Math.round(selectSlice * (180 / Math.PI));
     } else return selectSlice;
   });
+  // Ref of the input
   const inputRef = useRef();
-
+  // If the selected slice changes outside of the input field we should sinc the input
   useEffect(() => {
-    if (options.validate) {
-      setValue(options.validate(selectSlice));
+    if (typeof selectSlice !== "number") return;
+
+    if (slicePath[slicePath.length - 2] === "rotate") {
+      setValue(Math.round(selectSlice * (180 / Math.PI)));
     } else {
       setValue(selectSlice);
     }
-  }, [options, options.validate, selectSlice]);
-
-  const handleBlur = ({ target }) => {
-    callback(target.value, options);
+  }, [selectSlice, slicePath]);
+  // apply the change to the selected slice
+  const applyChange = ({ target }) => {
+    const vector = slicePath[slicePath.length - 2];
+    const property = slicePath[slicePath.length - 1];
+    if (slicePath[1] === "path") {
+      callback(parseFloat(target.value), slicePath);
+    } else {
+      callback(parseFloat(target.value), property, vector);
+    }
   };
 
   const handleChange = ({ target }) => {
@@ -46,7 +58,15 @@ export default function InputText({ callback, options }) {
         setValue(value => parseInt(value) + 1);
       }
       lastPos = event.pageX;
-      callback(inputRef.current.value, options);
+      if (slicePath[1] === "path") {
+        callback(parseFloat(inputRef.current.value), slicePath);
+      } else {
+        callback(
+          parseFloat(inputRef.current.value),
+          slicePath[slicePath.length - 1],
+          slicePath[slicePath.length - 2]
+        );
+      }
     };
 
     document.documentElement.style.cursor = "ew-resize";
@@ -66,16 +86,16 @@ export default function InputText({ callback, options }) {
   return (
     <label className={styles.input}>
       <span className={styles.input__label} onMouseDown={handleLabelMouseDown}>
-        {options.label}
+        {label}
       </span>
       <input
         className={styles.input__field}
         ref={inputRef}
         type="text"
         value={value}
-        onClick={({ target }) => target.select()}
         onChange={handleChange}
-        onBlur={handleBlur}
+        onClick={({ target }) => target.select()}
+        onBlur={applyChange}
       />
     </label>
   );

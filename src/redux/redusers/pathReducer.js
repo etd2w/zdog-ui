@@ -1,11 +1,16 @@
-export default function pathReducer(state = ["line"], action) {
-  switch (action.type) {
-    case "SHAPE_ADDED":
-      console.log(action.payload.map(path => Object.keys(path)[0]));
-      return [...action.payload.map(path => Object.keys(path)[0])];
+export default function pathReducer(state = [], action) {
+  const { type, payload } = action;
+
+  switch (type) {
+    case "SHAPE_SELECTED":
+      if (payload.shiftKey === undefined) {
+        return payload.path?.map(path => Object.keys(path)[0]);
+      }
+      return payload.shape.path?.map(path => Object.keys(path)[0]);
     case "PATH_ADDED":
-      console.log(state);
       return [...state, action.payload];
+    case "PATH_REMOVED":
+      return payload.path?.map(path => Object.keys(path)[0]);
     default:
       return state;
   }

@@ -3,22 +3,23 @@ import Zdog from "zdog";
 import styles from "./style.module.css";
 
 const shapeTypes = [
-  "Anchor",
-  "Box",
-  "Cone",
-  "Cylinder",
-  "Ellipse",
-  "Group",
-  "Hemisphere",
-  "Polygon",
   "Rect",
   "RoundedRect",
+  "Ellipse",
+  "Polygon",
   "Shape",
+  "Hemisphere",
+  "Cone",
+  "Cylinder",
+  "Box",
+  "Anchor",
+  "Group",
 ];
 
 const defaults = {
   width: 80,
   height: 80,
+  diameter: 80,
   stroke: 20,
   sides: 4,
   length: 80,
@@ -36,7 +37,7 @@ export default function ShapeBar({ parent }) {
 
     if (typeOfChild === "Shape") {
       child = new Zdog.Shape({
-        path: [{ move: new Zdog.Vector() }],
+        path: new Array({ move: new Zdog.Vector() }),
         ...defaults,
       });
     } else {

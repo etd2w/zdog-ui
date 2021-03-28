@@ -3,63 +3,153 @@ import InputText from "../InputText";
 import InputColor from "../InputColor";
 import CheckBox from "../CheckBox";
 import styles from "./style.module.css";
-import { useState } from "react";
+import PathTable from "../PathTable";
 
 const shapes = {
-  Rect: ["height", "width"],
-  RoundedRect: ["height", "width", "cornerRadius"],
-  Ellipse: ["height", "width", "quarters"],
-  Polygon: ["radius", "sides"],
-  Hemisphere: ["diameter"],
-  Cone: ["diameter", "length"],
-  Cylinder: ["diameter", "length", ["frontFace", "backFace"]],
-  Box: [
-    "height",
-    "width",
-    "depth",
-    ["leftFace", "rightFace", "rearFace", "frontFace", "topFace", "bottomFace"],
-  ],
-  Shape: [],
+  Rect: {
+    size: [
+      { property: "height", label: "Height" },
+      { property: "width", label: "Width" },
+    ],
+    style: [],
+  },
+  RoundedRect: {
+    size: [
+      { property: "height", label: "Height" },
+      { property: "width", label: "Width" },
+      { property: "cornerRadius", label: "Corner radius" },
+    ],
+    style: [],
+  },
+  Ellipse: {
+    size: [
+      { property: "height", label: "Height" },
+      { property: "width", label: "Width" },
+      { property: "quarters", label: "Quarters" },
+    ],
+    style: [],
+  },
+  Polygon: {
+    size: [
+      { property: "radius", label: "Radius" },
+      { property: "sides", label: "Sides" },
+    ],
+    style: [],
+  },
+  Shape: {
+    size: [],
+    style: [],
+  },
+  Hemisphere: {
+    size: [{ property: ["diameter"], label: "Diameter" }],
+    style: [{ property: ["backface"], label: "Back face" }],
+  },
+  Cone: {
+    size: [
+      { property: "diameter", label: "Diameter" },
+      { property: "length", label: "Length" },
+    ],
+    style: [{ property: ["backface"], label: "Back face" }],
+  },
+  Cylinder: {
+    size: [
+      { property: "diameter", label: "Diameter" },
+      { property: "length", label: "Length" },
+    ],
+    style: [
+      { property: ["frontBase", "color"], label: "Front face" },
+      { property: ["rearBase", "color"], label: "Back face" },
+    ],
+  },
+  Box: {
+    size: [
+      { property: "height", label: "Height" },
+      { property: "width", label: "Width" },
+      { property: "depth", label: "Depth" },
+    ],
+    style: [
+      { property: ["frontFace"], label: "Front face" },
+      { property: ["leftFace"], label: "Left face" },
+      { property: ["rightFace"], label: "Right face" },
+      { property: ["topFace"], label: "Top face" },
+      { property: ["bottomFace"], label: "Bottom face" },
+      { property: ["rearFace"], label: "Back face" },
+    ],
+  },
 };
 
-const convertRotation = value => Math.round(value * (180 / Math.PI));
+const commonTables = [
+  {
+    property: "translate",
+    name: "Position",
+    rowName: "Move",
+  },
+  {
+    property: "rotate",
+    name: "Rotation",
+    rowName: "Rotate",
+  },
+];
 
 export default function ShapeProps() {
   const shape = useSelector(state => state.shape);
-  const [isScale, setIsScale] = useState(false);
-  const [isColor, setIsColor] = useState(false);
 
-  const changeProperty = (value, { property }) => {
+  const changeProperty = (value, property) => {
+    if (
+      (shape.type === "Hemisphere" || shape.type === "Cone") &&
+      property === "diameter"
+    ) {
+      shape.width = value;
+      shape.height = value;
+    } else if (shape.type === "Cone" && property === "length") {
+      shape.apex.translate.z = value;
+    } else if (shape.type === "Cylinder" && property === "length") {
+      shape.frontBase.translate.z = value / 2;
+      shape.rearBase.translate.z = -value / 2;
+    } else if (shape.type === "Cylinder" && property === "diameter") {
+      shape.frontBase.diameter = value;
+      shape.rearBase.diameter = value;
+      shape.frontBase.updatePath();
+      shape.rearBase.updatePath();
+    } else if (shape.type === "Shape") {
+      console.log(shape.path);
+      return;
+    }
     shape[property] = value;
-    if (shape.updatePath) {
-      shape.updatePath();
-    }
+    shape.updatePath();
   };
 
-  const changeVector = (value, options) => {
-    shape[options.object[1]][options.property] = parseFloat(value);
-    if (shape.updatePath) {
-      shape.updatePath();
-    }
-  };
-
-  const rotateShape = (value, options) => {
-    shape.rotate[options.property] = (value * Math.PI) / 180;
-    if (shape.updatePath) {
-      shape.updatePath();
-    }
-  };
-
-  const changeColor = (value, options) => {
-    if (typeof options.object !== "string") {
-      shape[options.object[1]][options.property] = value;
+  const changeColor = (value, property, partOfShape) => {
+    if (partOfShape !== "shape") {
+      shape[partOfShape][property] = value;
     } else {
-      shape.color = value;
+      shape[property] = value;
+    }
+    shape.updatePath();
+  };
+
+  const changeVector = (value, property, vector) => {
+    if (vector === "rotate") {
+      shape.rotate[property] = (value * Math.PI) / 180;
+    } else {
+      shape[vector][property] = value;
     }
   };
 
-  const toggleProperty = ({ property }) => {
+  const scaleBug = value => {
+    shape.scale.set({ x: value, y: value, z: value });
+  };
+
+  const toggleProperty = property => {
     shape[property] = !shape[property];
+  };
+
+  const changeStroke = value => {
+    if (!shape.stroke && shape.stroke !== 0) {
+      shape.prevStroke = value;
+    } else {
+      shape.stroke = value;
+    }
   };
 
   const toggleStroke = () => {
@@ -81,199 +171,129 @@ export default function ShapeProps() {
       <div className={styles.contentBlock}>
         {shape.id && (
           <>
-            {shape.type !== "Anchor" && shape.type !== "Group" && (
-              <div className={styles.table}>
+            {shapes[shape.type] && (
+              <div>
                 <div className={styles.tableHead}>
                   <span>Size</span>
                 </div>
-
-                <div className={styles.tableBody}>
-                  {shapes[shape.type].map(property => {
-                    if (typeof property !== "object") {
-                      return (
-                        <div className={styles.tableRow} key={property}>
-                          <InputText
-                            callback={changeProperty}
-                            options={{
-                              object: ["shape", property],
-                              property: property,
-                              label: property,
-                            }}
-                          />
-                        </div>
-                      );
-                    } else return null;
-                  })}
-
-                  <div className={styles.tableRow}>
-                    <CheckBox
-                      callback={toggleStroke}
-                      options={{ object: "shape", property: "stroke" }}
-                    />
+                {/* Shape specific properties for size */}
+                {shapes[shape.type].size.map(({ property, label }) => (
+                  <div className={styles.tableRow} key={property}>
                     <InputText
                       callback={changeProperty}
-                      options={{
-                        object: ["shape", "stroke"],
-                        property: "stroke",
-                        label: "Stroke",
-                      }}
+                      slicePath={["shape", property]}
+                      label={label}
                     />
                   </div>
-
-                  <div className={styles.tableRow}>
-                    <button
-                      className={styles.btnExpand}
-                      onClick={() => setIsScale(!isScale)}
-                    >
-                      <svg
-                        width="6"
-                        height="7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        transform={isScale ? "rotate(90)" : ""}
-                      >
-                        <path d="M5.5 3.5l-5 3v-6l5 3z" fill="#fff" />
-                      </svg>
-                    </button>
-                    <span>Scale</span>
-                  </div>
-                  {isScale && (
-                    <>
-                      {["x", "y", "z"].map(axis => (
-                        <div className={styles.tableRow} key={axis}>
-                          <InputText
-                            callback={changeVector}
-                            options={{
-                              object: ["shape", "scale", axis],
-                              property: axis,
-                              label: `Scale ${axis.toUpperCase()}`,
-                            }}
-                          />
-                        </div>
-                      ))}
-                    </>
-                  )}
+                ))}
+                {/* Property: Stroke */}
+                <div className={styles.tableRow}>
+                  <CheckBox
+                    callback={toggleStroke}
+                    slicePath={["shape", "stroke"]}
+                  />
+                  <InputText
+                    callback={changeStroke}
+                    slicePath={["shape", "stroke"]}
+                    label="Stroke"
+                  />
                 </div>
               </div>
             )}
 
-            <div className={styles.table}>
-              <div className={styles.tableHead}>
-                <span>Position</span>
-              </div>
-
-              <div className={styles.tableBody}>
-                {["x", "y", "z"].map(axis => (
-                  <div className={styles.tableRow} key={axis}>
-                    <InputText
-                      callback={changeVector}
-                      options={{
-                        object: ["shape", "translate", axis],
-                        property: axis,
-                        label: `Position ${axis.toUpperCase()}`,
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.table}>
-              <div className={styles.tableHead}>
-                <span>Rotation</span>
-              </div>
-
-              <div className={styles.tableBody}>
-                {["x", "y", "z"].map(axis => (
-                  <div className={styles.tableRow} key={axis}>
-                    <InputText
-                      callback={rotateShape}
-                      options={{
-                        object: ["shape", "rotate", axis],
-                        property: axis,
-                        label: `Rotate ${axis.toUpperCase()}`,
-                        validate: convertRotation,
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {shape.type !== "Anchor" && shape.type !== "Group" && (
-              <div className={styles.table}>
+            {shapes[shape.type] && (
+              <div>
                 <div className={styles.tableHead}>
-                  <span>Style</span>
+                  <span>Styles</span>
                 </div>
-
-                <div className={styles.tableBody}>
+                <div>
+                  {/* Property: Fill */}
                   <div className={styles.tableRow}>
-                    {shape.type === "Box" && (
-                      <button
-                        className={styles.btnExpand}
-                        onClick={() => setIsColor(!isColor)}
-                      >
-                        <svg
-                          width="6"
-                          height="7"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          transform={isColor ? "rotate(90)" : ""}
-                        >
-                          <path d="M5.5 3.5l-5 3v-6l5 3z" fill="#fff" />
-                        </svg>
-                      </button>
-                    )}
-
-                    <span>Color</span>
-
-                    {shape.type !== "Box" && (
+                    <CheckBox
+                      callback={toggleProperty}
+                      slicePath={["shape", "fill"]}
+                      label="Fill"
+                    />
+                  </div>
+                  {/* Property: Color */}
+                  <div className={styles.tableRow}>
+                    <InputColor
+                      callback={changeColor}
+                      slicePath={["shape", "color"]}
+                      label="Color"
+                    />
+                  </div>
+                  {/* Shape specific properties for styles */}
+                  {shapes[shape.type].style.map(({ property, label }) => (
+                    <div className={styles.tableRow} key={property}>
                       <InputColor
                         callback={changeColor}
-                        options={{ object: "shape", property: "color" }}
+                        slicePath={["shape", ...property]}
+                        label={label}
                       />
-                    )}
-                  </div>
-
-                  {shape.type === "Box" &&
-                    isColor &&
-                    shapes[shape.type][shapes[shape.type].length - 1].map(
-                      property => (
-                        <div className={styles.tableRow} key={property}>
-                          <CheckBox
-                            callback={toggleProperty}
-                            options={{ object: "shape", property: property }}
-                          />
-                          <span>{property}</span>
-                          <InputColor
-                            callback={changeColor}
-                            options={{
-                              object: ["shape", `${property}Rect`],
-                              property: "color",
-                            }}
-                          />
-                        </div>
-                      )
-                    )}
-
-                  <div className={styles.tableRow}>
-                    <span>Fill</span>
-                    <CheckBox
-                      callback={toggleProperty}
-                      options={{ object: "shape", property: "fill" }}
-                    />
-                  </div>
-
-                  <div className={styles.tableRow}>
-                    <span>Closed</span>
-                    <CheckBox
-                      callback={toggleProperty}
-                      options={{ object: "shape", property: "closed" }}
-                    />
-                  </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
+            <PathTable>
+              {/* Property: Closed */}
+              <div className={styles.tableRow}>
+                <CheckBox
+                  callback={toggleProperty}
+                  slicePath={["shape", "closed"]}
+                  label="Closed"
+                />
+              </div>
+            </PathTable>
+            <div>
+              <div className={styles.tableHead}>
+                <span>Scale</span>
+              </div>
+
+              <div>
+                {shape.type === "Cone" ||
+                shape.type === "Hemisphere" ||
+                shape.type === "Cylinder" ? (
+                  <div className={styles.tableRow}>
+                    <InputText
+                      callback={scaleBug}
+                      slicePath={["shape", "scale", "x"]}
+                      label="Scale"
+                    />
+                  </div>
+                ) : (
+                  ["x", "y", "z"].map(axis => (
+                    <div className={styles.tableRow} key={axis}>
+                      <InputText
+                        callback={changeVector}
+                        slicePath={["shape", "scale", axis]}
+                        label={`Scale ${axis.toUpperCase()}`}
+                      />
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {commonTables.map(({ property, name, rowName }) => (
+              <div key={property}>
+                <div className={styles.tableHead}>
+                  <span>{name}</span>
+                </div>
+                <div>
+                  {["x", "y", "z"].map(axis => (
+                    <div className={styles.tableRow} key={axis}>
+                      <InputText
+                        callback={changeVector}
+                        slicePath={["shape", property, axis]}
+                        label={`${rowName} ${axis.toUpperCase()}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </>
         )}
       </div>

@@ -7,6 +7,8 @@ export function shapeReducer(state = {}, action) {
         return payload;
       }
       return payload.shape;
+    case "COLOR_CHANGED":
+      return state;
     default:
       return state;
   }
