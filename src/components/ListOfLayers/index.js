@@ -1,18 +1,18 @@
 import { useSelector } from "react-redux";
-import { useContextMenu } from "../../hooks";
+// import { useContextMenu } from "../../hooks";
 import Layer from "../Layer";
-import ShapeBar from "../ShapeBar";
-import styles from "./style.module.css";
+// import ShapeBar from "../ShapeBar";
+import section from "../../styles/section.module.css";
 
 export default function ListOfLayers() {
-  const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
+  // const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const layers = useSelector(state => state.layers);
 
   return (
-    <div className={styles.layersBlock}>
-      <div className={styles.header}>
-        <span className={styles.title}>Components</span>
-        <button
+    <section className={section.components}>
+      <header className={section.header}>
+        Components
+        {/* <button
           onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
           className={styles.button}
         >
@@ -28,14 +28,14 @@ export default function ListOfLayers() {
           </svg>
           <div className={styles.padLeft}>Add</div>
         </button>
-        {isContextMenuOpen && <ShapeBar />}
-      </div>
+        {isContextMenuOpen && <ShapeBar />} */}
+      </header>
 
-      <div className={styles.contentBlock}>
+      <article className={section.article}>
         {layers.map(layer => (
           <Layer item={layer} key={layer.id} id={layer.id} />
         ))}
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }

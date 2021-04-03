@@ -3,6 +3,7 @@ export default function pathReducer(state = [], action) {
 
   switch (type) {
     case "SHAPE_SELECTED":
+      if (payload.type !== "Shape") return state;
       if (payload.shiftKey === undefined) {
         return payload.path?.map(path => Object.keys(path)[0]);
       }

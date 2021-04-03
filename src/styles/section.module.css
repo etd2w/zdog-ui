@@ -1,0 +1,42 @@
+:root {
+  --color-background-300: #242f39;
+  --color-content-primary: #a9cf54;
+  --color-content-ternary: rgba(255, 255, 255, 0.6);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 4px;
+  font-size: 1rem;
+  color: white;
+  position: relative;
+  text-shadow: 1px 1px 2px black;
+  text-transform: uppercase;
+  line-height: 1rem;
+}
+
+.small {
+  color: var(--color-content-ternary);
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.article {
+  display: flex;
+  justify-content: flex-end;
+  padding: 6px;
+  background-color: var(--color-background-300);
+}
+
+.components {
+  grid-column: 1 / span 2;
+}
+
+.canvas {
+  grid-column: 3 / span 7;
+}
+
+.properties {
+  grid-column: 10 / span 3;
+}

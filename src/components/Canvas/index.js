@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Illustration } from "zdog";
 import CanvasSettings from "./CanvasSettings";
-import styles from "./style.module.css";
+import section from "../../styles/section.module.css";
 
 export default function Canvas() {
   const dispatch = useDispatch();
@@ -38,16 +38,14 @@ export default function Canvas() {
   });
 
   return (
-    <div>
-      <div className={styles.header}>
-        <span className={styles.title}>Canvas</span>
-      </div>
+    <section className={section.canvas}>
+      <header className={section.header}>Canvas</header>
 
-      <div className={styles.contentBlock}>
+      <article className={section.article}>
         <canvas className="canvas" height={417} width={568} />
 
-        {illo && <CanvasSettings />}
-      </div>
-    </div>
+        {/* {illo && <CanvasSettings />} */}
+      </article>
+    </section>
   );
 }

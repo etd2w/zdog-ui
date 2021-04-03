@@ -2,8 +2,9 @@ import { useSelector } from "react-redux";
 import InputText from "../InputText";
 import InputColor from "../InputColor";
 import CheckBox from "../CheckBox";
-import styles from "./style.module.css";
 import PathTable from "../PathTable";
+import styles from "./style.module.css";
+import section from "../../styles/section.module.css";
 
 const shapes = {
   Rect: {
@@ -162,13 +163,13 @@ export default function ShapeProps() {
   };
 
   return (
-    <div className={styles.shapeProps} key={shape.id}>
-      <div className={styles.header}>
-        <span className={styles.title}>Shape</span>
-        {shape.id && <span className={styles.subTitle}>{shape.type}</span>}
-      </div>
+    <section className={section.properties} key={shape.id}>
+      <header className={section.header}>
+        Shape
+        {shape.id && <small className={section.small}>{shape.type}</small>}
+      </header>
 
-      <div className={styles.contentBlock}>
+      <article className={section.article}>
         {shape.id && (
           <>
             {shapes[shape.type] && (
@@ -296,7 +297,7 @@ export default function ShapeProps() {
             ))}
           </>
         )}
-      </div>
-    </div>
+      </article>
+    </section>
   );
 }

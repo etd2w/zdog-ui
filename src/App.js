@@ -5,11 +5,11 @@ import ShapeProps from "./components/ShapeProps";
 function App() {
   return (
     <div className="app">
-      <div className="container">
+      <main>
         <ListOfLayers />
         <Canvas />
         <ShapeProps />
-      </div>
+      </main>
     </div>
   );
 }
