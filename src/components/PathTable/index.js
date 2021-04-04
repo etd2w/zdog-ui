@@ -3,6 +3,7 @@ import { useContextMenu } from "../../hooks";
 import InputText from "../InputText";
 import PathBar from "../PathBar";
 import styles from "./style.module.css";
+import table from "../../styles/table.module.css";
 
 export default function PathTable({ children }) {
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
@@ -28,37 +29,42 @@ export default function PathTable({ children }) {
   };
 
   return (
-    <div>
-      <div className={styles.tableHead}>
-        <span>Path</span>
-        {shape.type === "Shape" && (
-          <button
-            onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
-            className={styles.button}
-          >
-            <svg
-              width="11"
-              height="11"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <rect width="11" height="11" rx="2" fill="#fff" />
-              <path fill="#1C242D" d="M5 2h1v7H5z" />
-              <path fill="#1C242D" d="M2 5h7v1H2z" />
-            </svg>
-            <div className={styles.padLeft}>Add</div>
-          </button>
-        )}
-        {isContextMenuOpen && <PathBar />}
-      </div>
-      <div>
+    <>
+      <thead className={table.thead}>
+        <tr>
+          <th className={table.th}>
+            Path
+            {shape.type === "Shape" && (
+              <button
+                onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
+                className={styles.button}
+              >
+                <svg
+                  width="9"
+                  height="9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zm-.643 5.063a.242.242 0 01-.241.24H5.304v1.849a.242.242 0 01-.242.24H3.938a.242.242 0 01-.24-.24V5.304H1.847a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h1.848V1.847c0-.132.109-.24.241-.24h1.126c.132 0 .24.108.24.24v1.848h1.849c.132 0 .24.109.24.241v1.126z"
+                    fill="#fff"
+                  />
+                </svg>
+                <span>Add</span>
+              </button>
+            )}
+            {isContextMenuOpen && <PathBar />}
+          </th>
+        </tr>
+      </thead>
+      <tbody className={table.tbody}>
         {children}
         {shape.type === "Shape" &&
           path.map((pathMethod, i) => {
             if (pathMethod === "arc" || pathMethod === "bezier") {
               return (
-                <div key={i}>
-                  <div className={styles.tableRow}>
+                <tr className={table.tr} key={i}>
+                  <td className={table.td}>
                     <span>{pathMethod}</span>
                     {["x", "y", "z"].map(axis => (
                       <InputText
@@ -69,10 +75,26 @@ export default function PathTable({ children }) {
                       />
                     ))}
                     {path.length !== 1 && (
-                      <button onClick={() => removePath(i)}>D</button>
+                      <button
+                        className={styles.button}
+                        onClick={() => removePath(i)}
+                      >
+                        <svg
+                          width="9"
+                          height="9"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
+                            fill="#C23C2A"
+                          />
+                        </svg>
+                      </button>
                     )}
-                  </div>
-                  <div className={styles.tableRow}>
+                  </td>
+
+                  <td className={table.td}>
                     {["x", "y", "z"].map(axis => (
                       <InputText
                         callback={changeProperty}
@@ -81,9 +103,10 @@ export default function PathTable({ children }) {
                         key={axis}
                       />
                     ))}
-                  </div>
+                  </td>
+
                   {pathMethod === "bezier" && (
-                    <div className={styles.tableRow}>
+                    <td className={table.td}>
                       {["x", "y", "z"].map(axis => (
                         <InputText
                           callback={changeProperty}
@@ -92,29 +115,46 @@ export default function PathTable({ children }) {
                           key={axis}
                         />
                       ))}
-                    </div>
+                    </td>
                   )}
-                </div>
+                </tr>
               );
             }
             return (
-              <div className={styles.tableRow} key={i}>
-                <span>{pathMethod}</span>
-                {["x", "y", "z"].map(axis => (
-                  <InputText
-                    callback={changeProperty}
-                    slicePath={["shape", "path", i, pathMethod, axis]}
-                    label={axis}
-                    key={axis}
-                  />
-                ))}
-                {path.length !== 1 && (
-                  <button onClick={() => removePath(i)}>D</button>
-                )}
-              </div>
+              <tr className={table.tr} key={i}>
+                <td className={table.td}>
+                  <span>{pathMethod}</span>
+                  {["x", "y", "z"].map(axis => (
+                    <InputText
+                      callback={changeProperty}
+                      slicePath={["shape", "path", i, pathMethod, axis]}
+                      label={axis}
+                      key={axis}
+                    />
+                  ))}
+                  {path.length !== 1 && (
+                    <button
+                      className={styles.button}
+                      onClick={() => removePath(i)}
+                    >
+                      <svg
+                        width="9"
+                        height="9"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
+                          fill="#C23C2A"
+                        />
+                      </svg>
+                    </button>
+                  )}
+                </td>
+              </tr>
             );
           })}
-      </div>
-    </div>
+      </tbody>
+    </>
   );
 }

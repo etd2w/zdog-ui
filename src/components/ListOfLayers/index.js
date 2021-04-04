@@ -1,34 +1,36 @@
 import { useSelector } from "react-redux";
-// import { useContextMenu } from "../../hooks";
+import { useContextMenu } from "../../hooks";
 import Layer from "../Layer";
-// import ShapeBar from "../ShapeBar";
+import ShapeBar from "../ShapeBar";
 import section from "../../styles/section.module.css";
+import styles from "./styles.module.css";
 
 export default function ListOfLayers() {
-  // const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
+  const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const layers = useSelector(state => state.layers);
 
   return (
     <section className={section.components}>
       <header className={section.header}>
         Components
-        {/* <button
+        <button
           onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
           className={styles.button}
         >
           <svg
-            width="11"
-            height="11"
+            width="9"
+            height="9"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <rect width="11" height="11" rx="2" fill="#fff" />
-            <path fill="#1C242D" d="M5 2h1v7H5z" />
-            <path fill="#1C242D" d="M2 5h7v1H2z" />
+            <path
+              d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zm-.643 5.063a.242.242 0 01-.241.24H5.304v1.849a.242.242 0 01-.242.24H3.938a.242.242 0 01-.24-.24V5.304H1.847a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h1.848V1.847c0-.132.109-.24.241-.24h1.126c.132 0 .24.108.24.24v1.848h1.849c.132 0 .24.109.24.241v1.126z"
+              fill="#fff"
+            />
           </svg>
-          <div className={styles.padLeft}>Add</div>
+          <span>Add</span>
         </button>
-        {isContextMenuOpen && <ShapeBar />} */}
+        {isContextMenuOpen && <ShapeBar />}
       </header>
 
       <article className={section.article}>

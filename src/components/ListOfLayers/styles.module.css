@@ -3,16 +3,12 @@
   align-items: baseline;
   text-transform: uppercase;
   color: #ffffff;
-  padding: 2px;
+  padding: 0;
   font-size: 12px;
   line-height: 12px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-}
-
-.button:hover {
-  background-color: #2d3741;
 }
 
 .button > * + * {

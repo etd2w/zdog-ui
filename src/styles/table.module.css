@@ -1,0 +1,39 @@
+.table {
+  width: 100%;
+  text-align: left;
+  font-size: 12px;
+  /* border-collapse: collapse; */
+  border-spacing: 0 4px;
+}
+
+.thead {
+  font-weight: bold;
+}
+
+.th {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: #ffffff;
+  /* padding: 6px 4px; */
+}
+
+.tbody {
+  color: #a9cf54;
+}
+
+.tr {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.td {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  vertical-align: middle;
+}
+
+.td > * + * {
+  margin-left: 12px;
+}

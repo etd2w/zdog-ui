@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Illustration } from "zdog";
 import CanvasSettings from "./CanvasSettings";
+import styles from "./style.module.css";
 import section from "../../styles/section.module.css";
 
 export default function Canvas() {
   const dispatch = useDispatch();
   const illo = useSelector(state => state.illo);
+  const canvasRef = useRef();
 
   useEffect(() => {
     dispatch({
@@ -14,6 +16,7 @@ export default function Canvas() {
       payload: new Illustration({
         element: ".canvas",
         dragRotate: true,
+        resize: true,
         onDragMove: () => {
           dispatch({ type: "CHANGE_ILLO" });
         },
@@ -22,7 +25,12 @@ export default function Canvas() {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log(canvasRef.current.getBoundingClientRect());
     if (illo) {
+      illo.setSize(
+        canvasRef.current.getBoundingClientRect().width,
+        canvasRef.current.getBoundingClientRect().height
+      );
       let requestId;
       const animate = () => {
         illo.updateRenderGraph();
@@ -42,9 +50,11 @@ export default function Canvas() {
       <header className={section.header}>Canvas</header>
 
       <article className={section.article}>
-        <canvas className="canvas" height={417} width={568} />
+        <div className={styles.container} ref={canvasRef}>
+          <canvas className="canvas" />
+        </div>
 
-        {/* {illo && <CanvasSettings />} */}
+        {illo && <CanvasSettings />}
       </article>
     </section>
   );

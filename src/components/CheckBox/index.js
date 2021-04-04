@@ -24,7 +24,8 @@ export default function CheckBox({ callback, slicePath, label }) {
 
   return (
     <>
-      <span>{label}</span>
+      {label && <span>{label}</span>}
+
       <label htmlFor={id} className={styles.checkbox}>
         <input
           type="checkbox"

@@ -9,19 +9,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  height: 100vh;
   background-color: #1c242d;
+}
+
+#root,
+.app {
+  height: 100%;
 }
 
 main {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-column-gap: 24px;
+  grid-template-columns: repeat(12, minmax(70px, 1fr));
+  grid-column-gap: 12px;
   height: 100%;
-  padding: 0 2rem;
+  padding: 0 2rem 2rem 2rem;
 }
 
 .canvas {
   background-color: #353f49;
   cursor: move;
+  width: 100%;
 }
