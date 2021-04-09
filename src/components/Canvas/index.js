@@ -25,7 +25,6 @@ export default function Canvas() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(canvasRef.current.getBoundingClientRect());
     if (illo) {
       illo.setSize(
         canvasRef.current.getBoundingClientRect().width,

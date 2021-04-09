@@ -1,82 +1,88 @@
 .layer {
   position: relative;
+}
+
+.layer:hover .body {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.body {
   display: flex;
-  align-items: center;
-  padding: 0.375rem;
+  position: relative;
+  justify-content: space-between;
+  padding: 6px;
+  font-size: 0.75rem;
+  color: #a9cf54;
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.layer:hover {
-  background-color: #2d3741;
+.body * + * {
+  margin-left: 6px;
 }
 
-.layerSelected {
-  background-color: #2d3741;
+.body button {
+  color: rgba(255, 255, 255, 1);
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
-.leftHalf {
-  display: flex;
-  flex-grow: 1;
-  align-items: center;
+.body button:hover {
+  color: rgba(255, 255, 255, 0.8);
 }
 
-.rightHelf {
-  display: none;
-  align-items: center;
+.body button:focus {
+  outline: none;
 }
 
-.layer:hover .rightHelf {
-  display: flex;
+.body .selectButton {
+  color: #a9cf54;
 }
 
-.leftPad {
-  display: flex;
-  padding-left: 1.125rem;
-  flex-grow: 1;
+.body .selectButton:hover {
+  color: rgba(169, 207, 84, 0.8);
 }
 
-/* Layer Menu */
+.body input {
+  height: 16px;
+  width: 8rem;
+  background: rgba(10, 10, 10, 0.2);
+  border: none;
+  color: #ffffff;
+}
 
-.layerMenu {
+.children {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 4px;
+}
+
+.children > * + * {
+  margin-top: 4px;
+}
+
+.contextMenu {
   position: absolute;
   top: 0;
   right: 0;
   padding: 0.375rem;
   background-color: #242f39;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  transform: translate(75%, 25%);
+  transform: translate(50%, 25%);
   z-index: 1;
 }
 
-.layerMenu button {
+.contextMenu button {
   display: block;
+  width: 100%;
   background-color: transparent;
   border: none;
   color: #ffffff;
   padding: 0.375rem;
+  text-align: left;
 }
 
-.layerMenu button:hover {
+.contextMenu button:hover {
   background-color: #2d3741;
-}
-
-/* Buttons */
-
-.layer button {
-  display: flex;
-  background-color: transparent;
-  border: none;
-}
-
-.btnSelect {
-  color: #a9cf54;
-  flex-grow: 1;
-  outline: none;
-}
-
-.hidden {
-  color: rgba(169, 207, 84, 0.5);
-}
-
-.child {
-  margin-left: 1.125rem;
 }
