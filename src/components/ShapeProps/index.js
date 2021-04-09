@@ -155,9 +155,9 @@ export default function ShapeProps() {
       </header>
 
       <article className={section.article}>
-        {shape.id && shapes[shape.type] && (
+        {shape.id && (
+          // Table: Transform
           <table className={table.table}>
-            {/* Table: Transform */}
             <thead className={table.thead}>
               <tr>
                 <th className={table.th}>Transform</th>
@@ -218,87 +218,91 @@ export default function ShapeProps() {
             </tbody>
 
             {/* Table: Size */}
-            <thead className={table.thead}>
-              <tr>
-                <th className={table.th}>Size</th>
-              </tr>
-            </thead>
-            <tbody className={table.tbody}>
-              {shapes[shape.type].size.map(({ property, label }) => (
-                <tr className={table.tr} key={property}>
-                  <td className={table.td}>
-                    <InputText
-                      callback={changeProperty}
-                      slicePath={["shape", property]}
-                      label={label}
-                    />
-                  </td>
-                </tr>
-              ))}
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  <CheckBox
-                    callback={toggleStroke}
-                    slicePath={["shape", "stroke"]}
-                  />
-                  <InputText
-                    callback={changeStroke}
-                    slicePath={["shape", "stroke"]}
-                    label="Stroke"
-                  />
-                </td>
-              </tr>
-            </tbody>
+            {shape[shape.type] && (
+              <>
+                <thead className={table.thead}>
+                  <tr>
+                    <th className={table.th}>Size</th>
+                  </tr>
+                </thead>
+                <tbody className={table.tbody}>
+                  {shapes[shape.type].size.map(({ property, label }) => (
+                    <tr className={table.tr} key={property}>
+                      <td className={table.td}>
+                        <InputText
+                          callback={changeProperty}
+                          slicePath={["shape", property]}
+                          label={label}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                  <tr className={table.tr}>
+                    <td className={table.td}>
+                      <CheckBox
+                        callback={toggleStroke}
+                        slicePath={["shape", "stroke"]}
+                      />
+                      <InputText
+                        callback={changeStroke}
+                        slicePath={["shape", "stroke"]}
+                        label="Stroke"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
 
-            {/* Table: Style */}
-            <thead className={table.thead}>
-              <tr>
-                <th className={table.th}>Style</th>
-              </tr>
-            </thead>
-            <tbody className={table.tbody}>
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  <CheckBox
-                    callback={toggleProperty}
-                    slicePath={["shape", "fill"]}
-                    label="Fill"
-                  />
-                </td>
-              </tr>
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  <InputColor
-                    callback={changeColor}
-                    slicePath={["shape", "color"]}
-                    label="Color"
-                  />
-                </td>
-              </tr>
-              {shapes[shape.type].style.map(({ property, label }) => (
-                <tr className={table.tr} key={property}>
-                  <td className={table.td}>
-                    <InputColor
-                      callback={changeColor}
-                      slicePath={["shape", ...property]}
-                      label={label}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <PathTable>
-              {/* Property: Closed */}
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  <CheckBox
-                    callback={toggleProperty}
-                    slicePath={["shape", "closed"]}
-                    label="Closed"
-                  />
-                </td>
-              </tr>
-            </PathTable>
+                {/* Table: Style */}
+                <thead className={table.thead}>
+                  <tr>
+                    <th className={table.th}>Style</th>
+                  </tr>
+                </thead>
+                <tbody className={table.tbody}>
+                  <tr className={table.tr}>
+                    <td className={table.td}>
+                      <CheckBox
+                        callback={toggleProperty}
+                        slicePath={["shape", "fill"]}
+                        label="Fill"
+                      />
+                    </td>
+                  </tr>
+                  <tr className={table.tr}>
+                    <td className={table.td}>
+                      <InputColor
+                        callback={changeColor}
+                        slicePath={["shape", "color"]}
+                        label="Color"
+                      />
+                    </td>
+                  </tr>
+                  {shapes[shape.type].style.map(({ property, label }) => (
+                    <tr className={table.tr} key={property}>
+                      <td className={table.td}>
+                        <InputColor
+                          callback={changeColor}
+                          slicePath={["shape", ...property]}
+                          label={label}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <PathTable>
+                  {/* Property: Closed */}
+                  <tr className={table.tr}>
+                    <td className={table.td}>
+                      <CheckBox
+                        callback={toggleProperty}
+                        slicePath={["shape", "closed"]}
+                        label="Closed"
+                      />
+                    </td>
+                  </tr>
+                </PathTable>
+              </>
+            )}
           </table>
         )}
       </article>
