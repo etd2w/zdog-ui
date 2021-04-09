@@ -42,7 +42,7 @@ const shapes = {
     style: [],
   },
   Hemisphere: {
-    size: [{ property: ["diameter"], label: "Diameter" }],
+    size: [{ property: "diameter", label: "Diameter" }],
     style: [{ property: ["backface"], label: "Back face" }],
   },
   Cone: {
@@ -99,10 +99,8 @@ export default function ShapeProps() {
       shape.rearBase.diameter = value;
       shape.frontBase.updatePath();
       shape.rearBase.updatePath();
-    } else if (shape.type === "Shape") {
-      console.log(shape.path);
-      return;
     }
+
     shape[property] = value;
     shape.updatePath();
   };
