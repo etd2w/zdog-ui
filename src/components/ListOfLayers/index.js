@@ -34,9 +34,11 @@ export default function ListOfLayers() {
       </header>
 
       <article className={section.article}>
-        {layers.map(layer => (
-          <Layer item={layer} key={layer.id} id={layer.id} />
-        ))}
+        <ul className={styles.list}>
+          {layers.map(layer => (
+            <Layer layer={layer} key={layer.id} id={layer.id} />
+          ))}
+        </ul>
       </article>
     </section>
   );
