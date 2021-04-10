@@ -5,6 +5,7 @@ import styles from "./style.module.css";
 import utils from "../../styles/utils.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
+import ContextBar from "../ContextBar";
 
 export default function Layer({ layer }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -12,15 +13,16 @@ export default function Layer({ layer }) {
   const [isRenaming, setisRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState(layer.name);
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
+  const [isListOfShapesOpen, setIsListOfShapesOpen] = useContextMenu(false);
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
   const dispatch = useDispatch();
   const selectedShapes = useSelector(state => state.selectedShapes);
   let children = null;
 
   if (layer.children.length > 0) {
-    children = layer.children.map(layer => {
-      if (layer.id) {
-        return <Layer layer={layer} key={layer.id} />;
+    children = layer.children.map(children => {
+      if (children.id) {
+        return <Layer layer={children} key={children.id} />;
       }
       return null;
     });
@@ -38,6 +40,12 @@ export default function Layer({ layer }) {
     copyOfLayer.type = layer.type;
     copyOfLayer.name = `${layer.type} (copy)`;
     copyOfLayer.id = Math.random();
+
+    copyOfLayer.children?.forEach((child, index) => {
+      child.type = layer.children[index].type;
+      child.name = layer.children[index].name;
+      child.id = Math.random();
+    });
 
     dispatch({ type: "LAYER_COPIED", payload: copyOfLayer });
     dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
@@ -59,9 +67,17 @@ export default function Layer({ layer }) {
     }
   };
 
+  const handleMove = (parent, child) => {
+    dispatch({ type: "LAYER_REMOVED", payload: child });
+    dispatch({ type: "SHAPE_SELECTED", payload: parent });
+    parent.addChild(child);
+    parent.updateFlatGraph();
+  };
+
   const handleRemove = () => {
     layer.remove();
     dispatch({ type: "LAYER_REMOVED", payload: layer });
+    layer.addTo.updateFlatGraph();
   };
 
   const handleExpand = () => {
@@ -173,6 +189,9 @@ export default function Layer({ layer }) {
       {isContextMenuOpen && (
         <div className={styles.contextMenu}>
           <button onClick={handleCopy}>Copy the element</button>
+          <button onClick={() => setIsListOfShapesOpen(true)}>
+            Move to ...
+          </button>
           <button onClick={handleVisible}>
             {isVisible ? "Hide the element" : "Show the element"}
           </button>
@@ -181,6 +200,23 @@ export default function Layer({ layer }) {
             <button onClick={handleGroup}>Group selection</button>
           )}
         </div>
+      )}
+      {isListOfShapesOpen && (
+        <ContextBar>
+          {layer.addTo.children.map(children => {
+            if (layer.id !== children.id) {
+              return (
+                <button
+                  key={children.id}
+                  onClick={() => handleMove(children, layer)}
+                >
+                  {children.name}
+                </button>
+              );
+            }
+            return null;
+          })}
+        </ContextBar>
       )}
       {isShapeBarOpen && <ShapeBar parent={layer} />}
     </li>
