@@ -54,6 +54,8 @@ export default function Layer({ layer }) {
     setisRenaming(!isRenaming);
     if (!isRenaming) {
       setRenameValue(layer.name);
+    } else {
+      layer.name = renameValue;
     }
   };
 
@@ -86,7 +88,6 @@ export default function Layer({ layer }) {
       dispatch({ type: "LAYER_REMOVED", payload: shape });
       newGroup.addChild(shape);
     });
-    console.log(newGroup.addTo);
   };
 
   // Remove form this component later
