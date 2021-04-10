@@ -2,9 +2,9 @@ export default function illoReducer(state = null, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case "CREATE_ILLO":
+    case "ILLO_CREATED":
       return payload;
-    case "CHANGE_ILLO":
+    case "ILLO_CHANGED":
       return state;
     default:
       return state;

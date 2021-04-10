@@ -39,7 +39,7 @@ export default function Layer({ layer }) {
     copyOfLayer.name = `${layer.type} (copy)`;
     copyOfLayer.id = Math.random();
 
-    dispatch({ type: "COPY_LAYER", payload: copyOfLayer });
+    dispatch({ type: "LAYER_COPIED", payload: copyOfLayer });
     dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
   };
 
@@ -59,7 +59,7 @@ export default function Layer({ layer }) {
 
   const handleRemove = () => {
     layer.remove();
-    dispatch({ type: "REMOVE_LAYER", payload: layer });
+    dispatch({ type: "LAYER_REMOVED", payload: layer });
   };
 
   const handleExpand = () => {
@@ -80,10 +80,10 @@ export default function Layer({ layer }) {
     newGroup.type = "Anchor";
     newGroup.id = Math.random();
     dispatch({ type: "SHAPE_SELECTED", payload: newGroup });
-    dispatch({ type: "ADD_LAYER", payload: newGroup });
+    dispatch({ type: "LAYER_ADDED", payload: newGroup });
 
     selectedShapes.forEach(shape => {
-      dispatch({ type: "REMOVE_LAYER", payload: shape });
+      dispatch({ type: "LAYER_REMOVED", payload: shape });
       newGroup.addChild(shape);
     });
     console.log(newGroup.addTo);

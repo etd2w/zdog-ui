@@ -12,13 +12,13 @@ export default function Canvas() {
 
   useEffect(() => {
     dispatch({
-      type: "CREATE_ILLO",
+      type: "ILLO_CREATED",
       payload: new Illustration({
         element: ".canvas",
         dragRotate: true,
         resize: true,
         onDragMove: () => {
-          dispatch({ type: "CHANGE_ILLO" });
+          dispatch({ type: "ILLO_CHANGED" });
         },
       }),
     });

@@ -11,7 +11,7 @@ export default function CanvasSettings() {
 
   const resetRotation = () => {
     illo.rotate.set({});
-    dispatch({ type: "CHANGE_ILLO" });
+    dispatch({ type: "ILLO_CHANGED" });
   };
 
   const handleRotate = (value, property) => {

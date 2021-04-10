@@ -51,7 +51,7 @@ export default function ShapeBar({ parent }) {
 
     if (!parent) {
       illo.addChild(child);
-      dispatch({ type: "ADD_LAYER", payload: child });
+      dispatch({ type: "LAYER_ADDED", payload: child });
     } else {
       parent.addChild(child);
       parent.updateFlatGraph();
