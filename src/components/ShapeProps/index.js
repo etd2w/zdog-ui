@@ -218,7 +218,7 @@ export default function ShapeProps() {
             </tbody>
 
             {/* Table: Size */}
-            {shape[shape.type] && (
+            {shapes[shape.type] && (
               <>
                 <thead className={table.thead}>
                   <tr>

@@ -3,7 +3,8 @@ import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
 import styles from "./style.module.css";
 import utils from "../../styles/utils.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Anchor } from "zdog";
 
 export default function Layer({ layer }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -13,6 +14,7 @@ export default function Layer({ layer }) {
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
   const dispatch = useDispatch();
+  const selectedShapes = useSelector(state => state.selectedShapes);
   let children = null;
 
   if (layer.children.length > 0) {
@@ -52,8 +54,6 @@ export default function Layer({ layer }) {
     setisRenaming(!isRenaming);
     if (!isRenaming) {
       setRenameValue(layer.name);
-    } else {
-      console.log(renameValue);
     }
   };
 
@@ -70,6 +70,23 @@ export default function Layer({ layer }) {
     event.preventDefault();
     setIsContextMenuOpen(!isContextMenuOpen);
     setIsShapeBarOpen(false);
+  };
+
+  const handleGroup = () => {
+    const newGroup = new Anchor({
+      addTo: layer.addTo,
+    });
+    newGroup.name = "My group";
+    newGroup.type = "Anchor";
+    newGroup.id = Math.random();
+    dispatch({ type: "SHAPE_SELECTED", payload: newGroup });
+    dispatch({ type: "ADD_LAYER", payload: newGroup });
+
+    selectedShapes.forEach(shape => {
+      dispatch({ type: "REMOVE_LAYER", payload: shape });
+      newGroup.addChild(shape);
+    });
+    console.log(newGroup.addTo);
   };
 
   // Remove form this component later
@@ -159,6 +176,9 @@ export default function Layer({ layer }) {
             {isVisible ? "Hide the element" : "Show the element"}
           </button>
           <button onClick={handleRemove}>Remove the element</button>
+          {selectedShapes.length > 1 && (
+            <button onClick={handleGroup}>Group selection</button>
+          )}
         </div>
       )}
       {isShapeBarOpen && <ShapeBar parent={layer} />}

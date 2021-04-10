@@ -20,11 +20,11 @@ export function selectedShapesReducer(state = [], action) {
   switch (type) {
     case "SHAPE_SELECTED":
       if (payload.shiftKey) {
-        return [...state, payload.shape.id];
+        return [...state, payload.shape];
       } else if (payload.shiftKey === undefined) {
-        return [payload.id];
+        return [payload];
       }
-      return [payload.shape.id];
+      return [payload.shape];
     default:
       return state;
   }
