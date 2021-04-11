@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { RgbaStringColorPicker } from "react-colorful";
 import { useSelector } from "react-redux";
+import { hexToRgb, rgbToHex } from "../../utils/";
 import styles from "./style.module.css";
 
 export default function InputColor({ callback, slicePath, label }) {
@@ -14,52 +16,60 @@ export default function InputColor({ callback, slicePath, label }) {
     return slice;
   });
   // State of the input field
-  const [value, setValue] = useState("#a9cf54");
-  // Ref of the colorPicker
-  const colorPicker = useRef();
-  // If the selected slice changes outside of the input field we should sinc the input
+  const [colorRGB, setColorRGB] = useState("rgba(169,207,84,1)");
+  const [colorHEX, setColorHEX] = useState(selectSlice);
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
   useEffect(() => {
-    setValue(selectSlice);
+    setColorHEX(selectSlice);
   }, [selectSlice]);
 
-  const id = Math.random();
-
-  const handleChange = ({ target }) => {
-    setValue(target.value);
+  const handleInputColor = ({ target }) => {
+    setColorHEX(target.value);
+    setColorRGB(hexToRgb(target.value));
     callback(
       target.value,
       slicePath[slicePath.length - 1],
       slicePath[slicePath.length - 2]
     );
-    colorPicker.current.style.fill = target.value;
+  };
+
+  const handlePicker = color => {
+    const hex = rgbToHex(color);
+
+    setColorHEX(hex);
+    setColorRGB(color);
+    callback(
+      hex,
+      slicePath[slicePath.length - 1],
+      slicePath[slicePath.length - 2]
+    );
   };
 
   return (
-    <div className={styles.inputColor}>
-      <span>{label}</span>
-      <label htmlFor={id}>
-        <input id={id} type="color" value={value} onChange={handleChange} />
-        <svg
-          width="11"
-          height="11"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.75 10.75H.25V.25h10.5v10.5z"
-            stroke="#fff"
-            strokeOpacity=".6"
-            strokeWidth=".5"
-          />
-          <path
-            ref={colorPicker}
-            d="M10.5.5H.5v10h10V.5z"
-            fill={value.toString()}
-          />
-        </svg>
-      </label>
-
-      <input type="text" value={value} onChange={handleChange} />
+    <div className={styles.colorPicker}>
+      <div>{label}</div>
+      <div>
+        <button
+          style={{ backgroundColor: selectSlice }}
+          onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
+          className={styles.swatch}
+          onBlur={() => setIsColorPickerOpen(false)}
+        />
+        {isColorPickerOpen && (
+          <section className="custom-picker">
+            <RgbaStringColorPicker color={colorRGB} onChange={handlePicker} />
+          </section>
+        )}
+      </div>
+      <div className={styles.flexChild}>
+        <input
+          type="text"
+          value={colorHEX}
+          onChange={handleInputColor}
+          maxLength="9"
+        />
+      </div>
     </div>
   );
 }

@@ -1,35 +1,39 @@
-.inputColor {
-  position: relative;
+.colorPicker {
   display: flex;
   align-items: center;
   width: 100%;
+  position: relative;
 }
 
-.inputColor span {
-  white-space: pre;
-  margin-right: 12px;
+.colorPicker > * + * {
+  margin-left: 6px;
 }
 
-.inputColor input[type="color"] {
-  position: absolute;
-  margin: 0;
-  opacity: 0;
-  width: 0.6875rem;
-  height: 0.6875rem;
-  border: none;
-  cursor: pointer;
+.flexChild {
+  flex: 2;
 }
 
-.inputColor input[type="text"] {
+.colorPicker input[type="text"] {
   width: 100%;
   border: none;
   background: rgba(10, 10, 10, 0.2);
   padding: 2px 6px;
   font-size: 0.75rem;
   color: #ffffff;
-  margin-left: 6px;
 }
 
-.inputColor input[type="text"]:hover {
+.colorPicker input[type="text"]:hover {
   background: rgba(10, 10, 10, 0.4);
+}
+
+.swatch {
+  display: block;
+  height: 12px;
+  width: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0;
+}
+
+.swatch:focus {
+  outline: none;
 }

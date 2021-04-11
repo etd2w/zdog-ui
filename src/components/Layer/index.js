@@ -38,7 +38,7 @@ export default function Layer({ layer }) {
     copyOfLayer.addTo.updateFlatGraph();
 
     copyOfLayer.type = layer.type;
-    copyOfLayer.name = `${layer.type} (copy)`;
+    copyOfLayer.name = `${layer.name} (copy)`;
     copyOfLayer.id = Math.random();
 
     copyOfLayer.children?.forEach((child, index) => {
