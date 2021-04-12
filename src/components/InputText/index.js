@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./style.module.css";
+import utils from "../../styles/utils.module.css";
 
 export default function InputText({ callback, slicePath, label }) {
   // Select a piece of state that the input gonna subscribe to
@@ -84,19 +85,21 @@ export default function InputText({ callback, slicePath, label }) {
   };
 
   return (
-    <label className={styles.input}>
-      <span className={styles.input__label} onMouseDown={handleLabelMouseDown}>
+    <label className={`${utils.flex} ${styles.container}`}>
+      <div className={styles.label} onMouseDown={handleLabelMouseDown}>
         {label}
-      </span>
-      <input
-        className={styles.input__field}
-        ref={inputRef}
-        type="text"
-        value={value}
-        onChange={handleChange}
-        onClick={({ target }) => target.select()}
-        onBlur={applyChange}
-      />
+      </div>
+      <div className={utils.flex2}>
+        <input
+          className={styles.field}
+          ref={inputRef}
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onClick={({ target }) => target.select()}
+          onBlur={applyChange}
+        />
+      </div>
     </label>
   );
 }

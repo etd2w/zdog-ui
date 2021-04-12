@@ -1,8 +1,7 @@
 .table {
-  width: 100%;
+  width: fit-content;
   text-align: left;
   font-size: 12px;
-  /* border-collapse: collapse; */
   border-spacing: 0 4px;
 }
 
@@ -16,7 +15,6 @@
   justify-content: space-between;
   align-items: flex-end;
   color: #ffffff;
-  /* padding: 6px 4px; */
 }
 
 .tbody {
@@ -32,8 +30,28 @@
   align-items: center;
   padding: 6px;
   vertical-align: middle;
+  border: none;
+  margin: 0;
 }
 
 .td > * + * {
   margin-left: 12px;
+}
+
+.fieldset {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  vertical-align: middle;
+  border: none;
+  margin: 0;
+}
+
+.fieldset > * + * {
+  margin-left: 12px;
+}
+
+.legend {
+  float: left;
+  padding: 0;
 }

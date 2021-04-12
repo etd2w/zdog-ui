@@ -165,54 +165,68 @@ export default function ShapeProps() {
             </thead>
             <tbody className={table.tbody}>
               <tr className={table.tr}>
-                <td className={table.td}>
-                  <span>Position</span>
-                  {["x", "y", "z"].map(axis => (
-                    <InputText
-                      callback={changeVector}
-                      slicePath={["shape", "translate", axis]}
-                      label={axis.toUpperCase()}
-                      key={axis}
-                    />
-                  ))}
-                </td>
-              </tr>
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  <span>Rotation</span>
-                  {["x", "y", "z"].map(axis => (
-                    <InputText
-                      callback={changeVector}
-                      slicePath={["shape", "rotate", axis]}
-                      label={axis.toUpperCase()}
-                      key={axis}
-                    />
-                  ))}
-                </td>
-              </tr>
-              <tr className={table.tr}>
-                <td className={table.td}>
-                  {shape.type === "Cone" ||
-                  shape.type === "Hemisphere" ||
-                  shape.type === "Cylinder" ? (
-                    <InputText
-                      callback={scaleBug}
-                      slicePath={["shape", "scale", "x"]}
-                      label="Scale"
-                    />
-                  ) : (
-                    <>
-                      <span>Scale</span>
+                <td>
+                  <form>
+                    <fieldset className={table.fieldset}>
+                      <legend className={table.legend}>Position</legend>
                       {["x", "y", "z"].map(axis => (
                         <InputText
                           callback={changeVector}
-                          slicePath={["shape", "scale", axis]}
+                          slicePath={["shape", "translate", axis]}
                           label={axis.toUpperCase()}
                           key={axis}
                         />
                       ))}
-                    </>
-                  )}
+                    </fieldset>
+                  </form>
+                </td>
+              </tr>
+
+              <tr className={table.tr}>
+                <td>
+                  <form>
+                    <fieldset className={table.fieldset}>
+                      <legend className={table.legend}>Rotation</legend>
+                      {["x", "y", "z"].map(axis => (
+                        <InputText
+                          callback={changeVector}
+                          slicePath={["shape", "rotate", axis]}
+                          label={axis.toUpperCase()}
+                          key={axis}
+                        />
+                      ))}
+                    </fieldset>
+                  </form>
+                </td>
+              </tr>
+
+              <tr className={table.tr}>
+                <td>
+                  <form>
+                    <fieldset className={table.fieldset}>
+                      {shape.type === "Cone" ||
+                      shape.type === "Hemisphere" ||
+                      shape.type === "Cylinder" ? (
+                        <InputText
+                          callback={scaleBug}
+                          slicePath={["shape", "scale", "x"]}
+                          label="Scale"
+                        />
+                      ) : (
+                        <>
+                          <legend className={table.legend}>Scale</legend>
+                          {["x", "y", "z"].map(axis => (
+                            <InputText
+                              callback={changeVector}
+                              slicePath={["shape", "scale", axis]}
+                              label={axis.toUpperCase()}
+                              key={axis}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </fieldset>
+                  </form>
                 </td>
               </tr>
             </tbody>
