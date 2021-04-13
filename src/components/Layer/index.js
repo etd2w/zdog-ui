@@ -7,6 +7,54 @@ import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import ContextBar from "../ContextBar";
 
+// const createListOfShapes = item => {
+//   const list = [];
+//   const parent = item.addTo;
+
+//   parent.children.forEach(child => {
+//     if (item.id !== child.id) {
+//       list.push(child);
+//     }
+//     child.addTo.addTo?.children.forEach(child => {
+//       createListOfShapes(child);
+//     });
+//   });
+
+//   // if (item.addTo.children.length > 1) {
+//   //   item.addTo.children.forEach(child => {
+//   //     list.push(child);
+
+//   //     if (child.addTo.children.length > 1) {
+//   //       child.addTo.children.forEach(child => {
+//   //         createListOfShapes(child);
+//   //       });
+//   //     }
+//   //   });
+//   // }
+
+//   return list;
+// };
+const createListOfShapes = (parent, excludedChild) => {
+  const listOfChildren = [];
+
+  parent.children.forEach(child => {
+    if (excludedChild) {
+      if (child.id !== excludedChild.id) {
+        listOfChildren.push(child);
+      }
+    } else {
+      listOfChildren.push(child);
+    }
+  });
+
+  // Check if the parent has a parent
+  if (parent.addTo) {
+    return createListOfShapes(parent.addTo).concat(listOfChildren);
+  } else {
+    return listOfChildren;
+  }
+};
+
 export default function Layer({ layer }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -203,19 +251,14 @@ export default function Layer({ layer }) {
       )}
       {isListOfShapesOpen && (
         <ContextBar>
-          {layer.addTo.children.map(children => {
-            if (layer.id !== children.id) {
-              return (
-                <button
-                  key={children.id}
-                  onClick={() => handleMove(children, layer)}
-                >
-                  {children.name}
-                </button>
-              );
-            }
-            return null;
-          })}
+          {createListOfShapes(layer.addTo, layer).map(children => (
+            <button
+              key={children.id}
+              onClick={() => handleMove(children, layer)}
+            >
+              {children.name}
+            </button>
+          ))}
         </ContextBar>
       )}
       {isShapeBarOpen && <ShapeBar parent={layer} />}
