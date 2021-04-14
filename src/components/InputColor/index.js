@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { RgbaStringColorPicker } from "react-colorful";
+import { useState } from "react";
 import { useSelector } from "react-redux";
-import { hexToRgb, rgbToHex } from "../../utils/";
+import { rgbToHex } from "../../utils";
+import CheckBoxUI from "../CheckBoxUI";
+import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 
-export default function InputColor({ callback, slicePath, label }) {
-  // Select a piece of state that the input gonna subscribe to
+export default function InputColor({ callback, slicePath, label, checkbox }) {
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -15,20 +15,13 @@ export default function InputColor({ callback, slicePath, label }) {
 
     return slice;
   });
-  // State of the input field
-  const [colorRGB, setColorRGB] = useState("rgba(169,207,84,1)");
-  const [colorHEX, setColorHEX] = useState(selectSlice);
-  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
-  useEffect(() => {
-    setColorHEX(selectSlice);
-  }, [selectSlice]);
+  const [stateOfTheInput, setStateOfTheInput] = useState(selectSlice);
 
-  const handleInputColor = ({ target }) => {
-    setColorHEX(target.value);
-    setColorRGB(hexToRgb(target.value));
+  const handleCheckbox = () => {
+    setStateOfTheInput(!Boolean(stateOfTheInput));
     callback(
-      target.value,
+      !Boolean(stateOfTheInput),
       slicePath[slicePath.length - 1],
       slicePath[slicePath.length - 2]
     );
@@ -37,8 +30,7 @@ export default function InputColor({ callback, slicePath, label }) {
   const handlePicker = color => {
     const hex = rgbToHex(color);
 
-    setColorHEX(hex);
-    setColorRGB(color);
+    setStateOfTheInput(hex);
     callback(
       hex,
       slicePath[slicePath.length - 1],
@@ -46,29 +38,30 @@ export default function InputColor({ callback, slicePath, label }) {
     );
   };
 
+  const handleInput = ({ target }) => {
+    setStateOfTheInput(target.value);
+    setStateOfTheInput(target.value);
+    callback(
+      target.value,
+      slicePath[slicePath.length - 1],
+      slicePath[slicePath.length - 2]
+    );
+  };
+
   return (
     <div className={styles.colorPicker}>
+      {checkbox && (
+        <div>
+          <CheckBoxUI
+            state={Boolean(stateOfTheInput)}
+            onChange={handleCheckbox}
+          />
+        </div>
+      )}
       <div>{label}</div>
+      <ColorPicker onChange={handlePicker} newColor={stateOfTheInput} />
       <div>
-        <button
-          style={{ backgroundColor: selectSlice }}
-          onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}
-          className={styles.swatch}
-          onBlur={() => setIsColorPickerOpen(false)}
-        />
-        {isColorPickerOpen && (
-          <section className="custom-picker">
-            <RgbaStringColorPicker color={colorRGB} onChange={handlePicker} />
-          </section>
-        )}
-      </div>
-      <div className={styles.flexChild}>
-        <input
-          type="text"
-          value={colorHEX}
-          onChange={handleInputColor}
-          maxLength="9"
-        />
+        <input type="text" value={stateOfTheInput} onChange={handleInput} />
       </div>
     </div>
   );

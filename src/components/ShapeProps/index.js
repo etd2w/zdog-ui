@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import InputText from "../InputText";
-import InputColor from "../InputColor";
 import CheckBox from "../CheckBox";
 import PathTable from "../PathTable";
 import section from "../../styles/section.module.css";
 import table from "../../styles/table.module.css";
+import InputColor from "../InputColor";
 
 const shapes = {
   Rect: {
@@ -12,7 +12,7 @@ const shapes = {
       { property: "height", label: "Height" },
       { property: "width", label: "Width" },
     ],
-    style: [],
+    style: [{ property: ["backface"], label: "Back face" }],
   },
   RoundedRect: {
     size: [
@@ -20,7 +20,7 @@ const shapes = {
       { property: "width", label: "Width" },
       { property: "cornerRadius", label: "Corner radius" },
     ],
-    style: [],
+    style: [{ property: ["backface"], label: "Back face" }],
   },
   Ellipse: {
     size: [
@@ -28,18 +28,18 @@ const shapes = {
       { property: "width", label: "Width" },
       { property: "quarters", label: "Quarters" },
     ],
-    style: [],
+    style: [{ property: ["backface"], label: "Back face" }],
   },
   Polygon: {
     size: [
       { property: "radius", label: "Radius" },
       { property: "sides", label: "Sides" },
     ],
-    style: [],
+    style: [{ property: ["backface"], label: "Back face" }],
   },
   Shape: {
     size: [],
-    style: [],
+    style: [{ property: ["backface"], label: "Back face" }],
   },
   Hemisphere: {
     size: [{ property: "diameter", label: "Diameter" }],
@@ -291,6 +291,7 @@ export default function ShapeProps() {
                       />
                     </td>
                   </tr>
+
                   {shapes[shape.type].style.map(({ property, label }) => (
                     <tr className={table.tr} key={property}>
                       <td className={table.td}>
@@ -298,6 +299,7 @@ export default function ShapeProps() {
                           callback={changeColor}
                           slicePath={["shape", ...property]}
                           label={label}
+                          checkbox
                         />
                       </td>
                     </tr>
