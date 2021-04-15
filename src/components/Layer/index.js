@@ -7,33 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import ContextBar from "../ContextBar";
 
-// const createListOfShapes = item => {
-//   const list = [];
-//   const parent = item.addTo;
-
-//   parent.children.forEach(child => {
-//     if (item.id !== child.id) {
-//       list.push(child);
-//     }
-//     child.addTo.addTo?.children.forEach(child => {
-//       createListOfShapes(child);
-//     });
-//   });
-
-//   // if (item.addTo.children.length > 1) {
-//   //   item.addTo.children.forEach(child => {
-//   //     list.push(child);
-
-//   //     if (child.addTo.children.length > 1) {
-//   //       child.addTo.children.forEach(child => {
-//   //         createListOfShapes(child);
-//   //       });
-//   //     }
-//   //   });
-//   // }
-
-//   return list;
-// };
 const createListOfShapes = (parent, excludedChild) => {
   const listOfChildren = [];
 
@@ -79,6 +52,12 @@ export default function Layer({ layer }) {
   const handleVisible = () => {
     setIsVisible(!isVisible);
     layer.visible = !layer.visible;
+    if (layer.children.length > 0) {
+      layer.children.forEach(child => {
+        child.visible = layer.visible;
+        child.updateFlatGraph();
+      });
+    }
   };
 
   const handleCopy = () => {
@@ -261,7 +240,7 @@ export default function Layer({ layer }) {
           ))}
         </ContextBar>
       )}
-      {isShapeBarOpen && <ShapeBar parent={layer} />}
+      {isShapeBarOpen && <ShapeBar parent={layer} onClick={handleExpand} />}
     </li>
   );
 }

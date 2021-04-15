@@ -28,7 +28,7 @@ const defaults = {
   color: "#a9cf54",
 };
 
-export default function ShapeBar({ parent }) {
+export default function ShapeBar({ parent, onClick }) {
   const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
@@ -55,6 +55,10 @@ export default function ShapeBar({ parent }) {
     } else {
       parent.addChild(child);
       parent.updateFlatGraph();
+    }
+
+    if (onClick) {
+      onClick();
     }
   };
 
