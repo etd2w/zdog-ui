@@ -1,4 +1,4 @@
-.button {
+/* .button {
   display: flex;
   align-items: baseline;
   text-transform: uppercase;
@@ -17,4 +17,4 @@
 
 .button > * + * {
   margin-left: 6px;
-}
+} */

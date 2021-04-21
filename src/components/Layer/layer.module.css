@@ -1,0 +1,43 @@
+.layer {
+  position: relative;
+  display: flex;
+  font-size: 11px;
+  background: rgba(146, 134, 134, 0.2);
+  padding: 0.375rem;
+  color: #a9cf54;
+}
+
+.layer * {
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+
+.layer > :nth-child(2) {
+  flex-grow: 1;
+}
+
+.layer:hover {
+  box-shadow: inset 0px 0px 0px 1px bisque;
+}
+
+.layer button {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.layer svg {
+  height: 1rem;
+  width: 1rem;
+  fill: currentColor;
+}
+
+.layer + ul {
+  margin-top: 0.375rem;
+  padding-left: 1.5rem;
+}

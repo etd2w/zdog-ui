@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Illustration } from "zdog";
 import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
-import section from "../../styles/section.module.css";
+import Section from "../../ui/Section/Section";
 
 export default function Canvas() {
   const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export default function Canvas() {
       payload: new Illustration({
         element: ".canvas",
         dragRotate: true,
-        resize: true,
+        // resize: true,
         onDragMove: () => {
           dispatch({ type: "ILLO_CHANGED" });
         },
@@ -45,16 +45,22 @@ export default function Canvas() {
   });
 
   return (
-    <section className={section.canvas}>
-      <header className={section.header}>Canvas</header>
-
-      <article className={section.article}>
-        <div className={styles.container} ref={canvasRef}>
-          <canvas className="canvas" />
-        </div>
-
+    <Section title="Canvas">
+      <div className={styles.container} ref={canvasRef}>
+        <canvas className="canvas" />
         {illo && <CanvasSettings />}
-      </article>
-    </section>
+      </div>
+    </Section>
+
+    // <section className="stack">
+    //   <header className={section.header}>Canvas</header>
+
+    //   <article className={section.article}>
+    // <div className={styles.container} ref={canvasRef}>
+    //   <canvas className="canvas" />
+    // </div>
+
+    //   </article>
+    // </section>
   );
 }

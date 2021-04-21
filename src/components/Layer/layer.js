@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
-import styles from "./style.module.css";
-import utils from "../../styles/utils.module.css";
+import styles from "./layer.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
-import ContextBar from "../ContextBar";
+import { ContextMenu, ContextMenuItem } from "../ContextMenu/ContextMenu";
 
 const createListOfShapes = (parent, excludedChild) => {
   const listOfChildren = [];
@@ -20,7 +19,6 @@ const createListOfShapes = (parent, excludedChild) => {
     }
   });
 
-  // Check if the parent has a parent
   if (parent.addTo) {
     return createListOfShapes(parent.addTo).concat(listOfChildren);
   } else {
@@ -107,10 +105,6 @@ export default function Layer({ layer }) {
     layer.addTo.updateFlatGraph();
   };
 
-  const handleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
   const handleContextMenu = event => {
     event.preventDefault();
     setIsContextMenuOpen(!isContextMenuOpen);
@@ -139,8 +133,48 @@ export default function Layer({ layer }) {
   };
 
   return (
-    <li className={styles.layer}>
-      <div className={styles.body} onContextMenu={handleContextMenu}>
+    <li>
+      <div className={styles.layer} onContextMenu={handleContextMenu}>
+        <div>
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            disabled={!layer.children.length > 0}
+          >
+            <svg
+              transform={isExpanded ? "rotate(90)" : ""}
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill={layer.children.length > 0 ? "#ffffff" : "transparent"}
+                d="M6.333 10.403V5.597c0-.333.426-.5.675-.265l2.543 2.404a.36.36 0 010 .528l-2.543 2.404c-.249.235-.675.068-.675-.265z"
+              />
+            </svg>
+          </button>
+        </div>
+        <div>
+          <button onClick={handleSelect}>{layer.name}</button>
+        </div>
+        <div>
+          <button onClick={handleRemove}>
+            <svg fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill="#c23c2a"
+                d="M11.929 3H4.07C3.48 3 3 3.48 3 4.071v7.858C3 12.52 3.48 13 4.071 13h7.858C12.52 13 13 12.52 13 11.929V4.07C13 3.48 12.52 3 11.929 3zM5.054 8.893a.269.269 0 01-.268-.268v-1.25c0-.147.12-.268.268-.268h5.892c.148 0 .268.12.268.268v1.25c0 .147-.12.268-.268.268H5.054z"
+              />
+            </svg>
+          </button>
+          <button onClick={() => setIsShapeBarOpen(!isShapeBarOpen)}>
+            <svg fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill="#ffffff"
+                d="M11.929 3H4.07C3.48 3 3 3.48 3 4.071v7.858C3 12.52 3.48 13 4.071 13h7.858C12.52 13 13 12.52 13 11.929V4.07C13 3.48 12.52 3 11.929 3zm-.715 5.625c0 .147-.12.268-.268.268H8.893v2.053c0 .148-.12.268-.268.268h-1.25a.269.269 0 01-.268-.268V8.893H5.054a.269.269 0 01-.268-.268v-1.25c0-.147.12-.268.268-.268h2.053V5.054c0-.148.12-.268.268-.268h1.25c.147 0 .268.12.268.268v2.053h2.053c.148 0 .268.12.268.268v1.25z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      {/* <div className={styles.body} onContextMenu={handleContextMenu}>
         <div>
           <button
             onClick={handleExpand}
@@ -209,38 +243,50 @@ export default function Layer({ layer }) {
             </svg>
           </button>
         </div>
-      </div>
-      <ul className={`${styles.children} ${isExpanded ? null : utils.hidden}`}>
-        {children}
-      </ul>
+      </div> */}
+      <ul className={`${isExpanded ? "stack" : "hidden"}`}>{children}</ul>
       {isContextMenuOpen && (
-        <div className={styles.contextMenu}>
-          <button onClick={handleCopy}>Copy the element</button>
-          <button onClick={() => setIsListOfShapesOpen(true)}>
-            Move to ...
-          </button>
-          <button onClick={handleVisible}>
-            {isVisible ? "Hide the element" : "Show the element"}
-          </button>
-          <button onClick={handleRemove}>Remove the element</button>
+        <ContextMenu>
+          <div>
+            <ContextMenuItem onClick={handleCopy}>
+              Copy the element
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleVisible}>
+              Show the element
+            </ContextMenuItem>
+            <ContextMenuItem onClick={handleMove}>
+              Move the element
+            </ContextMenuItem>
+          </div>
+          <div>
+            <ContextMenuItem onClick={handleRemove}>
+              Remove the element
+            </ContextMenuItem>{" "}
+          </div>
           {selectedShapes.length > 1 && (
-            <button onClick={handleGroup}>Group selection</button>
+            <div>
+              <ContextMenuItem onClick={handleRemove}>
+                Group Selection
+              </ContextMenuItem>{" "}
+            </div>
           )}
-        </div>
+        </ContextMenu>
       )}
-      {isListOfShapesOpen && (
-        <ContextBar>
+      {/* {isListOfShapesOpen && (
+        <ContextMenu>
           {createListOfShapes(layer.addTo, layer).map(children => (
-            <button
+            <ContextMenuItem
               key={children.id}
               onClick={() => handleMove(children, layer)}
             >
               {children.name}
-            </button>
+            </ContextMenuItem>
           ))}
-        </ContextBar>
+        </ContextMenu>
+      )} */}
+      {isShapeBarOpen && (
+        <ShapeBar parent={layer} onClick={() => setIsExpanded(true)} />
       )}
-      {isShapeBarOpen && <ShapeBar parent={layer} onClick={handleExpand} />}
     </li>
   );
 }

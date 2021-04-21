@@ -1,0 +1,14 @@
+.row {
+  --space: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.row > * {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.row > * + * {
+  margin-left: var(--space);
+}

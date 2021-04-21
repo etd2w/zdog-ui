@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import CheckBoxUI from "../CheckBoxUI";
+import CheckBoxUI from "../../ui/CheckBox/CheckBox";
 
 export default function CheckBox({ callback, slicePath, label }) {
   const selectSlice = useSelector(state => {

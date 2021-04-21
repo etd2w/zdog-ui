@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { rgbToHex } from "../../utils";
-import CheckBoxUI from "../CheckBoxUI";
+import CheckBoxUI from "../../ui/CheckBox/CheckBox";
 import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 

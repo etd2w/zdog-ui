@@ -1,0 +1,49 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto";
+  overflow-x: hidden;
+  background-color: #1c242d;
+  color: #ffffff;
+  height: 100%;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: currentColor;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+}
+
+input[type="text"] {
+  width: 100%;
+  flex-grow: 1;
+
+  box-shadow: inset 0 0 2px rgb(0 0 0 / 60%);
+  background: #1c242d;
+  border: none;
+  border-radius: 0;
+  color: white;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 16px;
+  padding: 2px 8px;
+}
+
+.inputText input[type="text"]:focus {
+  background: #202933;
+}
+
+:focus {
+  outline: 2px dotted;
+  outline-offset: 0.25rem;
+}

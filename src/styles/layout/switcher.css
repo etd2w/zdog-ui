@@ -1,0 +1,15 @@
+.switcher > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc((1.5rem / 2) * -1);
+}
+
+.switcher > * > * {
+  flex-grow: 1;
+  flex-basis: calc((40rem - (100% - 1.5rem)) * 999);
+  margin: calc(1.5rem / 2);
+}
+
+.switcher > * > :nth-child(2) {
+  flex-grow: 3;
+}

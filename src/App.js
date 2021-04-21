@@ -1,16 +1,16 @@
 import Canvas from "./components/Canvas";
-import ListOfLayers from "./components/ListOfLayers";
+import ListOfLayers from "./components/ListOfLayers/ListOfLayers";
 import ShapeProps from "./components/ShapeProps";
 
 function App() {
   return (
-    <div className="app">
-      <main>
+    <main className="switcher">
+      <div>
         <ListOfLayers />
         <Canvas />
         <ShapeProps />
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 

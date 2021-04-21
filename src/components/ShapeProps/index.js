@@ -5,6 +5,8 @@ import PathTable from "../PathTable";
 import section from "../../styles/section.module.css";
 import table from "../../styles/table.module.css";
 import InputColor from "../InputColor";
+import Section from "../../ui/Section/Section";
+import { Table, TableRow } from "../../ui/Table/Table";
 
 const shapes = {
   Rect: {
@@ -147,181 +149,116 @@ export default function ShapeProps() {
     }
   };
 
+  const header = shape.id && (
+    <small className={section.small}>{shape.type}</small>
+  );
+
   return (
-    <section className={section.properties} key={shape.id}>
-      <header className={section.header}>
-        Shape
-        {shape.id && <small className={section.small}>{shape.type}</small>}
-      </header>
-
-      <article className={section.article}>
-        {shape.id && (
-          // Table: Transform
-          <table className={table.table}>
-            <thead className={table.thead}>
-              <tr>
-                <th className={table.th}>Transform</th>
-              </tr>
-            </thead>
-            <tbody className={table.tbody}>
-              <tr className={table.tr}>
-                <td>
-                  <form>
-                    <fieldset className={table.fieldset}>
-                      <legend className={table.legend}>Position</legend>
-                      {["x", "y", "z"].map(axis => (
-                        <InputText
-                          callback={changeVector}
-                          slicePath={["shape", "translate", axis]}
-                          label={axis.toUpperCase()}
-                          key={axis}
-                        />
-                      ))}
-                    </fieldset>
-                  </form>
-                </td>
-              </tr>
-
-              <tr className={table.tr}>
-                <td>
-                  <form>
-                    <fieldset className={table.fieldset}>
-                      <legend className={table.legend}>Rotation</legend>
-                      {["x", "y", "z"].map(axis => (
-                        <InputText
-                          callback={changeVector}
-                          slicePath={["shape", "rotate", axis]}
-                          label={axis.toUpperCase()}
-                          key={axis}
-                        />
-                      ))}
-                    </fieldset>
-                  </form>
-                </td>
-              </tr>
-
-              <tr className={table.tr}>
-                <td>
-                  <form>
-                    <fieldset className={table.fieldset}>
-                      {shape.type === "Cone" ||
-                      shape.type === "Hemisphere" ||
-                      shape.type === "Cylinder" ? (
-                        <InputText
-                          callback={scaleBug}
-                          slicePath={["shape", "scale", "x"]}
-                          label="Scale"
-                        />
-                      ) : (
-                        <>
-                          <legend className={table.legend}>Scale</legend>
-                          {["x", "y", "z"].map(axis => (
-                            <InputText
-                              callback={changeVector}
-                              slicePath={["shape", "scale", axis]}
-                              label={axis.toUpperCase()}
-                              key={axis}
-                            />
-                          ))}
-                        </>
-                      )}
-                    </fieldset>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-
-            {/* Table: Size */}
-            {shapes[shape.type] && (
-              <>
-                <thead className={table.thead}>
-                  <tr>
-                    <th className={table.th}>Size</th>
-                  </tr>
-                </thead>
-                <tbody className={table.tbody}>
-                  {shapes[shape.type].size.map(({ property, label }) => (
-                    <tr className={table.tr} key={property}>
-                      <td className={table.td}>
-                        <InputText
-                          callback={changeProperty}
-                          slicePath={["shape", property]}
-                          label={label}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                  <tr className={table.tr}>
-                    <td className={table.td}>
-                      <CheckBox
-                        callback={toggleStroke}
-                        slicePath={["shape", "stroke"]}
-                      />
-                      <InputText
-                        callback={changeStroke}
-                        slicePath={["shape", "stroke"]}
-                        label="Stroke"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-
-                {/* Table: Style */}
-                <thead className={table.thead}>
-                  <tr>
-                    <th className={table.th}>Style</th>
-                  </tr>
-                </thead>
-                <tbody className={table.tbody}>
-                  <tr className={table.tr}>
-                    <td className={table.td}>
-                      <CheckBox
-                        callback={toggleProperty}
-                        slicePath={["shape", "fill"]}
-                        label="Fill"
-                      />
-                    </td>
-                  </tr>
-                  <tr className={table.tr}>
-                    <td className={table.td}>
-                      <InputColor
-                        callback={changeColor}
-                        slicePath={["shape", "color"]}
-                        label="Color"
-                      />
-                    </td>
-                  </tr>
-
-                  {shapes[shape.type].style.map(({ property, label }) => (
-                    <tr className={table.tr} key={property}>
-                      <td className={table.td}>
-                        <InputColor
-                          callback={changeColor}
-                          slicePath={["shape", ...property]}
-                          label={label}
-                          checkbox
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-                <PathTable>
-                  {/* Property: Closed */}
-                  <tr className={table.tr}>
-                    <td className={table.td}>
-                      <CheckBox
-                        callback={toggleProperty}
-                        slicePath={["shape", "closed"]}
-                        label="Closed"
-                      />
-                    </td>
-                  </tr>
-                </PathTable>
-              </>
+    <Section title="Properties" header={header}>
+      {shape.id && (
+        <Table name="Transform">
+          <TableRow label="Position">
+            {["x", "y", "z"].map(axis => (
+              <InputText
+                callback={changeVector}
+                slicePath={["shape", "translate", axis]}
+                label={axis.toUpperCase()}
+                key={axis}
+              />
+            ))}
+          </TableRow>
+          <TableRow label="Rotation">
+            {["x", "y", "z"].map(axis => (
+              <InputText
+                callback={changeVector}
+                slicePath={["shape", "rotate", axis]}
+                label={axis.toUpperCase()}
+                key={axis}
+              />
+            ))}
+          </TableRow>
+          <TableRow label="Scale">
+            {shape.type === "Cone" ||
+            shape.type === "Hemisphere" ||
+            shape.type === "Cylinder" ? (
+              <InputText
+                callback={scaleBug}
+                slicePath={["shape", "scale", "x"]}
+              />
+            ) : (
+              ["x", "y", "z"].map(axis => (
+                <InputText
+                  callback={changeVector}
+                  slicePath={["shape", "scale", axis]}
+                  label={axis.toUpperCase()}
+                  key={axis}
+                />
+              ))
             )}
-          </table>
-        )}
-      </article>
-    </section>
+          </TableRow>
+        </Table>
+      )}
+
+      {shapes[shape.type] && (
+        <>
+          <Table name="Size">
+            {shapes[shape.type].size.map(({ property, label }) => (
+              <TableRow label={label} key={property}>
+                <InputText
+                  callback={changeProperty}
+                  slicePath={["shape", property]}
+                />
+              </TableRow>
+            ))}
+            <TableRow label="Stroke">
+              <CheckBox
+                callback={toggleStroke}
+                slicePath={["shape", "stroke"]}
+              />
+              <InputText
+                callback={changeStroke}
+                slicePath={["shape", "stroke"]}
+              />
+            </TableRow>
+          </Table>
+
+          <Table name="Style">
+            <TableRow label="Fill">
+              <CheckBox
+                callback={toggleProperty}
+                slicePath={["shape", "fill"]}
+              />
+            </TableRow>
+            <TableRow label="Fill">
+              <InputColor
+                callback={changeColor}
+                slicePath={["shape", "color"]}
+                label="Color"
+              />
+            </TableRow>
+            {shapes[shape.type].style.map(({ property, label }) => (
+              <TableRow key={property} label={label}>
+                <InputColor
+                  callback={changeColor}
+                  slicePath={["shape", ...property]}
+                  checkbox
+                />
+              </TableRow>
+            ))}
+          </Table>
+          <PathTable>
+            <tr className={table.tr}>
+              <td className={table.td}>
+                <CheckBox
+                  callback={toggleProperty}
+                  slicePath={["shape", "closed"]}
+                  label="Closed"
+                />
+              </td>
+            </tr>
+          </PathTable>
+        </>
+      )}
+    </Section>
   );
 }

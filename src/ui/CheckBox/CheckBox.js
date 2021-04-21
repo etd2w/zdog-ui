@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./style.module.css";
+import styles from "./checkBox.module.css";
 
 export default function CheckBoxUI({ state, onChange }) {
   const [value, setValue] = useState(true);

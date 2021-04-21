@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./style.module.css";
-import utils from "../../styles/utils.module.css";
 
 export default function InputText({ callback, slicePath, label }) {
   // Select a piece of state that the input gonna subscribe to
@@ -50,15 +49,12 @@ export default function InputText({ callback, slicePath, label }) {
   };
 
   const handleLabelMouseDown = event => {
-    let lastPos = event.pageX;
+    let startCoordinate = event.clientX;
 
     const handleMouseMove = event => {
-      if (event.pageX < lastPos) {
-        setValue(value => parseInt(value) - 1);
-      } else {
-        setValue(value => parseInt(value) + 1);
-      }
-      lastPos = event.pageX;
+      const currentCoordinate = event.clientX;
+
+      setValue(value + currentCoordinate - startCoordinate);
       if (slicePath[1] === "path") {
         callback(parseFloat(inputRef.current.value), slicePath);
       } else {
@@ -85,13 +81,10 @@ export default function InputText({ callback, slicePath, label }) {
   };
 
   return (
-    <label className={`${utils.flex} ${styles.container}`}>
-      <div className={styles.label} onMouseDown={handleLabelMouseDown}>
-        {label}
-      </div>
-      <div className={utils.flex2}>
+    <label className={`${styles.inputText}`}>
+      {label && <span onMouseDown={handleLabelMouseDown}>{label}</span>}
+      <div>
         <input
-          className={styles.field}
           ref={inputRef}
           type="text"
           value={value}
