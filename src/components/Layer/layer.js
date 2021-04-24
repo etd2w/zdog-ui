@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
 import styles from "./layer.module.css";
@@ -153,7 +153,19 @@ export default function Layer({ layer }) {
           </button>
         </div>
         <div>
-          <button onClick={handleSelect}>{layer.name}</button>
+          {isRenaming ? (
+            <input
+              autoFocus
+              type="text"
+              onBlur={handleRename}
+              value={renameValue}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <button onClick={handleSelect} onDoubleClick={handleRename}>
+              {layer.name}
+            </button>
+          )}
         </div>
         <div>
           <button onClick={handleRemove}>
@@ -174,105 +186,38 @@ export default function Layer({ layer }) {
           </button>
         </div>
       </div>
-      {/* <div className={styles.body} onContextMenu={handleContextMenu}>
-        <div>
-          <button
-            onClick={handleExpand}
-            className={
-              layer.children.length &&
-              layer.children[layer.children.length - 1].id
-                ? null
-                : utils.invisible
-            }
-          >
-            <svg
-              width="9"
-              height="9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              transform={isExpanded ? "rotate(90)" : ""}
-            >
-              <path d="M5.5 3.5l-5 3v-6l5 3z" fill="#fff" />
-            </svg>
-          </button>
-
-          <button
-            onClick={handleSelect}
-            onDoubleClick={handleRename}
-            className={isRenaming ? utils.hidden : styles.selectButton}
-          >
-            {renameValue}
-          </button>
-
-          <input
-            type="text"
-            className={isRenaming ? null : utils.hidden}
-            onBlur={handleRename}
-            value={renameValue}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <button className={styles.button} onClick={handleRemove}>
-            <svg
-              width="9"
-              height="9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
-                fill="#C23C2A"
-              />
-            </svg>
-          </button>
-          <button
-            className={styles.btnAdd}
-            onClick={() => setIsShapeBarOpen(!isShapeBarOpen)}
-          >
-            <svg
-              width="9"
-              height="9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zm-.643 5.063a.242.242 0 01-.241.24H5.304v1.849a.242.242 0 01-.242.24H3.938a.242.242 0 01-.24-.24V5.304H1.847a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h1.848V1.847c0-.132.109-.24.241-.24h1.126c.132 0 .24.108.24.24v1.848h1.849c.132 0 .24.109.24.241v1.126z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
-        </div>
-      </div> */}
       <ul className={`${isExpanded ? "stack" : "hidden"}`}>{children}</ul>
       {isContextMenuOpen && (
         <ContextMenu>
           <div>
+            <ContextMenuItem onClick={handleRename}>
+              Rename the element
+            </ContextMenuItem>
             <ContextMenuItem onClick={handleCopy}>
               Copy the element
             </ContextMenuItem>
             <ContextMenuItem onClick={handleVisible}>
-              Show the element
+              {isVisible ? "Hide the element" : "Show the element"}
             </ContextMenuItem>
-            <ContextMenuItem onClick={handleMove}>
+            <ContextMenuItem onClick={() => setIsListOfShapesOpen(true)}>
               Move the element
             </ContextMenuItem>
           </div>
           <div>
             <ContextMenuItem onClick={handleRemove}>
               Remove the element
-            </ContextMenuItem>{" "}
+            </ContextMenuItem>
           </div>
           {selectedShapes.length > 1 && (
             <div>
-              <ContextMenuItem onClick={handleRemove}>
+              <ContextMenuItem onClick={handleGroup}>
                 Group Selection
-              </ContextMenuItem>{" "}
+              </ContextMenuItem>
             </div>
           )}
         </ContextMenu>
       )}
-      {/* {isListOfShapesOpen && (
+      {isListOfShapesOpen && (
         <ContextMenu>
           {createListOfShapes(layer.addTo, layer).map(children => (
             <ContextMenuItem
@@ -283,7 +228,7 @@ export default function Layer({ layer }) {
             </ContextMenuItem>
           ))}
         </ContextMenu>
-      )} */}
+      )}
       {isShapeBarOpen && (
         <ShapeBar parent={layer} onClick={() => setIsExpanded(true)} />
       )}

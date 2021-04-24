@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Zdog from "zdog";
 import { ContextMenu, ContextMenuItem } from "../ContextMenu/ContextMenu";
-import styles from "./style.module.css";
 
 const shapeTypes = [
   ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],

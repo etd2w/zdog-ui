@@ -1,11 +1,11 @@
-/* .swatch {
+.swatch {
   display: block;
-  height: 12px;
-  width: 12px;
+  height: 11px;
+  width: 11px;
   border: 1px solid rgba(255, 255, 255, 0.6);
   padding: 0;
 }
 
 .swatch:focus {
   outline: none;
-} */
+}

@@ -8,16 +8,3 @@
 .colorPicker > * + * {
   margin-left: 6px;
 }
-
-.colorPicker input[type="text"] {
-  width: 100%;
-  border: none;
-  background: rgba(10, 10, 10, 0.2);
-  padding: 2px 6px;
-  font-size: 0.75rem;
-  color: #ffffff;
-}
-
-.colorPicker input[type="text"]:hover {
-  background: rgba(10, 10, 10, 0.4);
-}

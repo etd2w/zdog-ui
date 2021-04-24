@@ -58,7 +58,6 @@ export default function InputColor({ callback, slicePath, label, checkbox }) {
           />
         </div>
       )}
-      <div>{label}</div>
       <ColorPicker onChange={handlePicker} newColor={stateOfTheInput} />
       <div>
         <input type="text" value={stateOfTheInput} onChange={handleInput} />

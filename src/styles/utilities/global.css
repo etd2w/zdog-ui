@@ -6,6 +6,10 @@ body {
   height: 100%;
 }
 
+main {
+  height: 100%;
+}
+
 h1,
 h2,
 h3 {
@@ -16,13 +20,7 @@ a {
   color: currentColor;
 }
 
-table {
-  border-collapse: collapse;
-}
-
-th {
-  text-align: left;
-}
+/* Input */
 
 input[type="text"] {
   width: 100%;
@@ -46,4 +44,90 @@ input[type="text"] {
 :focus {
   outline: 2px dotted;
   outline-offset: 0.25rem;
+}
+
+/* Table */
+
+table {
+  border-collapse: collapse;
+}
+
+th:first-child {
+  padding-left: 0.375rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255);
+}
+
+th:nth-child(2) {
+  position: relative;
+  display: flex;
+  font-size: 0.75rem;
+  justify-content: flex-end;
+}
+
+tbody tr {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+tbody tr:nth-child(2) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+td {
+  white-space: nowrap;
+  font-size: 0.75rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  padding-right: 0.375rem;
+}
+
+td:first-child {
+  padding-left: 0.375rem;
+  color: #a9cf54;
+}
+
+td:nth-child(2) {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  color: #ffffff;
+}
+
+td > * + * {
+  margin-left: 0.375rem;
+}
+
+button {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-weight: 400;
+  text-align: end;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button > * + * {
+  margin-left: 0.375rem;
+}
+
+/*  Canvas */
+
+.canvas {
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
 }

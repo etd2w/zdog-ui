@@ -1,7 +1,7 @@
 .layer {
   position: relative;
   display: flex;
-  font-size: 11px;
+  font-size: 0.75rem;
   background: rgba(146, 134, 134, 0.2);
   padding: 0.375rem;
   color: #a9cf54;
@@ -15,6 +15,7 @@
 
 .layer > :nth-child(2) {
   flex-grow: 1;
+  user-select: none;
 }
 
 .layer:hover {
