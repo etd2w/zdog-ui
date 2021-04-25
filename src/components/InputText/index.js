@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.css";
 
-export default function InputText({ callback, slicePath, label }) {
-  // Select a piece of state that the input gonna subscribe to
+export default function InputText({ callback, slicePath, id }) {
+  const dispatch = useDispatch();
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -13,7 +13,7 @@ export default function InputText({ callback, slicePath, label }) {
 
     return slice;
   });
-  // State of the input field
+
   const [value, setValue] = useState(() => {
     if (typeof selectSlice !== "number") return;
 
@@ -21,9 +21,9 @@ export default function InputText({ callback, slicePath, label }) {
       return Math.round(selectSlice * (180 / Math.PI));
     } else return selectSlice;
   });
-  // Ref of the input
+
   const inputRef = useRef();
-  // If the selected slice changes outside of the input field we should sinc the input
+
   useEffect(() => {
     if (typeof selectSlice !== "number") return;
 
@@ -33,7 +33,7 @@ export default function InputText({ callback, slicePath, label }) {
       setValue(selectSlice);
     }
   }, [selectSlice, slicePath]);
-  // apply the change to the selected slice
+
   const applyChange = ({ target }) => {
     const vector = slicePath[slicePath.length - 2];
     const property = slicePath[slicePath.length - 1];
@@ -42,57 +42,98 @@ export default function InputText({ callback, slicePath, label }) {
     } else {
       callback(parseFloat(target.value), property, vector);
     }
+    dispatch({ type: "SHAPE_CHANGED" });
   };
 
   const handleChange = ({ target }) => {
     setValue(target.value);
   };
 
-  const handleLabelMouseDown = event => {
-    let startCoordinate = event.clientX;
+  return (
+    <div className={`${styles.inputText}`}>
+      <input
+        id={id}
+        ref={inputRef}
+        type="text"
+        value={value}
+        onChange={handleChange}
+        onFocus={({ target }) => target.select()}
+        onBlur={applyChange}
+      />
+    </div>
+  );
+}
 
-    const handleMouseMove = event => {
+export function Label({ id, children, slicePath }) {
+  const element = useSelector(state => state[slicePath[0]]);
+  const selectSlice = useSelector(state => {
+    let slice = state;
+
+    slicePath.forEach(property => {
+      slice = slice[property];
+    });
+
+    return slice;
+  });
+
+  const [value, setValue] = useState(() => {
+    if (typeof selectSlice !== "number") return;
+
+    if (slicePath[slicePath.length - 2] === "rotate") {
+      return Math.round(selectSlice * (180 / Math.PI));
+    } else return selectSlice;
+  });
+
+  useEffect(() => {
+    if (typeof selectSlice !== "number") return;
+
+    if (slicePath[slicePath.length - 2] === "rotate") {
+      setValue(Math.round(selectSlice * (180 / Math.PI)));
+    } else {
+      setValue(selectSlice);
+    }
+  }, [selectSlice, slicePath]);
+
+  const handleMouseDown = event => {
+    const input = document.getElementById(id);
+    const startCoordinate = event.clientX;
+    let mouseMoveListener;
+
+    const mouseUpListener = () => {
+      document.removeEventListener("mousemove", mouseMoveListener);
+    };
+
+    mouseMoveListener = event => {
       const currentCoordinate = event.clientX;
-
+      input.value = value + currentCoordinate - startCoordinate;
       setValue(value + currentCoordinate - startCoordinate);
-      if (slicePath[1] === "path") {
-        callback(parseFloat(inputRef.current.value), slicePath);
+
+      if (slicePath[slicePath.length - 2] === "rotate") {
+        element[slicePath[slicePath.length - 2]][
+          slicePath[slicePath.length - 1]
+        ] = ((value + currentCoordinate - startCoordinate) * Math.PI) / 180;
+      } else if (slicePath[slicePath.length - 2] !== "shape") {
+        element[slicePath[slicePath.length - 2]][
+          slicePath[slicePath.length - 1]
+        ] = value + currentCoordinate - startCoordinate;
       } else {
-        callback(
-          parseFloat(inputRef.current.value),
-          slicePath[slicePath.length - 1],
-          slicePath[slicePath.length - 2]
-        );
+        console.log(slicePath[slicePath.length - 2]);
+        element[slicePath[slicePath.length - 1]] =
+          value + currentCoordinate - startCoordinate;
+      }
+
+      if (element.updatePath) {
+        element.updatePath();
       }
     };
 
-    document.documentElement.style.cursor = "ew-resize";
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener(
-      "mouseup",
-      () => {
-        document.documentElement.style.cursor = "default";
-        inputRef.current.blur();
-        window.removeEventListener("mousemove", handleMouseMove);
-      },
-      { once: true }
-    );
+    document.addEventListener("mousemove", mouseMoveListener);
+    document.addEventListener("mouseup", mouseUpListener);
   };
 
   return (
-    <label className={`${styles.inputText}`}>
-      {label && <span onMouseDown={handleLabelMouseDown}>{label}</span>}
-      <div>
-        <input
-          ref={inputRef}
-          type="text"
-          value={value}
-          onChange={handleChange}
-          onClick={({ target }) => target.select()}
-          onBlur={applyChange}
-        />
-      </div>
+    <label htmlFor={id} onMouseDown={handleMouseDown} className={styles.label}>
+      {children}
     </label>
   );
 }

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
-import InputText from "../InputText";
+import InputText, { Label } from "../InputText";
 import styles from "./style.module.css";
 
 export default function CanvasSettings() {
@@ -58,12 +58,19 @@ export default function CanvasSettings() {
             <td>Rotation</td>
             <td>
               {["x", "y", "z"].map(axis => (
-                <InputText
-                  callback={handleRotate}
-                  slicePath={["illo", "rotate", axis]}
-                  label={axis.toUpperCase()}
-                  key={axis}
-                />
+                <>
+                  <Label
+                    id={`rotateCanvas${axis}`}
+                    slicePath={["illo", "rotate", axis]}
+                  >
+                    {axis.toUpperCase()}
+                  </Label>
+                  <InputText
+                    callback={handleRotate}
+                    slicePath={["illo", "rotate", axis]}
+                    id={`rotateCanvas${axis}`}
+                  />
+                </>
               ))}
             </td>
           </tr>

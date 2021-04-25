@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import InputText from "../InputText";
+import InputText, { Label } from "../InputText";
 import CheckBox from "../CheckBox";
 import PathTable from "../PathTable";
 import section from "../../styles/section.module.css";
@@ -169,12 +169,20 @@ export default function ShapeProps() {
                 <td>Position</td>
                 <td>
                   {["x", "y", "z"].map(axis => (
-                    <InputText
-                      callback={changeVector}
-                      slicePath={["shape", "translate", axis]}
-                      label={axis.toUpperCase()}
-                      key={axis}
-                    />
+                    <>
+                      <Label
+                        slicePath={["shape", "translate", axis]}
+                        id={`translate${axis}`}
+                      >
+                        {axis.toUpperCase()}
+                      </Label>
+                      <InputText
+                        callback={changeVector}
+                        slicePath={["shape", "translate", axis]}
+                        key={axis}
+                        id={`translate${axis}`}
+                      />
+                    </>
                   ))}
                 </td>
               </tr>
@@ -182,17 +190,35 @@ export default function ShapeProps() {
                 <td>Rotation</td>
                 <td>
                   {["x", "y", "z"].map(axis => (
-                    <InputText
-                      callback={changeVector}
-                      slicePath={["shape", "rotate", axis]}
-                      label={axis.toUpperCase()}
-                      key={axis}
-                    />
+                    <>
+                      <Label
+                        slicePath={["shape", "rotate", axis]}
+                        id={`rotate${axis}`}
+                      >
+                        {axis.toUpperCase()}
+                      </Label>
+                      <InputText
+                        callback={changeVector}
+                        slicePath={["shape", "rotate", axis]}
+                        key={axis}
+                        id={`rotate${axis}`}
+                      />
+                    </>
                   ))}
                 </td>
               </tr>
               <tr>
-                <td>Scale</td>
+                <td>
+                  {shape.type === "Cone" ||
+                  shape.type === "Hemisphere" ||
+                  shape.type === "Cylinder" ? (
+                    <Label slicePath={["shape", "scale", "x"]} id="scalex">
+                      Scale
+                    </Label>
+                  ) : (
+                    "Scale"
+                  )}
+                </td>
                 <td>
                   {shape.type === "Cone" ||
                   shape.type === "Hemisphere" ||
@@ -200,15 +226,24 @@ export default function ShapeProps() {
                     <InputText
                       callback={scaleBug}
                       slicePath={["shape", "scale", "x"]}
+                      id="scalex"
                     />
                   ) : (
                     ["x", "y", "z"].map(axis => (
-                      <InputText
-                        callback={changeVector}
-                        slicePath={["shape", "scale", axis]}
-                        label={axis.toUpperCase()}
-                        key={axis}
-                      />
+                      <>
+                        <Label
+                          slicePath={["shape", "scale", axis]}
+                          id={`scale${axis}`}
+                        >
+                          {axis.toUpperCase()}
+                        </Label>
+                        <InputText
+                          callback={changeVector}
+                          slicePath={["shape", "scale", axis]}
+                          key={axis}
+                          id={`scale${axis}`}
+                        />
+                      </>
                     ))
                   )}
                 </td>
@@ -230,9 +265,14 @@ export default function ShapeProps() {
             <tbody>
               {shapes[shape.type].size.map(({ property, label }) => (
                 <tr key={property}>
-                  <td>{label}</td>
+                  <td>
+                    <Label id={property} slicePath={["shape", property]}>
+                      {label}
+                    </Label>
+                  </td>
                   <td>
                     <InputText
+                      id={property}
                       callback={changeProperty}
                       slicePath={["shape", property]}
                     />
@@ -240,7 +280,11 @@ export default function ShapeProps() {
                 </tr>
               ))}
               <tr>
-                <td>Stroke</td>
+                <td>
+                  <Label id={111} slicePath={["shape", "stroke"]}>
+                    Stroke
+                  </Label>
+                </td>
                 <td>
                   <CheckBox
                     callback={toggleStroke}
@@ -249,6 +293,7 @@ export default function ShapeProps() {
                   <InputText
                     callback={changeStroke}
                     slicePath={["shape", "stroke"]}
+                    id={111}
                   />
                 </td>
               </tr>
@@ -309,23 +354,5 @@ export default function ShapeProps() {
         )}
       </table>
     </Section>
-
-    // <Section title="Properties" header={header}>
-    //   {shapes[shape.type] && (
-    //     <>
-    //       <PathTable>
-    //         <tr className={table.tr}>
-    //           <td className={table.td}>
-    //             <CheckBox
-    //               callback={toggleProperty}
-    //               slicePath={["shape", "closed"]}
-    //               label="Closed"
-    //             />
-    //           </td>
-    //         </tr>
-    //       </PathTable>
-    //     </>
-    //   )}
-    // </Section>
   );
 }

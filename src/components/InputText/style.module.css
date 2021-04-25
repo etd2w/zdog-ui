@@ -32,3 +32,8 @@
 .inputText input[type="text"]:focus {
   background: #202933;
 } */
+
+.label {
+  cursor: ew-resize;
+  user-select: none;
+}

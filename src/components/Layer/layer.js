@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
 import styles from "./layer.module.css";
