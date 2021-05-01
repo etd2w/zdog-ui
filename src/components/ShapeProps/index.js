@@ -5,6 +5,7 @@ import PathTable from "../PathTable";
 import section from "../../styles/section.module.css";
 import InputColor from "../InputColor";
 import Section from "../../ui/Section/Section";
+import { Fragment } from "react";
 
 const shapes = {
   Rect: {
@@ -169,7 +170,7 @@ export default function ShapeProps() {
                 <td>Position</td>
                 <td>
                   {["x", "y", "z"].map(axis => (
-                    <>
+                    <Fragment key={axis}>
                       <Label
                         slicePath={["shape", "translate", axis]}
                         id={`translate${axis}`}
@@ -179,10 +180,9 @@ export default function ShapeProps() {
                       <InputText
                         callback={changeVector}
                         slicePath={["shape", "translate", axis]}
-                        key={axis}
                         id={`translate${axis}`}
                       />
-                    </>
+                    </Fragment>
                   ))}
                 </td>
               </tr>
@@ -190,7 +190,7 @@ export default function ShapeProps() {
                 <td>Rotation</td>
                 <td>
                   {["x", "y", "z"].map(axis => (
-                    <>
+                    <Fragment key={axis}>
                       <Label
                         slicePath={["shape", "rotate", axis]}
                         id={`rotate${axis}`}
@@ -200,10 +200,9 @@ export default function ShapeProps() {
                       <InputText
                         callback={changeVector}
                         slicePath={["shape", "rotate", axis]}
-                        key={axis}
                         id={`rotate${axis}`}
                       />
-                    </>
+                    </Fragment>
                   ))}
                 </td>
               </tr>
@@ -230,7 +229,7 @@ export default function ShapeProps() {
                     />
                   ) : (
                     ["x", "y", "z"].map(axis => (
-                      <>
+                      <Fragment key={axis}>
                         <Label
                           slicePath={["shape", "scale", axis]}
                           id={`scale${axis}`}
@@ -240,10 +239,9 @@ export default function ShapeProps() {
                         <InputText
                           callback={changeVector}
                           slicePath={["shape", "scale", axis]}
-                          key={axis}
                           id={`scale${axis}`}
                         />
-                      </>
+                      </Fragment>
                     ))
                   )}
                 </td>

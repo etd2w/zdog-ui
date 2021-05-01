@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
@@ -58,7 +59,7 @@ export default function CanvasSettings() {
             <td>Rotation</td>
             <td>
               {["x", "y", "z"].map(axis => (
-                <>
+                <Fragment key={axis}>
                   <Label
                     id={`rotateCanvas${axis}`}
                     slicePath={["illo", "rotate", axis]}
@@ -70,7 +71,7 @@ export default function CanvasSettings() {
                     slicePath={["illo", "rotate", axis]}
                     id={`rotateCanvas${axis}`}
                   />
-                </>
+                </Fragment>
               ))}
             </td>
           </tr>

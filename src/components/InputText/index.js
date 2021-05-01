@@ -112,12 +112,17 @@ export function Label({ id, children, slicePath }) {
         element[slicePath[slicePath.length - 2]][
           slicePath[slicePath.length - 1]
         ] = ((value + currentCoordinate - startCoordinate) * Math.PI) / 180;
-      } else if (slicePath[slicePath.length - 2] !== "shape") {
+      } else if (
+        slicePath[slicePath.length - 2] !== "shape" &&
+        slicePath[1] !== "path"
+      ) {
         element[slicePath[slicePath.length - 2]][
           slicePath[slicePath.length - 1]
         ] = value + currentCoordinate - startCoordinate;
+      } else if (slicePath[1] === "path") {
+        element.path[slicePath[2]][slicePath[3]][slicePath[4]] =
+          value + currentCoordinate - startCoordinate;
       } else {
-        console.log(slicePath[slicePath.length - 2]);
         element[slicePath[slicePath.length - 1]] =
           value + currentCoordinate - startCoordinate;
       }
