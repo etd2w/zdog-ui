@@ -9,3 +9,39 @@
 .swatch:focus {
   outline: none;
 }
+
+.customPicker :global .react-colorful {
+  position: absolute !important;
+  top: 20px !important;
+  left: 11px !important;
+  padding: 0 0 16px 0 !important;
+  background: #ffffff !important;
+  text-shadow: 1px 1px 2px black !important;
+  z-index: 1;
+}
+
+.customPicker :global .react-colorful > * + * {
+  margin-top: 1rem;
+}
+
+.customPicker :global .react-colorful__saturation-pointer,
+.customPicker :global .react-colorful__alpha-pointer,
+.customPicker :global .react-colorful__hue-pointer {
+  width: 12px;
+  height: 12px;
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+}
+
+.customPicker :global .react-colorful__saturation {
+  border: none;
+  border-radius: 0;
+}
+
+.customPicker :global .react-colorful__hue,
+.customPicker :global .react-colorful__alpha {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  height: 10px;
+  border-radius: 0;
+}

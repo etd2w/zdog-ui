@@ -5,7 +5,7 @@ import CheckBoxUI from "../../ui/CheckBox/CheckBox";
 import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 
-export default function InputColor({ callback, slicePath, label, checkbox }) {
+export default function InputColor({ callback, slicePath, checkbox }) {
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -40,7 +40,6 @@ export default function InputColor({ callback, slicePath, label, checkbox }) {
 
   const handleInput = ({ target }) => {
     setStateOfTheInput(target.value);
-    setStateOfTheInput(target.value);
     callback(
       target.value,
       slicePath[slicePath.length - 1],
@@ -59,9 +58,7 @@ export default function InputColor({ callback, slicePath, label, checkbox }) {
         </div>
       )}
       <ColorPicker onChange={handlePicker} newColor={stateOfTheInput} />
-      <div>
-        <input type="text" value={stateOfTheInput} onChange={handleInput} />
-      </div>
+      <input type="text" value={stateOfTheInput} onChange={handleInput} />
     </div>
   );
 }
