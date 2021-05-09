@@ -35,6 +35,7 @@ export default function Canvas() {
         onDragMove: () => {
           dispatch({ type: "ILLO_CHANGED" });
         },
+        ...JSON.parse(localStorage.getItem("illo")),
       });
 
       const children = JSON.parse(localStorage.getItem("illo")).children;

@@ -4,7 +4,25 @@ import ShapeBar from "../ShapeBar";
 import styles from "./layer.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
+import Zdog from "zdog";
 import { ContextMenu, ContextMenuItem } from "../ContextMenu/ContextMenu";
+
+const revive = child => {
+  const newChild = new Zdog[child.type]({ ...child });
+  newChild.id = child.id;
+  newChild.name = child.name;
+  newChild.type = child.type;
+
+  if (child.children) {
+    child.children.forEach(item => {
+      if (item.id) {
+        newChild.addChild(revive(item));
+      }
+    });
+  }
+
+  return newChild;
+};
 
 const createListOfShapes = (parent, excludedChild) => {
   const listOfChildren = [];
@@ -60,18 +78,10 @@ export default function Layer({ layer }) {
   };
 
   const handleCopy = () => {
-    const copyOfLayer = layer.copyGraph();
-    copyOfLayer.addTo.updateFlatGraph();
-
-    copyOfLayer.type = layer.type;
-    copyOfLayer.name = `${layer.name} (copy)`;
+    const copyOfLayer = revive(JSON.parse(JSON.stringify(layer)));
     copyOfLayer.id = Math.random();
 
-    copyOfLayer.children?.forEach((child, index) => {
-      child.type = layer.children[index].type;
-      child.name = layer.children[index].name;
-      child.id = Math.random();
-    });
+    layer.addTo.addChild(copyOfLayer);
 
     dispatch({ type: "LAYER_ADDED", payload: copyOfLayer });
     dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
