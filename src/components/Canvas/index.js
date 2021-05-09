@@ -1,26 +1,69 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Illustration } from "zdog";
+import Zdog from "zdog";
 import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
 import Section from "../../ui/Section/Section";
+
+const revive = child => {
+  const newChild = new Zdog[child.type]({ ...child });
+  newChild.id = child.id;
+  newChild.name = child.name;
+  newChild.type = child.type;
+
+  if (child.children) {
+    child.children.forEach(item => {
+      if (item.id) {
+        newChild.addChild(revive(item));
+      }
+    });
+  }
+
+  return newChild;
+};
 
 export default function Canvas() {
   const dispatch = useDispatch();
   const illo = useSelector(state => state.illo);
 
   useEffect(() => {
-    dispatch({
-      type: "ILLO_CREATED",
-      payload: new Illustration({
+    if (localStorage.getItem("illo")) {
+      const newIllo = new Zdog.Illustration({
         element: ".canvas",
         dragRotate: true,
         centered: true,
         onDragMove: () => {
           dispatch({ type: "ILLO_CHANGED" });
         },
-      }),
-    });
+      });
+
+      const children = JSON.parse(localStorage.getItem("illo")).children;
+
+      children.forEach(child => {
+        const newChild = revive(child);
+
+        newIllo.addChild(newChild);
+        dispatch({ type: "LAYER_ADDED", payload: newChild });
+      });
+
+      dispatch({
+        type: "ILLO_CREATED",
+        payload: newIllo,
+      });
+    } else {
+      const newIllo = new Zdog.Illustration({
+        element: ".canvas",
+        dragRotate: true,
+        onDragMove: () => {
+          dispatch({ type: "ILLO_CHANGED" });
+        },
+      });
+
+      dispatch({
+        type: "ILLO_CREATED",
+        payload: newIllo,
+      });
+    }
   }, [dispatch]);
 
   useEffect(() => {

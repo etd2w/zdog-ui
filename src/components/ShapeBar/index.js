@@ -39,19 +39,20 @@ export default function ShapeBar({ parent, onClick }) {
     child.name = typeOfChild;
     child.id = Math.random();
 
-    dispatch({ type: "SHAPE_SELECTED", payload: child });
-
     if (!parent) {
       illo.addChild(child);
-      dispatch({ type: "LAYER_ADDED", payload: child });
     } else {
       parent.addChild(child);
       parent.updateFlatGraph();
     }
+    dispatch({ type: "LAYER_ADDED", payload: child });
+    dispatch({ type: "SHAPE_SELECTED", payload: child });
 
     if (onClick) {
       onClick();
     }
+
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   return (

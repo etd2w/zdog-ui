@@ -36,6 +36,7 @@ export default function Layer({ layer }) {
   const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
   const dispatch = useDispatch();
   const selectedShapes = useSelector(state => state.selectedShapes);
+  const illo = useSelector(state => state.illo);
   let children = null;
 
   if (layer.children.length > 0) {
@@ -72,8 +73,9 @@ export default function Layer({ layer }) {
       child.id = Math.random();
     });
 
-    dispatch({ type: "LAYER_COPIED", payload: copyOfLayer });
+    dispatch({ type: "LAYER_ADDED", payload: copyOfLayer });
     dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   const handleSelect = ({ shiftKey }) => {
@@ -90,6 +92,7 @@ export default function Layer({ layer }) {
     } else {
       layer.name = renameValue;
     }
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   const handleMove = (parent, child) => {
@@ -97,12 +100,19 @@ export default function Layer({ layer }) {
     dispatch({ type: "SHAPE_SELECTED", payload: parent });
     parent.addChild(child);
     parent.updateFlatGraph();
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   const handleRemove = () => {
-    layer.remove();
     dispatch({ type: "LAYER_REMOVED", payload: layer });
+    layer.remove();
     layer.addTo.updateFlatGraph();
+    localStorage.setItem("illo", JSON.stringify(illo));
+    if (!layer.addTo.id) {
+      if (layer.addTo.children.length === 0) {
+        localStorage.clear();
+      }
+    }
   };
 
   const handleContextMenu = event => {
@@ -125,6 +135,7 @@ export default function Layer({ layer }) {
       dispatch({ type: "LAYER_REMOVED", payload: shape });
       newGroup.addChild(shape);
     });
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   // Remove form this component later
