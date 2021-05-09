@@ -24,6 +24,13 @@ const revive = child => {
   return newChild;
 };
 
+const hide = (model, value = true) => {
+  model.visible = !value;
+  model.children?.forEach(child => {
+    hide(child, value);
+  });
+};
+
 const createListOfShapes = (parent, excludedChild) => {
   const listOfChildren = [];
 
@@ -68,13 +75,8 @@ export default function Layer({ layer }) {
 
   const handleVisible = () => {
     setIsVisible(!isVisible);
-    layer.visible = !layer.visible;
-    if (layer.children.length > 0) {
-      layer.children.forEach(child => {
-        child.visible = layer.visible;
-        child.updateFlatGraph();
-      });
-    }
+    hide(layer, layer.visible);
+    localStorage.setItem("illo", JSON.stringify(illo));
   };
 
   const handleCopy = () => {
