@@ -29,7 +29,7 @@ export default function ShapeBar({ parent, onClick }) {
 
     if (typeOfChild === "Shape") {
       child = new Zdog.Shape({
-        path: new Array({ move: new Zdog.Vector() }),
+        path: new Array({ move: { x: 0, y: 0, z: 0 } }),
         ...defaults,
       });
     } else {
