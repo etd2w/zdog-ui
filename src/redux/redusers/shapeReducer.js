@@ -9,6 +9,9 @@ export function shapeReducer(state = {}, action) {
       return payload.shape;
     case "SHAPE_CHANGED":
       return state;
+    case "LAYER_REMOVED":
+      if (payload.id === state.id) return {};
+      return state;
     default:
       return state;
   }
