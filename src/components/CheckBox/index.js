@@ -24,7 +24,7 @@ export default function CheckBox({ callback, slicePath, label }) {
     <>
       {label && <span>{label}</span>}
 
-      <CheckBoxUI state={Boolean(selectSlice)} onChange={handleChange} />
+      <CheckBoxUI state={checked} onChange={handleChange} />
     </>
   );
 }
