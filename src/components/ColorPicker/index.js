@@ -4,7 +4,12 @@ import styles from "./style.module.css";
 
 export default function ColorPicker({ onChange, newColor }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
-  const color = "rgba(169, 207, 84, 1)";
+  const [color, setColor] = useState("rgba(169, 207, 84, 1)");
+
+  const handleChange = color => {
+    setColor(color);
+    onChange(color);
+  };
 
   return (
     <div>
@@ -16,7 +21,7 @@ export default function ColorPicker({ onChange, newColor }) {
       />
       {isColorPickerOpen && (
         <section className={styles.customPicker}>
-          <RgbaStringColorPicker color={color} onChange={onChange} />
+          <RgbaStringColorPicker color={color} onChange={handleChange} />
         </section>
       )}
     </div>

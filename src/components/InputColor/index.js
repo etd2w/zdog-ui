@@ -6,6 +6,7 @@ import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 
 export default function InputColor({ callback, slicePath, checkbox }) {
+  const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -40,6 +41,8 @@ export default function InputColor({ callback, slicePath, checkbox }) {
 
   const handleInput = ({ target }) => {
     setStateOfTheInput(target.value);
+    localStorage.setItem("illo", JSON.stringify(selectIllo));
+
     callback(
       target.value,
       slicePath[slicePath.length - 1],
@@ -57,8 +60,8 @@ export default function InputColor({ callback, slicePath, checkbox }) {
           />
         </div>
       )}
-      <ColorPicker onChange={handlePicker} newColor={stateOfTheInput} />
-      <input type="text" value={stateOfTheInput} onChange={handleInput} />
+      <ColorPicker onChange={handlePicker} newColor={selectSlice} />
+      <input type="text" value={selectSlice} onChange={handleInput} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import styles from "./style.module.css";
 
 export default function InputText({ callback, slicePath, id }) {
   const dispatch = useDispatch();
+  const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -34,15 +35,20 @@ export default function InputText({ callback, slicePath, id }) {
     }
   }, [selectSlice, slicePath]);
 
-  const applyChange = ({ target }) => {
-    const vector = slicePath[slicePath.length - 2];
-    const property = slicePath[slicePath.length - 1];
-    if (slicePath[1] === "path") {
-      callback(parseFloat(target.value), slicePath);
-    } else {
-      callback(parseFloat(target.value), property, vector);
+  const applyChange = event => {
+    const { target, key, type } = event;
+    if (key === "Enter" || type === "blur") {
+      const vector = slicePath[slicePath.length - 2];
+      const property = slicePath[slicePath.length - 1];
+      if (slicePath[1] === "path") {
+        callback(parseFloat(target.value), slicePath);
+      } else {
+        callback(parseFloat(target.value), property, vector);
+      }
+      dispatch({ type: "SHAPE_CHANGED" });
     }
-    dispatch({ type: "SHAPE_CHANGED" });
+
+    localStorage.setItem("illo", JSON.stringify(selectIllo));
   };
 
   const handleChange = ({ target }) => {
@@ -59,6 +65,7 @@ export default function InputText({ callback, slicePath, id }) {
         onChange={handleChange}
         onFocus={({ target }) => target.select()}
         onBlur={applyChange}
+        onKeyPress={applyChange}
       />
     </div>
   );
@@ -66,6 +73,7 @@ export default function InputText({ callback, slicePath, id }) {
 
 export function Label({ id, children, slicePath }) {
   const element = useSelector(state => state[slicePath[0]]);
+  const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -101,6 +109,7 @@ export function Label({ id, children, slicePath }) {
 
     const mouseUpListener = () => {
       document.removeEventListener("mousemove", mouseMoveListener);
+      localStorage.setItem("illo", JSON.stringify(selectIllo));
     };
 
     mouseMoveListener = event => {
