@@ -1,4 +1,3 @@
-import { Vector } from "zdog";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.css";
 
@@ -10,14 +9,21 @@ export default function ShapeBar() {
 
   const handleClick = type => {
     if (type === "line" || type === "move") {
-      shape.path.push({ [type]: new Vector() });
+      shape.path.push({ [type]: { x: 0, y: 0, z: 0 } });
     } else if (type === "arc") {
       shape.path.push({
-        [type]: [new Vector(), new Vector()],
+        [type]: [
+          { x: 0, y: 0, z: 0 },
+          { x: 0, y: 0, z: 0 },
+        ],
       });
     } else {
       shape.path.push({
-        [type]: [new Vector(), new Vector(), new Vector()],
+        [type]: [
+          { x: 0, y: 0, z: 0 },
+          { x: 0, y: 0, z: 0 },
+          { x: 0, y: 0, z: 0 },
+        ],
       });
     }
 

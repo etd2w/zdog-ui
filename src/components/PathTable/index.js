@@ -13,9 +13,8 @@ export default function PathTable({ children }) {
 
   const changeProperty = (value, slicePath) => {
     if (slicePath[3] === "arc" || slicePath[3] === "bezier") {
-      shape.path[slicePath[2]][slicePath[3]][slicePath[4]][
-        slicePath[5]
-      ] = parseFloat(value);
+      shape.path[slicePath[2]][slicePath[3]][slicePath[4]][slicePath[5]] =
+        parseFloat(value);
     } else {
       shape.path[slicePath[2]][slicePath[3]][slicePath[4]] = parseFloat(value);
     }
@@ -63,61 +62,11 @@ export default function PathTable({ children }) {
           path.map((pathMethod, i) => {
             if (pathMethod === "arc" || pathMethod === "bezier") {
               return (
-                <tr key={i}>
-                  <td>{pathMethod}</td>
-                  <td>
-                    {["x", "y", "z"].map(axis => (
-                      <Fragment key={axis}>
-                        <Label
-                          slicePath={["shape", "path", i, pathMethod, 0, axis]}
-                          id={`${pathMethod}${i}${axis}`}
-                        >
-                          {axis.toUpperCase()}
-                        </Label>
-                        <InputText
-                          callback={changeProperty}
-                          slicePath={["shape", "path", i, pathMethod, 0, axis]}
-                          id={`${pathMethod}${i}${axis}`}
-                        />
-                      </Fragment>
-                    ))}
-                    {path.length !== 1 && (
-                      <button
-                        className={styles.button}
-                        onClick={() => removePath(i)}
-                      >
-                        <svg
-                          width="9"
-                          height="9"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
-                            fill="#C23C2A"
-                          />
-                        </svg>
-                      </button>
-                    )}
-
-                    {["x", "y", "z"].map(axis => (
-                      <Fragment key={axis}>
-                        <Label
-                          slicePath={["shape", "path", i, pathMethod, 1, axis]}
-                          id={`${pathMethod}${i}${axis}${i}`}
-                        >
-                          {axis.toUpperCase()}
-                        </Label>
-                        <InputText
-                          callback={changeProperty}
-                          slicePath={["shape", "path", i, pathMethod, 1, axis]}
-                          id={`${pathMethod}${i}${axis}${i}`}
-                        />
-                      </Fragment>
-                    ))}
-
-                    {pathMethod === "bezier" &&
-                      ["x", "y", "z"].map(axis => (
+                <Fragment key={i}>
+                  <tr key={i}>
+                    <td>{pathMethod}</td>
+                    <td>
+                      {["x", "y", "z"].map(axis => (
                         <Fragment key={axis}>
                           <Label
                             slicePath={[
@@ -125,7 +74,41 @@ export default function PathTable({ children }) {
                               "path",
                               i,
                               pathMethod,
-                              2,
+                              0,
+                              axis,
+                            ]}
+                            id={`${pathMethod}${i}${axis}`}
+                          >
+                            {axis.toUpperCase()}
+                          </Label>
+                          <InputText
+                            callback={changeProperty}
+                            slicePath={[
+                              "shape",
+                              "path",
+                              i,
+                              pathMethod,
+                              0,
+                              axis,
+                            ]}
+                            id={`${pathMethod}${i}${axis}`}
+                          />
+                        </Fragment>
+                      ))}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>
+                      {["x", "y", "z"].map(axis => (
+                        <Fragment key={axis}>
+                          <Label
+                            slicePath={[
+                              "shape",
+                              "path",
+                              i,
+                              pathMethod,
+                              1,
                               axis,
                             ]}
                             id={`${pathMethod}${i}${axis}${i}`}
@@ -139,15 +122,53 @@ export default function PathTable({ children }) {
                               "path",
                               i,
                               pathMethod,
-                              2,
+                              1,
                               axis,
                             ]}
-                            id={`${pathMethod}${i}${axis}${3}`}
+                            id={`${pathMethod}${i}${axis}${i}`}
                           />
                         </Fragment>
                       ))}
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+
+                  {pathMethod === "bezier" && (
+                    <tr>
+                      <td></td>
+                      <td>
+                        {["x", "y", "z"].map(axis => (
+                          <Fragment key={axis}>
+                            <Label
+                              slicePath={[
+                                "shape",
+                                "path",
+                                i,
+                                pathMethod,
+                                2,
+                                axis,
+                              ]}
+                              id={`${pathMethod}${i}${axis}${i}`}
+                            >
+                              {axis.toUpperCase()}
+                            </Label>
+                            <InputText
+                              callback={changeProperty}
+                              slicePath={[
+                                "shape",
+                                "path",
+                                i,
+                                pathMethod,
+                                2,
+                                axis,
+                              ]}
+                              id={`${pathMethod}${i}${axis}${3}`}
+                            />
+                          </Fragment>
+                        ))}
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               );
             }
             return (

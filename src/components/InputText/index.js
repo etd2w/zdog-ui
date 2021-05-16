@@ -128,8 +128,11 @@ export function Label({ id, children, slicePath }) {
         element[slicePath[slicePath.length - 2]][
           slicePath[slicePath.length - 1]
         ] = value + currentCoordinate - startCoordinate;
-      } else if (slicePath[1] === "path") {
+      } else if (slicePath[1] === "path" && typeof slicePath[4] !== "number") {
         element.path[slicePath[2]][slicePath[3]][slicePath[4]] =
+          value + currentCoordinate - startCoordinate;
+      } else if (slicePath[1] === "path" && typeof slicePath[4] === "number") {
+        element.path[slicePath[2]][slicePath[3]][slicePath[4]][slicePath[5]] =
           value + currentCoordinate - startCoordinate;
       } else {
         element[slicePath[slicePath.length - 1]] =
