@@ -2,6 +2,8 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
+import ColorPicker from "../ColorPicker";
+import InputColor from "../InputColor";
 import InputText, { Label } from "../InputText";
 import styles from "./style.module.css";
 
@@ -32,6 +34,11 @@ export default function CanvasSettings() {
 
   const handleZoom = value => {
     illo.zoom = value;
+  };
+
+  const handleColor = color => {
+    const canvas = document.getElementById("canv");
+    canvas.style.backgroundColor = color;
   };
 
   return (
@@ -79,6 +86,16 @@ export default function CanvasSettings() {
             <td>Zoom</td>
             <td>
               <InputText callback={handleZoom} slicePath={["illo", "zoom"]} />
+            </td>
+          </tr>
+
+          <tr>
+            <td>Color</td>
+            <td>
+              <InputColor
+                callback={handleColor}
+                node={document.getElementById("canv")}
+              />
             </td>
           </tr>
         </tbody>

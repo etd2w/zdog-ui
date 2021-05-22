@@ -90,7 +90,7 @@ export default function Canvas() {
   return (
     <Section title="Canvas">
       <div className={styles.container}>
-        <canvas className="canvas" />
+        <canvas className="canvas" id="canv" />
       </div>
       {illo && <CanvasSettings />}
     </Section>

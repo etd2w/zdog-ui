@@ -5,16 +5,18 @@ import CheckBoxUI from "../../ui/CheckBox/CheckBox";
 import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 
-export default function InputColor({ callback, slicePath, checkbox }) {
+export default function InputColor({ callback, slicePath, checkbox, node }) {
   const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
-    slicePath.forEach(property => {
-      slice = slice[property];
-    });
+    if (slicePath) {
+      slicePath.forEach(property => {
+        slice = slice[property];
+      });
 
-    return slice;
+      return slice;
+    } else return window.getComputedStyle(node).backgroundColor;
   });
 
   const [stateOfTheInput, setStateOfTheInput] = useState(selectSlice);
@@ -32,22 +34,31 @@ export default function InputColor({ callback, slicePath, checkbox }) {
     const hex = rgbToHex(color);
 
     setStateOfTheInput(hex);
-    callback(
-      hex,
-      slicePath[slicePath.length - 1],
-      slicePath[slicePath.length - 2]
-    );
+
+    if (slicePath) {
+      callback(
+        hex,
+        slicePath[slicePath.length - 1],
+        slicePath[slicePath.length - 2]
+      );
+    } else {
+      callback(hex);
+    }
   };
 
   const handleInput = ({ target }) => {
     setStateOfTheInput(target.value);
     localStorage.setItem("illo", JSON.stringify(selectIllo));
 
-    callback(
-      target.value,
-      slicePath[slicePath.length - 1],
-      slicePath[slicePath.length - 2]
-    );
+    if (slicePath) {
+      callback(
+        target.value,
+        slicePath[slicePath.length - 1],
+        slicePath[slicePath.length - 2]
+      );
+    } else {
+      callback(target.value);
+    }
   };
 
   return (
@@ -61,7 +72,15 @@ export default function InputColor({ callback, slicePath, checkbox }) {
         </div>
       )}
       <ColorPicker onChange={handlePicker} newColor={selectSlice} />
-      <input type="text" value={selectSlice} onChange={handleInput} />
+      {slicePath ? (
+        <input type="text" value={selectSlice} onChange={handleInput} />
+      ) : (
+        <input
+          type="text"
+          value={rgbToHex(selectSlice)}
+          onChange={handleInput}
+        />
+      )}
     </div>
   );
 }
