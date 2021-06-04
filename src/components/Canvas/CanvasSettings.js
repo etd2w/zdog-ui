@@ -2,7 +2,6 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import CheckBox from "../CheckBox";
-import ColorPicker from "../ColorPicker";
 import InputColor from "../InputColor";
 import InputText, { Label } from "../InputText";
 import styles from "./style.module.css";

@@ -1,3 +1,53 @@
+import Zdog from "zdog";
+import { v4 as uuid } from "uuid";
+
+function revive(child) {
+  const newChild = new Zdog[child.type]({ ...child });
+  newChild.id = child.id;
+  newChild.name = child.name;
+  newChild.type = child.type;
+
+  if (child.children) {
+    child.children.forEach(item => {
+      if (item.id) {
+        newChild.addChild(revive(item));
+      }
+    });
+  }
+
+  return newChild;
+}
+
+export default function createCanvas(node, props, stringModel = null) {
+  const illo = new Zdog.Illustration({
+    element: document.querySelector(node),
+    centered: true,
+    dragRotate: true,
+    ...props,
+  });
+
+  if (stringModel) {
+    const JSONModel = localStorage.getItem(stringModel);
+    const children = JSON.parse(JSONModel).children;
+
+    children.forEach(child => {
+      illo.addChild(revive(child));
+    });
+    illo.id = JSON.parse(JSONModel).id;
+  } else {
+    illo.id = uuid();
+  }
+
+  function animate() {
+    illo.updateRenderGraph();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+  return illo;
+}
+
 export function hexToRgb(hex) {
   hex = hex.replace(/^#/, "");
   let alphaFromHex = 1;

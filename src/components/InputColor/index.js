@@ -16,7 +16,7 @@ export default function InputColor({ callback, slicePath, checkbox, node }) {
       });
 
       return slice;
-    } else return window.getComputedStyle(node).backgroundColor;
+    } else return "#333333";
   });
 
   const [stateOfTheInput, setStateOfTheInput] = useState(selectSlice);
@@ -48,7 +48,7 @@ export default function InputColor({ callback, slicePath, checkbox, node }) {
 
   const handleInput = ({ target }) => {
     setStateOfTheInput(target.value);
-    localStorage.setItem("illo", JSON.stringify(selectIllo));
+    localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
 
     if (slicePath) {
       callback(

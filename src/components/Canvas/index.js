@@ -1,68 +1,36 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Zdog from "zdog";
 import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
 import Section from "../../ui/Section/Section";
-
-const revive = child => {
-  const newChild = new Zdog[child.type]({ ...child });
-  newChild.id = child.id;
-  newChild.name = child.name;
-  newChild.type = child.type;
-
-  if (child.children) {
-    child.children.forEach(item => {
-      if (item.id) {
-        newChild.addChild(revive(item));
-      }
-    });
-  }
-
-  return newChild;
-};
+import createCanvas from "../../utils";
 
 export default function Canvas() {
   const dispatch = useDispatch();
   const illo = useSelector(state => state.illo);
 
   useEffect(() => {
-    if (localStorage.getItem("illo")) {
-      const newIllo = new Zdog.Illustration({
-        element: ".canvas",
-        dragRotate: true,
-        centered: true,
+    if (localStorage.length !== 0) {
+      const lastEditedLocalModel = Object.keys(localStorage)[0];
+
+      const illoSettings = {
         onDragMove: () => {
           dispatch({ type: "ILLO_CHANGED" });
         },
-        ...JSON.parse(localStorage.getItem("illo")),
-      });
+      };
 
-      const children = JSON.parse(localStorage.getItem("illo")).children;
-
-      children.forEach(child => {
-        const newChild = revive(child);
-
-        newIllo.addChild(newChild);
-        dispatch({ type: "LAYER_ADDED", payload: newChild });
-      });
+      const illo = createCanvas(".canvas", illoSettings, lastEditedLocalModel);
 
       dispatch({
         type: "ILLO_CREATED",
-        payload: newIllo,
+        payload: illo,
       });
     } else {
-      const newIllo = new Zdog.Illustration({
-        element: ".canvas",
-        dragRotate: true,
-        onDragMove: () => {
-          dispatch({ type: "ILLO_CHANGED" });
-        },
-      });
+      const illo = createCanvas(".canvas", {});
 
       dispatch({
         type: "ILLO_CREATED",
-        payload: newIllo,
+        payload: illo,
       });
     }
   }, [dispatch]);

@@ -48,7 +48,7 @@ export default function InputText({ callback, slicePath, id }) {
       dispatch({ type: "SHAPE_CHANGED" });
     }
 
-    localStorage.setItem("illo", JSON.stringify(selectIllo));
+    localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
   };
 
   const handleChange = ({ target }) => {
@@ -109,7 +109,7 @@ export function Label({ id, children, slicePath }) {
 
     const mouseUpListener = () => {
       document.removeEventListener("mousemove", mouseMoveListener);
-      localStorage.setItem("illo", JSON.stringify(selectIllo));
+      localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
     };
 
     mouseMoveListener = event => {
