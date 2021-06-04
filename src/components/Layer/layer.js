@@ -76,7 +76,7 @@ export default function Layer({ layer }) {
   const handleVisible = () => {
     setIsVisible(!isVisible);
     hide(layer, layer.visible);
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
   };
 
   const handleCopy = () => {
@@ -85,9 +85,11 @@ export default function Layer({ layer }) {
 
     layer.addTo.addChild(copyOfLayer);
 
+    // copyOfLayer.addTo.updateFlatGraph();
+
     dispatch({ type: "LAYER_ADDED", payload: copyOfLayer });
     dispatch({ type: "SHAPE_SELECTED", payload: copyOfLayer });
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
   };
 
   const handleSelect = ({ shiftKey }) => {
@@ -104,7 +106,7 @@ export default function Layer({ layer }) {
     } else {
       layer.name = renameValue;
     }
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
   };
 
   const handleMove = (parent, child) => {
@@ -112,14 +114,14 @@ export default function Layer({ layer }) {
     dispatch({ type: "SHAPE_SELECTED", payload: parent });
     parent.addChild(child);
     parent.updateFlatGraph();
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
   };
 
   const handleRemove = () => {
     dispatch({ type: "LAYER_REMOVED", payload: layer });
     layer.remove();
     layer.addTo.updateFlatGraph();
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
     if (!layer.addTo.id) {
       if (layer.addTo.children.length === 0) {
         localStorage.clear();
@@ -147,7 +149,7 @@ export default function Layer({ layer }) {
       dispatch({ type: "LAYER_REMOVED", payload: shape });
       newGroup.addChild(shape);
     });
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`{illo.id}`, JSON.stringify(illo));
   };
 
   // Remove form this component later

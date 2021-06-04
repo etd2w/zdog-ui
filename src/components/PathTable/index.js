@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useContextMenu } from "../../hooks";
 import InputText, { Label } from "../InputText";
 import PathBar from "../PathBar";
-import styles from "./style.module.css";
 
 export default function PathTable({ children }) {
   const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
@@ -34,10 +33,7 @@ export default function PathTable({ children }) {
           <th scope="col">Path</th>
           <th scope="col">
             {shape.type === "Shape" && (
-              <button
-                onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
-                className={styles.button}
-              >
+              <button onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}>
                 <svg
                   width="9"
                   height="9"
@@ -64,7 +60,31 @@ export default function PathTable({ children }) {
               return (
                 <Fragment key={i}>
                   <tr key={i}>
-                    <td>{pathMethod}</td>
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {pathMethod}
+                        {path.length !== 1 && i !== 0 && (
+                          <button onClick={() => removePath(i)}>
+                            <svg
+                              width="9"
+                              height="9"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
+                                fill="#C23C2A"
+                              />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    </td>
                     <td>
                       {["x", "y", "z"].map(axis => (
                         <Fragment key={axis}>
@@ -173,7 +193,28 @@ export default function PathTable({ children }) {
             }
             return (
               <tr key={i}>
-                <td>{pathMethod}</td>
+                <td>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    {pathMethod}
+                    {path.length !== 1 && i !== 0 && (
+                      <button onClick={() => removePath(i)}>
+                        <svg
+                          width="9"
+                          height="9"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
+                            fill="#C23C2A"
+                          />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                </td>
                 <td>
                   {["x", "y", "z"].map(axis => (
                     <Fragment key={axis}>
@@ -181,7 +222,7 @@ export default function PathTable({ children }) {
                         slicePath={["shape", "path", i, pathMethod, axis]}
                         id={`${pathMethod}${i}${axis}`}
                       >
-                        {axis.toUpperCase()}
+                        d{axis.toUpperCase()}
                       </Label>
                       <InputText
                         callback={changeProperty}
@@ -190,24 +231,6 @@ export default function PathTable({ children }) {
                       />
                     </Fragment>
                   ))}
-                  {path.length !== 1 && (
-                    <button
-                      className={styles.button}
-                      onClick={() => removePath(i)}
-                    >
-                      <svg
-                        width="9"
-                        height="9"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8.036 0H.964A.965.965 0 000 .964v7.072C0 8.568.432 9 .964 9h7.072A.965.965 0 009 8.036V.964A.965.965 0 008.036 0zM1.848 5.304a.242.242 0 01-.24-.242V3.938c0-.132.108-.24.24-.24h5.304c.132 0 .24.108.24.24v1.126a.242.242 0 01-.24.24H1.848z"
-                          fill="#C23C2A"
-                        />
-                      </svg>
-                    </button>
-                  )}
                 </td>
               </tr>
             );

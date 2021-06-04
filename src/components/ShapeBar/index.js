@@ -52,7 +52,7 @@ export default function ShapeBar({ parent, onClick }) {
       onClick();
     }
 
-    localStorage.setItem("illo", JSON.stringify(illo));
+    localStorage.setItem(`${illo.id}`, JSON.stringify(illo));
   };
 
   return (

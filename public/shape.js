@@ -1,0 +1,1 @@
+{"type":"Illustration","rotate":{"x":-0.089,"y":-0.122},"children":[{"type":"Shape","stroke":20,"color":"#44b093","path":[{"move":{"x":0,"y":0,"z":0}},{"bezier":[{"x":273,"y":0,"z":0},{"x":93,"y":-307,"z":0},{"x":160,"y":0,"z":73}]}],"front":{"z":1},"name":"Shape","id":0.41657683555394054}]}

@@ -1,0 +1,9 @@
+.nav {
+  display: flex;
+  background-color: #242f39;
+  padding: 0.375rem;
+}
+
+.nav > * + * {
+  margin-left: 1rem;
+}

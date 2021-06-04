@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import InputText, { Label } from "../InputText";
 import CheckBox from "../CheckBox";
 import PathTable from "../PathTable";
-import section from "../../styles/section.module.css";
 import InputColor from "../InputColor";
 import Section from "../../ui/Section/Section";
 import { Fragment } from "react";
@@ -148,9 +147,7 @@ export default function ShapeProps() {
     }
   };
 
-  const header = shape.id && (
-    <small className={section.small}>{shape.type}</small>
-  );
+  const header = shape.id && <small>{shape.type}</small>;
 
   return (
     <Section title="Properties" header={header}>
