@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import styles from "./style.module.css";
 import { v4 as uuid } from "uuid";
+import createCanvas from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Navigation() {
+  const illo = useSelector(state => state.illo);
+  const dispatch = useDispatch();
+
   const handleClick = () => {
     const newBlob = new Blob([localStorage.getItem("illo")], {
       type: "text/javascript",
@@ -10,7 +15,7 @@ export default function Navigation() {
 
     const url = URL.createObjectURL(newBlob);
 
-    var a = document.createElement("a");
+    const a = document.createElement("a");
     a.download = "zModel.js";
     a.href = url;
     a.click();
@@ -21,7 +26,7 @@ export default function Navigation() {
     const reader = new FileReader();
 
     reader.addEventListener("load", event => {
-      var obj = JSON.parse(event.target.result);
+      const obj = JSON.parse(event.target.result);
       obj.id = uuid();
       localStorage.setItem(`${obj.id}`, JSON.stringify(obj));
     });
@@ -32,13 +37,26 @@ export default function Navigation() {
   };
 
   const handleSelect = event => {
-    fetch(`./${event.target.value}.js`).then(response => {
-      response.json().then(response => {
-        response.id = uuid();
-        localStorage.setItem(`${response.id}`, JSON.stringify(response));
-        window.location.reload();
+    if (event.target.value) {
+      fetch(`./${event.target.value}.js`).then(response => {
+        response.json().then(response => {
+          response.id = uuid();
+          dispatch({
+            type: "ILLO_CREATED",
+            payload: createCanvas(".canvas", {}, response),
+          });
+        });
       });
-    });
+    } else {
+      dispatch({
+        type: "ILLO_CREATED",
+        payload: createCanvas(".canvas", {}),
+      });
+    }
+  };
+
+  const saveIlloToLocalStorage = () => {
+    localStorage.setItem(`${illo.id}`, JSON.stringify(illo));
   };
 
   return (
@@ -56,7 +74,7 @@ export default function Navigation() {
       </nav>
 
       <button onClick={handleClick}>Export</button>
-      <button>Import</button>
+      <button onClick={saveIlloToLocalStorage}>Save to localStorage</button>
       <input type="file" onChange={handleImport} accept=".json, .js" />
       <select name="models" onChange={handleSelect}>
         <option value="">Examples</option>

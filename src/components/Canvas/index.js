@@ -10,29 +10,21 @@ export default function Canvas() {
   const illo = useSelector(state => state.illo);
 
   useEffect(() => {
-    if (localStorage.length !== 0) {
-      const lastEditedLocalModel = Object.keys(localStorage)[0];
+    const defaultSettings = {
+      onDragMove: () => {
+        dispatch({ type: "ILLO_CHANGED" });
+      },
+    };
 
-      const illoSettings = {
-        onDragMove: () => {
-          dispatch({ type: "ILLO_CHANGED" });
-        },
-      };
+    const newIllo =
+      localStorage.length !== 0
+        ? createCanvas(".canvas", defaultSettings, Object.keys(localStorage)[0])
+        : createCanvas(".canvas", defaultSettings);
 
-      const illo = createCanvas(".canvas", illoSettings, lastEditedLocalModel);
-
-      dispatch({
-        type: "ILLO_CREATED",
-        payload: illo,
-      });
-    } else {
-      const illo = createCanvas(".canvas", {});
-
-      dispatch({
-        type: "ILLO_CREATED",
-        payload: illo,
-      });
-    }
+    dispatch({
+      type: "ILLO_CREATED",
+      payload: newIllo,
+    });
   }, [dispatch]);
 
   useEffect(() => {
@@ -40,18 +32,6 @@ export default function Canvas() {
       const width = illo.element.parentNode.getBoundingClientRect().width;
       const height = illo.element.parentNode.getBoundingClientRect().height - 9;
       illo.setSizeCanvas(width, height);
-
-      let requestId;
-      const animate = () => {
-        illo.updateRenderGraph();
-        requestId = requestAnimationFrame(animate);
-      };
-
-      animate();
-
-      return () => {
-        cancelAnimationFrame(requestId);
-      };
     }
   });
 

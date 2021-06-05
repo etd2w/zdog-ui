@@ -2,6 +2,9 @@ export default function layerReducer(state = [], action) {
   const { type, payload } = action;
 
   switch (type) {
+    case "ILLO_CREATED": {
+      return [...payload.children];
+    }
     case "LAYER_ADDED": {
       if (payload.addTo.id) return state;
       return [...state, payload];

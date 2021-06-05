@@ -1,5 +1,5 @@
 import Zdog from "zdog";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid, validate as uuidValidate } from "uuid";
 
 function revive(child) {
   const newChild = new Zdog[child.type]({ ...child });
@@ -18,7 +18,7 @@ function revive(child) {
   return newChild;
 }
 
-export default function createCanvas(node, props, stringModel = null) {
+export default function createCanvas(node, props, modelID = undefined) {
   const illo = new Zdog.Illustration({
     element: document.querySelector(node),
     centered: true,
@@ -26,16 +26,23 @@ export default function createCanvas(node, props, stringModel = null) {
     ...props,
   });
 
-  if (stringModel) {
-    const JSONModel = localStorage.getItem(stringModel);
+  if (uuidValidate(modelID)) {
+    const JSONModel = localStorage.getItem(modelID);
     const children = JSON.parse(JSONModel).children;
 
     children.forEach(child => {
+      child.id = uuid();
       illo.addChild(revive(child));
     });
-    illo.id = JSON.parse(JSONModel).id;
+    illo.canvasId = JSON.parse(JSONModel).id;
+  } else if (typeof modelID === "object") {
+    modelID.children.forEach(child => {
+      child.id = uuid();
+      illo.addChild(revive(child));
+    });
+    illo.canvasId = modelID.id;
   } else {
-    illo.id = uuid();
+    illo.canvasId = uuid();
   }
 
   function animate() {
