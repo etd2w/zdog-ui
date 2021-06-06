@@ -34,13 +34,13 @@ export default function createCanvas(node, props, modelID = undefined) {
       child.id = uuid();
       illo.addChild(revive(child));
     });
-    illo.canvasId = JSON.parse(JSONModel).id;
+    illo.canvasId = modelID;
   } else if (typeof modelID === "object") {
     modelID.children.forEach(child => {
       child.id = uuid();
       illo.addChild(revive(child));
     });
-    illo.canvasId = modelID.id;
+    illo.canvasId = uuid();
   } else {
     illo.canvasId = uuid();
   }
@@ -53,6 +53,10 @@ export default function createCanvas(node, props, modelID = undefined) {
   animate();
 
   return illo;
+}
+
+export function saveModelToLocalStorage(model) {
+  localStorage.setItem(model.canvasId, JSON.stringify(model));
 }
 
 export function hexToRgb(hex) {

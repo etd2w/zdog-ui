@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
+import { saveModelToLocalStorage } from "../../utils";
 import CheckBox from "../CheckBox";
 import InputColor from "../InputColor";
 import InputText, { Label } from "../InputText";
@@ -38,6 +39,10 @@ export default function CanvasSettings() {
   const handleColor = color => {
     const canvas = document.getElementById("canv");
     canvas.style.backgroundColor = color;
+  };
+
+  const saveIlloToLocalStorage = () => {
+    saveModelToLocalStorage(illo);
   };
 
   return (
@@ -127,6 +132,23 @@ export default function CanvasSettings() {
                 callback={toggleCentered}
                 slicePath={["illo", "centered"]}
               />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">File</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Save file</td>
+            <td>
+              <button onClick={saveIlloToLocalStorage}>Save file to LS</button>
             </td>
           </tr>
         </tbody>

@@ -5,8 +5,7 @@ import CheckBoxUI from "../../ui/CheckBox/CheckBox";
 import ColorPicker from "../ColorPicker";
 import styles from "./style.module.css";
 
-export default function InputColor({ callback, slicePath, checkbox, node }) {
-  const selectIllo = useSelector(state => state.illo);
+export default function InputColor({ callback, slicePath, checkbox }) {
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -48,7 +47,6 @@ export default function InputColor({ callback, slicePath, checkbox, node }) {
 
   const handleInput = ({ target }) => {
     setStateOfTheInput(target.value);
-    localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
 
     if (slicePath) {
       callback(

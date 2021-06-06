@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import createCanvas from "../utils";
+import styles from "./explore.module.css";
 
 export default function Explore() {
   useEffect(() => {
@@ -11,10 +12,6 @@ export default function Explore() {
   }, []);
 
   return Object.keys(localStorage).map(model => (
-    <canvas
-      style={{ backgroundColor: "#121212", marginRight: "6px" }}
-      key={model}
-      data-uuid={model}
-    />
+    <canvas className={styles.canvas_example} key={model} data-uuid={model} />
   ));
 }

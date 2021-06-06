@@ -51,8 +51,6 @@ export default function ShapeBar({ parent, onClick }) {
     if (onClick) {
       onClick();
     }
-
-    localStorage.setItem(`${illo.id}`, JSON.stringify(illo));
   };
 
   return (

@@ -4,7 +4,6 @@ import styles from "./style.module.css";
 
 export default function InputText({ callback, slicePath, id }) {
   const dispatch = useDispatch();
-  const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -47,8 +46,6 @@ export default function InputText({ callback, slicePath, id }) {
       }
       dispatch({ type: "SHAPE_CHANGED" });
     }
-
-    localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
   };
 
   const handleChange = ({ target }) => {
@@ -73,7 +70,6 @@ export default function InputText({ callback, slicePath, id }) {
 
 export function Label({ id, children, slicePath }) {
   const element = useSelector(state => state[slicePath[0]]);
-  const selectIllo = useSelector(state => state.illo);
   const selectSlice = useSelector(state => {
     let slice = state;
 
@@ -109,7 +105,6 @@ export function Label({ id, children, slicePath }) {
 
     const mouseUpListener = () => {
       document.removeEventListener("mousemove", mouseMoveListener);
-      localStorage.setItem(`{selectIllo.id}`, JSON.stringify(selectIllo));
     };
 
     mouseMoveListener = event => {
