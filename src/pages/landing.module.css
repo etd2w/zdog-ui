@@ -1,0 +1,55 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  padding: 3rem 10rem;
+}
+
+.lead h1 {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 100%;
+  letter-spacing: -0.025em;
+}
+
+.lead p {
+  margin-top: 1.5rem;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 28px;
+  color: #d1d5db;
+}
+
+.lead h1 span {
+  color: #a9cf54;
+}
+
+.buttons {
+  display: flex;
+  margin-top: 40px;
+}
+
+.button {
+  padding: 0.8rem 2rem;
+  border-radius: 3px;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  background: #242f39;
+  font-weight: 600;
+}
+
+.buttons a {
+  background: #a9cf54;
+  color: #242f39;
+  text-decoration: none;
+}
+
+.buttons button:nth-child(2) {
+  margin-left: 1rem;
+}
