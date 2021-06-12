@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useContextMenu } from "../../hooks";
 import ShapeBar from "../ShapeBar";
 import styles from "./layer.module.css";
@@ -56,12 +56,11 @@ export default function Layer({ layer }) {
   const [isVisible, setIsVisible] = useState(true);
   const [isRenaming, setisRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState(layer.name);
-  const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
-  const [isListOfShapesOpen, setIsListOfShapesOpen] = useContextMenu(false);
-  const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu(false);
+  const [isListOfShapesOpen, setIsListOfShapesOpen] = useContextMenu();
+  const [isShapeBarOpen, setIsShapeBarOpen] = useContextMenu();
+  const layerRef = useRef(null);
   const dispatch = useDispatch();
   const selectedShapes = useSelector(state => state.selectedShapes);
-  const illo = useSelector(state => state.illo);
   let children = null;
 
   if (layer.children.length > 0) {
@@ -119,12 +118,6 @@ export default function Layer({ layer }) {
     layer.addTo.updateFlatGraph();
   };
 
-  const handleContextMenu = event => {
-    event.preventDefault();
-    setIsContextMenuOpen(!isContextMenuOpen);
-    setIsShapeBarOpen(false);
-  };
-
   const handleGroup = () => {
     const newGroup = new Anchor({
       addTo: layer.addTo,
@@ -148,7 +141,7 @@ export default function Layer({ layer }) {
 
   return (
     <li>
-      <div className={styles.layer} onContextMenu={handleContextMenu}>
+      <div ref={layerRef} className={styles.layer}>
         <div>
           <button
             onClick={() => setIsExpanded(!isExpanded)}
@@ -201,36 +194,36 @@ export default function Layer({ layer }) {
         </div>
       </div>
       <ul className={`${isExpanded ? "stack" : "hidden"}`}>{children}</ul>
-      {isContextMenuOpen && (
-        <ContextMenu>
+
+      <ContextMenu parentRef={layerRef}>
+        <div>
+          <ContextMenuItem onClick={handleRename}>
+            Rename the element
+          </ContextMenuItem>
+          <ContextMenuItem onClick={handleCopy}>
+            Copy the element
+          </ContextMenuItem>
+          <ContextMenuItem onClick={handleVisible}>
+            {isVisible ? "Hide the element" : "Show the element"}
+          </ContextMenuItem>
+          <ContextMenuItem onClick={() => setIsListOfShapesOpen(true)}>
+            Move the element
+          </ContextMenuItem>
+        </div>
+        <div>
+          <ContextMenuItem onClick={handleRemove}>
+            Remove the element
+          </ContextMenuItem>
+        </div>
+        {selectedShapes.length > 1 && (
           <div>
-            <ContextMenuItem onClick={handleRename}>
-              Rename the element
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleCopy}>
-              Copy the element
-            </ContextMenuItem>
-            <ContextMenuItem onClick={handleVisible}>
-              {isVisible ? "Hide the element" : "Show the element"}
-            </ContextMenuItem>
-            <ContextMenuItem onClick={() => setIsListOfShapesOpen(true)}>
-              Move the element
+            <ContextMenuItem onClick={handleGroup}>
+              Group Selection
             </ContextMenuItem>
           </div>
-          <div>
-            <ContextMenuItem onClick={handleRemove}>
-              Remove the element
-            </ContextMenuItem>
-          </div>
-          {selectedShapes.length > 1 && (
-            <div>
-              <ContextMenuItem onClick={handleGroup}>
-                Group Selection
-              </ContextMenuItem>
-            </div>
-          )}
-        </ContextMenu>
-      )}
+        )}
+      </ContextMenu>
+
       {isListOfShapesOpen && (
         <ContextMenu>
           {createListOfShapes(layer.addTo, layer).map(children => (

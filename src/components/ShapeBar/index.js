@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Zdog from "zdog";
-import { ContextMenu, ContextMenuItem } from "../ContextMenu/ContextMenu";
+import { ContextMenuItem } from "../ContextMenu/ContextMenu";
 
 const shapeTypes = [
   ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],
@@ -54,7 +54,7 @@ export default function ShapeBar({ parent, onClick }) {
   };
 
   return (
-    <ContextMenu>
+    <div className="contextMenu">
       {shapeTypes.map((section, i) => (
         <div key={i}>
           {section.map((type, i) => (
@@ -64,6 +64,6 @@ export default function ShapeBar({ parent, onClick }) {
           ))}
         </div>
       ))}
-    </ContextMenu>
+    </div>
   );
 }

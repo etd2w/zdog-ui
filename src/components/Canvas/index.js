@@ -4,6 +4,15 @@ import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
 import Section from "../../ui/Section/Section";
 import createCanvas from "../../utils";
+import zdog from "zdog";
+
+async function readText(event) {
+  const Zdog = zdog;
+
+  const file = event.target.files[0];
+  const text = await file.text();
+  console.log(eval(text));
+}
 
 export default function Canvas() {
   const dispatch = useDispatch();
@@ -37,8 +46,10 @@ export default function Canvas() {
 
   return (
     <Section title="Canvas">
+      <input type="file" onChange={readText} />
+
       <div className={styles.container}>
-        <canvas className="canvas" id="canv" />
+        <canvas className="illo canvas" id="canv" />
       </div>
       {illo && <CanvasSettings />}
     </Section>

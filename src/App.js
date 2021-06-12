@@ -8,7 +8,7 @@ import Landing from "./pages/Landing";
 function App() {
   return (
     <>
-      <Route path="/app">
+      <Route exact path="/p/">
         <main className="switcher">
           <div>
             <ListOfLayers />
@@ -17,7 +17,16 @@ function App() {
           </div>
         </main>
       </Route>
-      <Route path="/" exact>
+      <Route path="/p/:uuid">
+        <main className="switcher">
+          <div>
+            <ListOfLayers />
+            <Canvas />
+            <ShapeProps />
+          </div>
+        </main>
+      </Route>
+      <Route exact path="/">
         <Landing />
       </Route>
       <Route path="/explore">

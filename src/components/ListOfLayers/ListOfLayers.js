@@ -1,20 +1,21 @@
 import { useSelector } from "react-redux";
-import { useContextMenu } from "../../hooks";
 import Layer from "../Layer/layer";
 import ShapeBar from "../ShapeBar";
 import styles from "./listOfLayers.module.css";
 import Section from "../../ui/Section/Section";
+import { useState } from "react";
 
 export default function ListOfLayers() {
-  const [isContextMenuOpen, setIsContextMenuOpen] = useContextMenu(false);
+  const [isShapeListOpen, setIsShapeListOpen] = useState(false);
   const layers = useSelector(state => state.layers);
+
+  const toggleShapeList = () => {
+    setIsShapeListOpen(!isShapeListOpen);
+  };
 
   const header = (
     <>
-      <button
-        onClick={() => setIsContextMenuOpen(!isContextMenuOpen)}
-        className={styles.button}
-      >
+      <button className={styles.button} onClick={toggleShapeList}>
         <svg
           width="9"
           height="9"
@@ -28,7 +29,7 @@ export default function ListOfLayers() {
         </svg>
         <span>Add</span>
       </button>
-      {isContextMenuOpen && <ShapeBar />}
+      {isShapeListOpen ? <ShapeBar onClick={setIsShapeListOpen} /> : null}
     </>
   );
 

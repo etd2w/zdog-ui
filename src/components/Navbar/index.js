@@ -1,28 +1,26 @@
 import { NavLink, Link } from "react-router-dom";
 import styles from "./style.module.css";
-import createCanvas from "../../utils";
-import { useDispatch } from "react-redux";
 
 export default function Navbar() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  const handleSelect = event => {
-    if (event.target.value) {
-      fetch(`./modelExamples/${event.target.value}.js`).then(response => {
-        response.json().then(response => {
-          dispatch({
-            type: "ILLO_CREATED",
-            payload: createCanvas(".canvas", {}, response),
-          });
-        });
-      });
-    } else {
-      dispatch({
-        type: "ILLO_CREATED",
-        payload: createCanvas(".canvas", {}),
-      });
-    }
-  };
+  // const handleSelect = event => {
+  //   if (event.target.value) {
+  //     fetch(`./modelExamples/${event.target.value}.js`).then(response => {
+  //       response.json().then(response => {
+  //         dispatch({
+  //           type: "ILLO_CREATED",
+  //           payload: createCanvas(".canvas", {}, response),
+  //         });
+  //       });
+  //     });
+  //   } else {
+  //     dispatch({
+  //       type: "ILLO_CREATED",
+  //       payload: createCanvas(".canvas", {}),
+  //     });
+  //   }
+  // };
 
   return (
     <div className={styles.nav}>

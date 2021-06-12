@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-export function useContextMenu(initialState) {
-  const [isOpen, setIsOpen] = useState(initialState);
+export function useContextMenu() {
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const closeMenu = () => {

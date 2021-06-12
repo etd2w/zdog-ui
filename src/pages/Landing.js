@@ -20,16 +20,20 @@ export default function Landing() {
               <br /> all in the browser. Free to use for any purpose, forever.
             </p>
             <div className={styles.buttons}>
-              <Link className={styles.button} to="/app">
+              <Link className={styles.button} to="/p">
                 Create Project
               </Link>
-              {/* <button className={styles.button}>Create Project</button> */}
               <button className={styles.button}>Sign Up</button>
             </div>
           </div>
           <div>
             <img src="./canvasImage.png" alt="example" />
-            <button className={styles.button}>Open In the App</button>
+            <Link
+              className={styles.button}
+              to="/p/63c46db8-47d0-4b29-b290-ab73644be745"
+            >
+              Open In The App
+            </Link>
           </div>
         </header>
       </main>
