@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
-import styles from "./listOfLayers.module.css";
 import Section from "../../ui/Section/Section";
-import Dropdown from "../Dropdown";
-import Layer from "../Layer";
+import Dropdown from "../../components/Dropdown";
+import Layer from "../../components/Layer";
+import styles from "./styles.module.css";
 
-export default function ListOfLayers() {
+export default function Explorer() {
   const layers = useSelector(state => state.layers);
 
   return (

@@ -1,7 +1,7 @@
 import { Route } from "react-router";
-import Canvas from "./components/Canvas";
-import ListOfLayers from "./components/ListOfLayers/ListOfLayers";
-import ShapeProps from "./components/ShapeProps";
+import Canvas from "./layout/Scene";
+import ListOfLayers from "./layout/Explorer";
+import ShapeProps from "./layout/Inspector";
 import Explore from "./pages/Explore";
 import Landing from "./pages/Landing";
 

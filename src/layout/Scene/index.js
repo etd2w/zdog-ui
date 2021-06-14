@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CanvasSettings from "./CanvasSettings";
+import Toolbar from "./Toolbar";
 import styles from "./style.module.css";
 import Section from "../../ui/Section/Section";
 import { createCanvas } from "../../utils";
-import Toolbar from "../Toolbar";
 
 // async function readText(event) {
 //   const Zdog = zdog;
@@ -14,7 +14,7 @@ import Toolbar from "../Toolbar";
 //   console.log(eval(text));
 // }
 
-export default function Canvas() {
+export default function Scene() {
   const dispatch = useDispatch();
   const illo = useSelector(state => state.illo);
 

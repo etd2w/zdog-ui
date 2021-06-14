@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../layout/Navbar";
 import styles from "./landing.module.css";
 
 export default function Landing() {

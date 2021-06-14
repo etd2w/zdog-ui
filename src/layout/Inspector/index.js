@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import InputText, { Label } from "../InputText";
-import CheckBox from "../CheckBox";
-import PathTable from "../PathTable";
-import InputColor from "../InputColor";
+import InputText, { Label } from "../../components/InputText";
+import CheckBox from "../../components/CheckBox";
+import PathTable from "../../components/PathTable";
+import InputColor from "../../components/InputColor";
 import Section from "../../ui/Section/Section";
 import { Fragment } from "react";
 
@@ -79,7 +79,7 @@ const shapes = {
   },
 };
 
-export default function ShapeProps() {
+export default function Inspector() {
   const shape = useSelector(state => state.shape);
 
   const changeProperty = (value, property) => {

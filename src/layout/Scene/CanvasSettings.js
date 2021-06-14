@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Anchor } from "zdog";
 import { saveModelToLocalStorage } from "../../utils";
-import CheckBox from "../CheckBox";
-import InputColor from "../InputColor";
-import InputText, { Label } from "../InputText";
+import CheckBox from "../../components/CheckBox";
+import InputColor from "../../components/InputColor";
+import InputText, { Label } from "../../components/InputText";
 import styles from "./style.module.css";
 
 export default function CanvasSettings() {
