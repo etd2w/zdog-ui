@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { validate as uuidValidate } from "uuid";
 import Navbar from "../components/Navbar";
-import createCanvas from "../utils";
+import { createCanvas } from "../utils";
 import styles from "./explore.module.css";
 
 export default function Explore() {

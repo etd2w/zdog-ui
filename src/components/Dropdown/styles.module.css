@@ -1,0 +1,25 @@
+.content {
+  box-shadow: 0 0 3px rgb(10 10 10 / 40%);
+  border: 1px solid #242f39;
+  border-radius: 1px;
+  background: #242f39;
+  font-size: 0.75rem;
+  padding: 5px;
+}
+
+.item {
+  padding: 5px 10px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.item:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.separator {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 5px;
+}

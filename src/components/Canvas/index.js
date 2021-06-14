@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import CanvasSettings from "./CanvasSettings";
 import styles from "./style.module.css";
 import Section from "../../ui/Section/Section";
-import createCanvas from "../../utils";
-import zdog from "zdog";
+import { createCanvas } from "../../utils";
+import Toolbar from "../Toolbar";
 
-async function readText(event) {
-  const Zdog = zdog;
+// async function readText(event) {
+//   const Zdog = zdog;
 
-  const file = event.target.files[0];
-  const text = await file.text();
-  console.log(eval(text));
-}
+//   const file = event.target.files[0];
+//   const text = await file.text();
+//   console.log(eval(text));
+// }
 
 export default function Canvas() {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function Canvas() {
 
   return (
     <Section title="Canvas">
-      <input type="file" onChange={readText} />
+      <Toolbar />
 
       <div className={styles.container}>
         <canvas className="illo canvas" id="canv" />

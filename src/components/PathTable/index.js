@@ -222,7 +222,7 @@ export default function PathTable({ children }) {
                         slicePath={["shape", "path", i, pathMethod, axis]}
                         id={`${pathMethod}${i}${axis}`}
                       >
-                        d{axis.toUpperCase()}
+                        {axis.toUpperCase()}
                       </Label>
                       <InputText
                         callback={changeProperty}

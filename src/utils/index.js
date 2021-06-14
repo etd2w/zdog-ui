@@ -18,7 +18,73 @@ function revive(child) {
   return newChild;
 }
 
-export default function createCanvas(node, props, modelID = undefined) {
+export function createCopy(model) {
+  const copy = model.copyGraph();
+  copy.type = model.type;
+  copy.name = model.name;
+  copy.id = uuid();
+
+  copy.children.forEach(childCopy => {
+    model.children.forEach(child => {
+      childCopy.type = child.type;
+      childCopy.name = child.name;
+      childCopy.id = uuid();
+    });
+  });
+
+  return copy;
+}
+
+export function getIllo(layer) {
+  const illo = layer.addTo.isCanvas ? layer.addTo : getIllo(layer.addTo);
+  return illo;
+}
+
+export function createShape(type) {
+  let child;
+
+  if (type === "Shape") {
+    child = new Zdog.Shape({
+      path: new Array({ move: { x: 0, y: 0, z: 0 } }),
+      width: 80,
+      height: 80,
+      diameter: 80,
+      stroke: 20,
+      sides: 4,
+      length: 80,
+      radius: 40,
+      depth: 80,
+      color: "#a9cf54",
+    });
+  } else {
+    child = new Zdog[type]({
+      width: 80,
+      height: 80,
+      diameter: 80,
+      stroke: 20,
+      sides: 4,
+      length: 80,
+      radius: 40,
+      depth: 80,
+      color: "#a9cf54",
+    });
+  }
+  child.visible = true;
+  child.type = type;
+  child.name = type;
+  child.id = uuid();
+
+  return child;
+}
+
+export function hideShape(model, value = true) {
+  model.visible = !value;
+  model.children?.forEach(child => {
+    hideShape(child, value);
+  });
+}
+
+export function createCanvas(node, props, modelID = undefined) {
   const illo = new Zdog.Illustration({
     element: document.querySelector(node),
     centered: true,
