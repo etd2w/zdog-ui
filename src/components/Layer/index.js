@@ -1,5 +1,5 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createCopy, createShape, getIllo, hideShape } from "../../utils";
 import Dropdown from "../Dropdown";
@@ -7,7 +7,7 @@ import LayerContextMenu from "./LayerContextMenu/LayerContextMenu";
 import styles from "./styles.module.css";
 
 export default function Layer({ layer }) {
-  const [children, setChildren] = useState(null);
+  const [children, setChildren] = useState(layer.children);
   const [isRenaming, setIsRenaming] = useState(false);
   const [isHidden, setIsHidden] = useState(layer.visible);
   const [isOpen, setIsOpen] = useState(false);
@@ -15,18 +15,14 @@ export default function Layer({ layer }) {
   const selectedLayers = useSelector(state => state.selectedShapes);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setChildren(layer.children);
+  }, [layer.children]);
+
   const addChildren = type => {
     const child = createShape(type);
     layer.addChild(child);
 
-    setChildren(
-      layer.children.map(child => (
-        <Fragment key={child.id}>
-          <span className={styles.spacer}></span>
-          <Layer layer={child} />
-        </Fragment>
-      ))
-    );
     setIsOpen(true);
     dispatch({ type: "SHAPE_SELECTED", payload: child });
   };
@@ -135,7 +131,17 @@ export default function Layer({ layer }) {
           </Dropdown>
         </div>
         <Collapsible.Content className={styles.content}>
-          {children}
+          {children.map(child => {
+            if (child.id) {
+              return (
+                <Fragment key={child.id}>
+                  <span className={styles.spacer}></span>
+                  <Layer layer={child} />
+                </Fragment>
+              );
+            }
+            return null;
+          })}
         </Collapsible.Content>
       </Collapsible.Root>
     </LayerContextMenu>

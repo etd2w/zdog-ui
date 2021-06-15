@@ -26,15 +26,20 @@ export default function LayerContextMenu({ handlers, children, moveToList }) {
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>Move to</DropdownMenu.Trigger>
             <DropdownMenu.Content side="right" className={styles.content}>
-              {moveToList.map(item => (
-                <DropdownMenu.Item
-                  onSelect={() => handleMove(item)}
-                  className={styles.item}
-                  key={item.id ? item.id : item.canvasId}
-                >
-                  {item.name ? item.name : "illo"}
-                </DropdownMenu.Item>
-              ))}
+              {moveToList.map(item => {
+                if (item.id || item.canvasId) {
+                  return (
+                    <DropdownMenu.Item
+                      onSelect={() => handleMove(item)}
+                      className={styles.item}
+                      key={item.id ? item.id : item.canvasId}
+                    >
+                      {item.name ? item.name : "illo"}
+                    </DropdownMenu.Item>
+                  );
+                }
+                return null;
+              })}
             </DropdownMenu.Content>
           </DropdownMenu.Root>
         </ContMenu.Item>

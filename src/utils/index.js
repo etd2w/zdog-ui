@@ -3,7 +3,7 @@ import { v4 as uuid, validate as uuidValidate } from "uuid";
 
 function revive(child) {
   const newChild = new Zdog[child.type]({ ...child });
-  newChild.id = child.id;
+  newChild.id = uuid();
   newChild.name = child.name;
   newChild.type = child.type;
 
@@ -24,12 +24,10 @@ export function createCopy(model) {
   copy.name = model.name;
   copy.id = uuid();
 
-  copy.children.forEach(childCopy => {
-    model.children.forEach(child => {
-      childCopy.type = child.type;
-      childCopy.name = child.name;
-      childCopy.id = uuid();
-    });
+  model.children.forEach(child => {
+    if (child.id) {
+      copy.addChild(revive(child));
+    }
   });
 
   return copy;
@@ -97,13 +95,11 @@ export function createCanvas(node, props, modelID = undefined) {
     const children = JSON.parse(JSONModel).children;
 
     children.forEach(child => {
-      child.id = uuid();
       illo.addChild(revive(child));
     });
     illo.canvasId = modelID;
   } else if (typeof modelID === "object") {
     modelID.children.forEach(child => {
-      child.id = uuid();
       illo.addChild(revive(child));
     });
     illo.canvasId = uuid();
