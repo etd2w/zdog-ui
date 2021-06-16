@@ -69,6 +69,7 @@ export default function Layer({ layer }) {
   };
 
   const handleMove = newParent => {
+    if (newParent.children.indexOf(layer) !== -1) return;
     dispatch({ type: "LAYER_REMOVED", payload: layer });
     dispatch({ type: "SHAPE_SELECTED", payload: newParent });
     newParent.addChild(layer);

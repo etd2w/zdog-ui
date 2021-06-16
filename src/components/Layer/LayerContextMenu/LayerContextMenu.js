@@ -22,27 +22,38 @@ export default function LayerContextMenu({ handlers, children, moveToList }) {
           Toggle Hidden
         </ContMenu.Item>
         <ContMenu.Separator className={styles.separator} />
-        <ContMenu.Item disabled className={styles.item}>
+        <ContMenu.Root>
+          <ContMenu.TriggerItem className={styles.item}>
+            Move to →
+          </ContMenu.TriggerItem>
+          <ContMenu.Content
+            sideOffset={12}
+            alignOffset={-5}
+            className={styles.content}
+          >
+            {moveToList.map(item => {
+              if (item.id || item.canvasId) {
+                return (
+                  <ContMenu.Item
+                    onSelect={() => handleMove(item)}
+                    className={styles.item}
+                    key={item.id ? item.id : item.canvasId}
+                  >
+                    {item.name ? item.name : "illo"}
+                  </ContMenu.Item>
+                );
+              }
+              return null;
+            })}
+          </ContMenu.Content>
+        </ContMenu.Root>
+        {/* <ContMenu.Item disabled className={styles.item}>
           <DropdownMenu.Root>
             <DropdownMenu.Trigger>Move to</DropdownMenu.Trigger>
             <DropdownMenu.Content side="right" className={styles.content}>
-              {moveToList.map(item => {
-                if (item.id || item.canvasId) {
-                  return (
-                    <DropdownMenu.Item
-                      onSelect={() => handleMove(item)}
-                      className={styles.item}
-                      key={item.id ? item.id : item.canvasId}
-                    >
-                      {item.name ? item.name : "illo"}
-                    </DropdownMenu.Item>
-                  );
-                }
-                return null;
-              })}
             </DropdownMenu.Content>
           </DropdownMenu.Root>
-        </ContMenu.Item>
+        </ContMenu.Item> */}
         <ContMenu.Item onSelect={handleGroup} className={styles.item}>
           Group
         </ContMenu.Item>
