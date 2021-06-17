@@ -1,5 +1,4 @@
 import * as ContMenu from "@radix-ui/react-context-menu";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./styles.module.css";
 
 export default function LayerContextMenu({ handlers, children, moveToList }) {

@@ -4,13 +4,7 @@ import styles from "./styles.module.css";
 import { createShape } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 
-const shapeTypes = [
-  ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],
-  ["Hemisphere", "Cone", "Cylinder", "Box"],
-  ["Anchor", "Group"],
-];
-
-export default function Dropdown({ onSelect, children }) {
+export default function Dropdown({ onSelect, children, content }) {
   const illo = useSelector(state => state.illo);
   const dispatch = useDispatch();
 
@@ -29,7 +23,36 @@ export default function Dropdown({ onSelect, children }) {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Content align="start" className={styles.content}>
-        {shapeTypes.map((groupOfTypes, i) => (
+        {content.map(item => {
+          if (typeof item === "object") {
+            return (
+              <Fragment key={item}>
+                {item.map(type => (
+                  <DropdownMenu.Item
+                    key={type}
+                    className={styles.item}
+                    onSelect={() => handleClick(type)}
+                  >
+                    {type}
+                  </DropdownMenu.Item>
+                ))}
+                <DropdownMenu.Separator className={styles.separator} />
+              </Fragment>
+            );
+          } else {
+            return (
+              <DropdownMenu.Item
+                key={item}
+                className={styles.item}
+                onSelect={() => handleClick(item)}
+              >
+                {item}
+              </DropdownMenu.Item>
+            );
+          }
+        })}
+
+        {/* {shapeTypes.map((groupOfTypes, i) => (
           <Fragment key={i}>
             {groupOfTypes.map((type, i) => (
               <DropdownMenu.Item
@@ -42,7 +65,7 @@ export default function Dropdown({ onSelect, children }) {
             ))}
             <DropdownMenu.Separator className={styles.separator} />
           </Fragment>
-        ))}
+        ))} */}
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );

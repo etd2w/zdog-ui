@@ -4,6 +4,12 @@ import Dropdown from "../../components/Dropdown";
 import Layer from "../../components/Layer";
 import styles from "./styles.module.css";
 
+const shapeTypes = [
+  ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],
+  ["Hemisphere", "Cone", "Cylinder", "Box"],
+  ["Anchor", "Group"],
+];
+
 export default function Explorer() {
   const layers = useSelector(state => state.layers);
 
@@ -11,7 +17,7 @@ export default function Explorer() {
     <Section
       title="Components"
       header={
-        <Dropdown>
+        <Dropdown content={shapeTypes}>
           <svg
             width="9"
             height="9"

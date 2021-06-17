@@ -6,6 +6,12 @@ import Dropdown from "../Dropdown";
 import LayerContextMenu from "./LayerContextMenu/LayerContextMenu";
 import styles from "./styles.module.css";
 
+const shapeTypes = [
+  ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],
+  ["Hemisphere", "Cone", "Cylinder", "Box"],
+  ["Anchor", "Group"],
+];
+
 export default function Layer({ layer }) {
   const [children, setChildren] = useState(layer.children);
   const [isRenaming, setIsRenaming] = useState(false);
@@ -122,7 +128,7 @@ export default function Layer({ layer }) {
               />
             </svg>
           </button>
-          <Dropdown onSelect={addChildren}>
+          <Dropdown onSelect={addChildren} content={shapeTypes}>
             <svg fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 fill="#ffffff"
