@@ -1,8 +1,9 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Section from "../../ui/Section/Section";
 import Dropdown from "../../components/Dropdown";
 import Layer from "../../components/Layer";
 import styles from "./styles.module.css";
+import { createShape } from "../../utils";
 
 const shapeTypes = [
   ["Rect", "RoundedRect", "Ellipse", "Polygon", "Shape"],
@@ -12,12 +13,21 @@ const shapeTypes = [
 
 export default function Explorer() {
   const layers = useSelector(state => state.layers);
+  const illo = useSelector(state => state.illo);
+  const dispatch = useDispatch();
+
+  const createLayer = type => {
+    const child = createShape(type);
+    illo.addChild(child);
+    dispatch({ type: "LAYER_ADDED", payload: child });
+    dispatch({ type: "SHAPE_SELECTED", payload: child });
+  };
 
   return (
     <Section
       title="Components"
       header={
-        <Dropdown content={shapeTypes}>
+        <Dropdown content={shapeTypes} onSelect={createLayer}>
           <svg
             width="9"
             height="9"
